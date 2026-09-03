@@ -1,0 +1,270 @@
+/* Концепция 2 — светлая, продуктовая.
+   Опирается на те же токены, что и концепция 1: бренд один, композиция другая.
+   Здесь только светлая шапка и блок .hero2 — стили первой концепции не трогаются. */
+
+/* ============ Светлая шапка ============ */
+
+.theme-light .topline { background: var(--c-ink); }
+
+.theme-light .site-header { border-bottom: 1px solid transparent; }
+
+.theme-light .site-header.is-stuck {
+  background: rgba(255, 255, 255, .92);
+  border-bottom-color: var(--c-border-light);
+}
+
+.theme-light .brand-text strong { color: var(--c-ink); }
+.theme-light .brand-text small { color: var(--c-text-muted); }
+
+.theme-light .main-nav > a,
+.theme-light .nav-trigger { color: var(--c-ink); }
+
+.theme-light .main-nav > a:hover,
+.theme-light .nav-trigger:hover { color: var(--c-accent); }
+
+.theme-light .burger { border-color: var(--c-border-light); }
+.theme-light .burger span,
+.theme-light .burger span::before,
+.theme-light .burger span::after { background: var(--c-ink); }
+.theme-light .burger[aria-expanded="true"] span { background: transparent; }
+
+/* мобильная шторка остаётся тёмной — так контрастнее поверх светлой страницы */
+@media (max-width: 1024px) {
+  .theme-light .main-nav { background: var(--c-ink); }
+  .theme-light .main-nav > a,
+  .theme-light .nav-trigger { color: var(--c-on-dark); }
+}
+
+/* ============ Первый экран ============ */
+
+.hero2 {
+  position: relative;
+  margin-top: -84px;
+  padding-top: 84px;
+  background: var(--grad-arctic);
+  color: var(--c-ink);
+  overflow: hidden;
+}
+
+/* крупный фирменный шестигранник — тот же приём, что и в первой концепции,
+   но здесь он светлый и работает как фактура, а не как тень */
+.hero2::before {
+  content: "";
+  position: absolute;
+  top: -18%;
+  inset-inline-end: -8%;
+  width: 780px; height: 780px;
+  background: url("../img/logo-mark.png") no-repeat center / contain;
+  opacity: .055;
+  pointer-events: none;
+}
+
+.hero2-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.06fr .94fr;
+  align-items: center;
+  gap: var(--sp-7);
+  padding-block: var(--sp-7) var(--sp-8);
+}
+
+.hero2 .eyebrow { color: var(--c-text-muted); }
+
+.hero2 h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* вместо сплошной плашки первой концепции — зелёный маркерный штрих */
+.hero2 h1 .stroke {
+  position: relative;
+  display: inline;
+  background-image: linear-gradient(var(--c-accent), var(--c-accent));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% .18em;
+  padding-bottom: .04em;
+}
+
+.hero2-lead {
+  max-width: 33em;
+  margin-top: var(--sp-5);
+  font-size: var(--fs-lead);
+  color: var(--c-text-muted);
+}
+
+.hero2-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-7);
+}
+
+.btn--ink {
+  border: 1px solid var(--c-border-light);
+  background: var(--c-surface);
+  color: var(--c-ink);
+}
+
+.btn--ink:hover { border-color: var(--c-ink); background: var(--c-surface-alt); }
+
+/* --- оборудование --- */
+
+.hero2-product {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 460px;
+}
+
+.hero2-product img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  filter: drop-shadow(0 30px 46px rgba(12, 34, 51, .18));
+}
+
+/* «пол» под оборудованием: мягкая тень вместо честной подложки */
+.hero2-product::after {
+  content: "";
+  position: absolute;
+  bottom: 6%;
+  inset-inline: 12%;
+  height: 44px;
+  background: radial-gradient(ellipse at center, rgba(12, 34, 51, .22) 0%, rgba(12, 34, 51, 0) 70%);
+}
+
+.hero2-tag {
+  position: absolute;
+  top: var(--sp-5);
+  inset-inline-end: 0;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--c-surface);
+  border-inline-start: 3px solid var(--c-accent);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 14px 34px rgba(12, 34, 51, .12);
+}
+
+.hero2-tag strong {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-caps);
+}
+
+.hero2-tag span {
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+}
+
+/* ============ Тёмная полоса с преимуществами ============ */
+
+.hero2-strip {
+  position: relative;
+  background: var(--grad-steel);
+  color: var(--c-on-dark);
+}
+
+.hero2-strip-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-6);
+  padding-block: var(--sp-5);
+}
+
+.hero2-strip .item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--fs-small);
+  color: var(--c-on-dark-muted);
+}
+
+.hero2-strip .item + .item { border-inline-start: 1px solid var(--c-border-dark); padding-inline-start: var(--sp-6); }
+
+.hero2-strip .item svg { flex: none; color: var(--c-accent); }
+
+.hero2-strip .status {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-inline-start: var(--sp-6);
+  border-inline-start: 1px solid var(--c-border-dark);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+}
+
+.hero2-strip .dot {
+  position: relative;
+  width: 8px; height: 8px;
+  flex: none;
+  background: var(--c-accent);
+  border-radius: 50%;
+}
+
+.hero2-strip .dot::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid var(--c-accent);
+  border-radius: 50%;
+  animation: pulse2 2.4s var(--ease) infinite;
+}
+
+@keyframes pulse2 {
+  0%   { transform: scale(.7); opacity: .7; }
+  70%  { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* ============ Адаптив ============ */
+
+@media (max-width: 1180px) {
+  .hero2-strip-inner { grid-template-columns: repeat(3, 1fr); }
+  .hero2-strip .status {
+    grid-column: 1 / -1;
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    border-top: 1px solid var(--c-border-dark);
+    padding-top: var(--sp-4);
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero2-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    padding-block: var(--sp-7);
+  }
+
+  .hero2-product { min-height: 0; order: 2; }
+  .hero2-product img { max-width: 420px; }
+  .hero2-tag { position: static; margin-inline-start: auto; }
+  .hero2::before { width: 460px; height: 460px; }
+}
+
+@media (max-width: 768px) {
+  .hero2 { margin-top: -72px; padding-top: 72px; }
+  .hero2-strip-inner { grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+  .hero2-strip .item + .item { border-inline-start: 0; padding-inline-start: 0; }
+}
+
+@media (max-width: 600px) {
+  .hero2-actions { flex-direction: column; align-items: stretch; }
+  .hero2-actions .btn { width: 100%; }
+  .hero2-product img { max-width: 300px; }
+  .hero2-strip-inner { grid-template-columns: 1fr; }
+  .hero2-strip .status { padding-top: var(--sp-3); }
+}

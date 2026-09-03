@@ -1,0 +1,102 @@
+/* ТТС Инжиниринг — токены дизайн-системы
+   Источник значений: брендбук ТТС 2026. Подробности и пометки — в design-system.md.
+   Правило: новое значение сначала становится токеном здесь, и только потом используется в вёрстке. */
+
+:root {
+  /* ---------- Цвет ---------- */
+  --c-surface: #ffffff;          /* Чистая форма */
+  --c-surface-alt: #ededed;
+  --c-ink: #0c2233;              /* Глубина технологии */
+  --c-ink-soft: #1c3c55;
+  --c-accent: #238e30;           /* Инженерный изумруд */
+  --c-accent-deep: #008251;
+
+  /* производные, в брендбуке их нет */
+  --c-text: var(--c-ink);
+  --c-text-muted: #5a6b7a;
+  --c-on-dark: #ffffff;
+  --c-on-dark-muted: rgba(255, 255, 255, .72);
+  --c-border-dark: rgba(255, 255, 255, .14);
+  --c-border-light: #dfe3e7;
+
+  /* ---------- Градиенты брендбука ---------- */
+  --grad-arctic: linear-gradient(180deg, #ffffff 0%, #ededed 100%);
+  --grad-steel: linear-gradient(135deg, #0c2233 0%, #1c3c55 100%);
+  --grad-growth: linear-gradient(135deg, #238e30 0%, #008251 100%);
+
+  /* ---------- Типографика ----------
+     Actay стоит первым намеренно: как только клиент пришлёт файл шрифта,
+     он подхватится сам, без правок вёрстки. Пока отрисовывается Montserrat. */
+  --font-display: "Actay Wide", "Actay", "Montserrat", system-ui, sans-serif;
+  --font-body: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --fs-h1: clamp(1.5rem, .95rem + 2.6vw, 2.875rem);
+  --fs-h2: clamp(1.625rem, 1.1rem + 2.2vw, 2.75rem);
+  --fs-h3: clamp(1.1875rem, 1.05rem + .6vw, 1.5rem);
+  --fs-lead: clamp(1rem, .93rem + .35vw, 1.1875rem);
+  --fs-body: 1rem;
+  --fs-small: .875rem;
+  --fs-eyebrow: .75rem;
+
+  --lh-tight: 1.04;
+  --lh-heading: 1.12;
+  --lh-body: 1.65;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-black: 900;
+
+  --ls-eyebrow: .14em;
+  --ls-caps: .04em;
+
+  /* ---------- Отступы ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+  --sp-10: 128px;
+
+  /* ---------- Сетка ---------- */
+  --container: 1320px;
+  --gutter: 40px;
+  --section-y: 96px;
+
+  /* ---------- Форма ---------- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --shadow-raised: 0 24px 60px rgba(4, 14, 24, .28);
+  --shadow-menu: 0 18px 44px rgba(4, 14, 24, .22);
+
+  /* ---------- Движение ---------- */
+  --dur-fast: 160ms;
+  --dur-base: 280ms;
+  --dur-slow: 700ms;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+
+  /* ---------- Слои ---------- */
+  --z-header: 100;
+  --z-dropdown: 110;
+  --z-drawer: 120;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --gutter: 24px;
+    --section-y: 72px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --gutter: 16px;
+    --section-y: 56px;
+  }
+}
