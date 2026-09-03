@@ -1222,10 +1222,12 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   opacity: 0.08;
 }
 
+/* отступ тот же, что у текстовой части карточки, — номер встаёт
+   по одной линии с заголовком, описанием и кнопкой */
 .category__index {
   position: absolute;
-  top: var(--s-4);
-  left: var(--s-4);
+  top: var(--s-6);
+  left: var(--s-6);
   display: grid;
   place-items: center;
   width: 44px;
