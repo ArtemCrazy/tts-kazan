@@ -1283,6 +1283,130 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   .category:last-child .category__media { aspect-ratio: 1.17 / 1; }
 }
 
+/* Блок «Заводы ВПИ»: тёмная секция в цветах ТТС. Жёлтый здесь появляется
+   только в самом логотипе QUNFENG — фирменный стиль остаётся наш. */
+.vpi {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: linear-gradient(160deg, var(--c-ink) 0%, var(--c-ink-deep) 100%);
+}
+
+.vpi__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
+  align-items: center;
+}
+
+.vpi__stage { position: relative; }
+
+.vpi__panel {
+  display: grid;
+  place-items: center;
+  padding: var(--s-7) var(--s-6);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
+  background:
+    radial-gradient(120% 90% at 50% 20%, rgba(35, 142, 48, 0.14) 0%, transparent 62%),
+    linear-gradient(150deg, var(--c-steel) 0%, var(--c-ink-deep) 100%);
+}
+
+.vpi__press {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 26px 44px rgba(4, 14, 24, 0.55));
+}
+
+/* подпись-связка: знак ТТС × логотип QUNFENG */
+.vpi__lockup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: center;
+  margin-top: var(--s-4);
+  padding: var(--s-3) var(--s-5);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-s);
+  background: rgba(8, 24, 39, 0.72);
+}
+
+.vpi__lockup-mark { width: auto; height: 22px; }
+.vpi__lockup-qf { width: auto; height: 15px; }
+
+.vpi__lockup-x {
+  color: var(--c-text-faint);
+  font-size: var(--fs-small);
+}
+
+.vpi__lockup-text {
+  margin-inline-start: auto;
+  color: var(--c-text-muted);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.vpi__title {
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 2.4vw, 2.25rem);
+  font-weight: 900;
+  letter-spacing: var(--track-tight);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.vpi__lead {
+  max-width: 52ch;
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+.vpi__list {
+  margin-block: var(--s-6);
+  border-top: 1px solid var(--c-rule);
+}
+
+.vpi__list li {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  padding-block: var(--s-4);
+  border-bottom: 1px solid var(--c-rule);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+}
+
+.vpi__mark {
+  flex: none;
+  margin-top: 3px;
+  color: var(--c-emerald-lift);
+}
+
+@media (max-width: 1100px) {
+  .vpi__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-7);
+  }
+
+  .vpi__press { max-width: 520px; }
+}
+
+@media (max-width: 560px) {
+  .vpi__panel { padding: var(--s-5) var(--s-4); }
+  .vpi__lockup-text { margin-inline-start: 0; width: 100%; }
+
+  /* у кнопок по умолчанию запрещён перенос строки, а подпись длинная —
+     на узких экранах разрешаем перенос, иначе вылезает за экран */
+  .vpi__cta {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
 @media (max-width: 1100px) {
   .quiz__grid { grid-template-columns: minmax(0, 1fr); }
 
