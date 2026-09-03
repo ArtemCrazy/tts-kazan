@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Собственное производство</title>
+  <g fill="none" stroke="#44B95E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 49V29l11 7v-7l11 7V23h16v26H12Z"/>
+    <path d="M18 49V42h8v7M34 49V42h8v7M40 29h5M40 35h5"/>
+    <path d="M38 23V15h9v8"/>
+  </g>
+  <path d="M40 15h7v8h-7zM23 31l11 7v6l-11-7z" fill="#44B95E"/>
+</svg>

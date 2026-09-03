@@ -1,0 +1,611 @@
+/* ТТС Инжиниринг — первый экран
+   Вся вёрстка опирается на токены из tokens.css. Значения цвета, размера и тайминга
+   руками здесь не пишутся — только через переменные. */
+
+/* ============ База ============ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body);
+  color: var(--c-text);
+  background: var(--c-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+h1, h2, h3, p { margin: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ============ Верхняя строка ============ */
+
+.topline {
+  position: relative;
+  z-index: var(--z-header);
+  background: var(--c-ink);
+  color: var(--c-on-dark-muted);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--c-border-dark);
+}
+
+.topline-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  min-height: 38px;
+}
+
+.topline span { display: flex; align-items: center; gap: var(--sp-2); }
+
+.topline span::before {
+  content: "";
+  width: 5px; height: 5px;
+  background: var(--c-accent);
+  flex: none;
+}
+
+/* ============ Шапка ============ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--dur-base) var(--ease),
+              border-color var(--dur-base) var(--ease),
+              backdrop-filter var(--dur-base) var(--ease);
+}
+
+.site-header.is-stuck {
+  background: rgba(12, 34, 51, .92);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--c-border-dark);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  min-height: 84px;
+}
+
+.brand { display: flex; align-items: center; gap: var(--sp-3); flex: none; }
+
+.brand img { width: auto; height: 34px; }
+
+.brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+
+.brand-text strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-caps);
+  color: var(--c-on-dark);
+}
+
+.brand-text small {
+  font-size: .6875rem;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--c-on-dark-muted);
+}
+
+/* --- навигация --- */
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  margin-inline-start: auto;
+}
+
+.main-nav > a,
+.nav-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-block: var(--sp-3);
+  font-size: .9375rem;
+  font-weight: var(--fw-medium);
+  color: var(--c-on-dark);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.main-nav > a:hover,
+.nav-trigger:hover { color: var(--c-accent); }
+
+.nav-trigger::after {
+  content: "";
+  width: 7px; height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.nav-group { position: relative; }
+
+.nav-group[data-open="true"] .nav-trigger::after { transform: translateY(1px) rotate(-135deg); }
+
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline-start: 0;
+  z-index: var(--z-dropdown);
+  display: grid;
+  gap: 2px;
+  width: 460px;
+  padding: var(--sp-3);
+  background: var(--c-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-menu);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity var(--dur-base) var(--ease),
+              transform var(--dur-base) var(--ease),
+              visibility var(--dur-base);
+}
+
+.nav-group[data-open="true"] .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown a {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-sm);
+  border-inline-start: 2px solid transparent;
+  transition: background var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease);
+}
+
+.nav-dropdown a:hover {
+  background: var(--c-surface-alt);
+  border-inline-start-color: var(--c-accent);
+}
+
+.nav-dropdown strong {
+  font-size: .9375rem;
+  font-weight: var(--fw-semibold);
+  color: var(--c-ink);
+}
+
+.nav-dropdown span { font-size: var(--fs-small); color: var(--c-text-muted); }
+
+.nav-dropdown .all { background: var(--c-ink); }
+.nav-dropdown .all strong,
+.nav-dropdown .all span { color: var(--c-on-dark); }
+.nav-dropdown .all span { color: var(--c-on-dark-muted); }
+.nav-dropdown .all:hover { background: var(--c-ink-soft); }
+
+/* --- кнопка-бургер --- */
+
+.burger {
+  display: none;
+  width: 44px; height: 44px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--c-border-dark);
+  border-radius: var(--radius-sm);
+}
+
+.burger span {
+  position: relative;
+  display: block;
+  width: 18px; height: 1.5px;
+  background: var(--c-on-dark);
+  transition: background var(--dur-fast) var(--ease);
+}
+
+.burger span::before,
+.burger span::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  width: 100%; height: 100%;
+  background: var(--c-on-dark);
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.burger span::before { top: -6px; }
+.burger span::after { top: 6px; }
+
+.burger[aria-expanded="true"] span { background: transparent; }
+.burger[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* ============ Кнопки ============ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 15px var(--sp-6);
+  border-radius: var(--radius-sm);
+  font-size: .9375rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-caps);
+  text-align: center;
+  transition: transform var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease);
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary {
+  background: var(--grad-growth);
+  color: var(--c-on-dark);
+  box-shadow: 0 10px 26px rgba(0, 130, 81, .28);
+}
+
+.btn--primary:hover { background: var(--c-accent-deep); }
+
+.btn--outline {
+  border: 1px solid var(--c-border-dark);
+  color: var(--c-on-dark);
+}
+
+.btn--outline:hover {
+  border-color: var(--c-on-dark);
+  background: rgba(255, 255, 255, .06);
+}
+
+.btn--header { padding: 13px var(--sp-5); flex: none; }
+
+/* ============ Первый экран ============ */
+
+.hero {
+  position: relative;
+  margin-top: -84px;      /* шапка лежит поверх */
+  padding-top: 84px;
+  background: var(--grad-steel);
+  color: var(--c-on-dark);
+  overflow: hidden;
+}
+
+/* фоновый шестигранник — приём с обложки брендбука */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -12%;
+  inset-inline-start: -6%;
+  width: 620px; height: 620px;
+  background: url("../img/logo-mark.png") no-repeat center / contain;
+  opacity: .05;
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: var(--sp-8);
+  padding-block: var(--sp-8);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--c-on-dark-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 34px; height: 2px;
+  background: var(--c-accent);
+  flex: none;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* фирменная зелёная плашка на строке заголовка */
+.hero h1 .mark {
+  display: inline-block;
+  padding: .04em .26em .1em;
+  margin-top: .12em;
+  background: var(--grad-growth);
+}
+
+.hero-lead {
+  max-width: 34em;
+  margin-top: var(--sp-5);
+  font-size: var(--fs-lead);
+  color: var(--c-on-dark-muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-7);
+}
+
+.hero-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--sp-4) var(--sp-5);
+  margin-top: var(--sp-7);
+  margin-bottom: 0;
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-border-dark);
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.hero-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--c-on-dark-muted);
+}
+
+.hero-benefits svg { margin-top: 3px; }
+
+.hero-benefits svg { flex: none; color: var(--c-accent); }
+
+/* --- визуальная часть --- */
+
+.hero-visual { position: relative; }
+
+/* фото уходит в правый край окна — так кадр дышит и выглядит дороже,
+   чем аккуратный прямоугольник, упёртый в границу контейнера */
+@media (min-width: 1025px) {
+  .hero-visual {
+    margin-inline-end: calc(-1 * (max(0px, (100vw - var(--container)) / 2) + var(--gutter)));
+  }
+
+  .hero-photo { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+}
+
+/* высота задана явно: иначе картинка тянула бы первый экран
+   вниз своими пропорциями, и кнопки уезжали бы за сгиб */
+.hero-photo {
+  position: relative;
+  height: clamp(420px, 64vh, 600px);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.hero-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 42% 42%;
+}
+
+.hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 34, 51, .18) 0%, rgba(12, 34, 51, .62) 100%);
+}
+
+.hero-badge {
+  position: absolute;
+  inset-inline-start: var(--sp-5);
+  bottom: var(--sp-5);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  max-width: calc(100% - var(--sp-8));
+  padding: var(--sp-3) var(--sp-5);
+  background: rgba(12, 34, 51, .78);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--c-border-dark);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+}
+
+.hero-badge .dot {
+  position: relative;
+  width: 8px; height: 8px;
+  flex: none;
+  background: var(--c-accent);
+  border-radius: 50%;
+}
+
+.hero-badge .dot::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid var(--c-accent);
+  border-radius: 50%;
+  opacity: .5;
+  animation: pulse 2.4s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(.7); opacity: .7; }
+  70%  { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* ============ Появление ============ */
+
+/* Прячем блоки только если JS жив: класс .js ставится инлайновым скриптом в <head>.
+   Иначе при сбое или блокировке скриптов первый экран остался бы пустым. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-slow) var(--ease),
+              transform var(--dur-slow) var(--ease);
+}
+
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* ============ Адаптив ============ */
+
+@media (max-width: 1280px) {
+  .header-inner { gap: var(--sp-5); }
+  .main-nav { gap: var(--sp-5); }
+  .hero-grid { gap: var(--sp-7); }
+}
+
+@media (max-width: 1024px) {
+  .burger { display: inline-flex; }
+
+  .main-nav {
+    position: fixed;
+    inset: 0 0 0 auto;
+    z-index: var(--z-drawer);
+    width: min(420px, 88vw);
+    margin: 0;
+    padding: var(--sp-8) var(--sp-5) var(--sp-6);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    overflow-y: auto;
+    background: var(--c-ink);
+    border-inline-start: 1px solid var(--c-border-dark);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform var(--dur-base) var(--ease), visibility var(--dur-base);
+  }
+
+  .main-nav.is-open { transform: none; visibility: visible; }
+
+  .main-nav > a,
+  .nav-trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding-block: var(--sp-4);
+    border-bottom: 1px solid var(--c-border-dark);
+    font-size: 1.0625rem;
+  }
+
+  .nav-dropdown {
+    position: static;
+    width: 100%;
+    padding: var(--sp-2) 0 var(--sp-4);
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+  }
+
+  .nav-group[data-open="true"] .nav-dropdown { display: grid; }
+
+  .nav-dropdown a { padding: var(--sp-3) var(--sp-4); background: rgba(255, 255, 255, .04); }
+  .nav-dropdown a:hover { background: rgba(255, 255, 255, .09); }
+  .nav-dropdown strong { color: var(--c-on-dark); }
+  .nav-dropdown span { color: var(--c-on-dark-muted); }
+
+  .btn--header { display: none; }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-7);
+    min-height: 0;
+  }
+
+  .hero-visual { min-height: 0; order: 2; }
+  .hero-photo { min-height: 340px; height: 46vh; }
+}
+
+@media (max-width: 768px) {
+  .topline-inner span:last-child { display: none; }
+  .header-inner { min-height: 72px; }
+  .hero { margin-top: -72px; padding-top: 72px; }
+  .hero::before { width: 380px; height: 380px; }
+  .brand img { height: 28px; }
+}
+
+@media (max-width: 600px) {
+  .topline { font-size: .6875rem; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; }
+  .hero-benefits { flex-direction: column; gap: var(--sp-3); }
+  .hero-photo { min-height: 260px; height: 38vh; }
+  .hero-badge {
+    inset-inline: var(--sp-3);
+    bottom: var(--sp-3);
+    max-width: none;
+    padding: var(--sp-3) var(--sp-4);
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-text strong { font-size: .9375rem; }
+  .topline { font-size: .6875rem; }
+}
+
+/* ============ Доступность ============ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  .js .reveal { opacity: 1; transform: none; }
+}

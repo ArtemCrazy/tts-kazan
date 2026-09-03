@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Филиал в Алматы</title>
+  <path d="M32 53S17 40.7 17 27.6A15 15 0 0 1 47 27.6C47 40.7 32 53 32 53Z" fill="none" stroke="#44B95E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24 34V24l8-5 8 5v10" fill="none" stroke="#44B95E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 34v-7h8v7M22 34h20" fill="none" stroke="#44B95E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m32 19 8 5v4l-8-5-8 5v-4l8-5Z" fill="#44B95E"/>
+</svg>

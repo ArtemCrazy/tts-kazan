@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Оборудование в наличии</title>
+  <g fill="none" stroke="#44B95E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13 49V18h38v31M18 25h28M18 37h28M19 49h26"/>
+    <path d="M21 25v-7M32 25v-7M43 25v-7M21 37V25M43 37V25M26 49V37M38 49V37"/>
+    <rect x="23" y="29" width="7" height="5" rx="1"/>
+    <rect x="34" y="41" width="8" height="5" rx="1"/>
+  </g>
+  <rect x="34" y="29" width="8" height="5" rx="1" fill="#44B95E"/>
+  <rect x="16" y="41" width="7" height="5" rx="1" fill="#44B95E"/>
+</svg>

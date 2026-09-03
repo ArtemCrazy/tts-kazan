@@ -1,234 +1,275 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-hero="photo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ТТС Инжиниринг Казахстан — заводы сухих смесей, бетонные заводы и цементные терминалы</title>
-<meta name="description" content="Инжиниринг полного цикла для строительной индустрии Казахстана с 2006 года: заводы сухих строительных смесей, бетонные заводы, цементные терминалы и линии ВПИ — от проекта до запуска.">
-
-<link rel="icon" href="../assets/img/logo-mark.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="../assets/css/tokens.css">
-<link rel="stylesheet" href="../assets/css/style.css">
-<link rel="stylesheet" href="../assets/css/concept-2.css">
-
-<!-- Ставится до отрисовки: без JS блоки не прячутся и первый экран виден всегда. -->
+<meta name="robots" content="noindex, nofollow">
+<title>ТТС Инжиниринг Казахстан — заводы и терминалы под ключ</title>
+<meta name="description" content="Заводы сухих строительных смесей, бетонные заводы и цементные терминалы для Казахстана — от проекта до запуска.">
+<link rel="icon" href="../assets/img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="preload" href="../assets/fonts/montserrat-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/fonts/montserrat.css">
+<link rel="stylesheet" href="../assets/css/style.css?v=6261d727">
 <script>document.documentElement.classList.add('js');</script>
 </head>
-<body class="theme-light">
+<body>
+
+<a class="skip-link" href="#hero">Перейти к содержанию</a>
 
 <div class="topline">
-  <div class="container topline-inner">
-    <span>Инжиниринг для строительной индустрии Казахстана с 2006 года</span>
-    <span>Поставка, монтаж и сервис по Казахстану</span>
+  <div class="shell topline__inner">
+    <span class="topline__item">Инжиниринг для строительной индустрии Казахстана с 2006 года</span>
+    <span class="topline__item topline__item--muted">Поставка, монтаж и сервис по Казахстану</span>
   </div>
 </div>
 
-<header class="site-header" id="header">
-  <div class="container header-inner">
-
-    <a class="brand" href="#top" aria-label="ТТС Инжиниринг — на главную">
-      <img src="../assets/img/logo-tts.png" alt="" width="1148" height="426">
-      <span class="brand-text">
-        <strong>ТТС Инжиниринг</strong>
-        <small>Казахстан</small>
+<header class="masthead">
+  <div class="shell masthead__inner">
+    <a class="brand" href="#hero">
+      <img class="brand__logo brand__logo--knockout" src="../assets/img/tts-logo-light.png" width="1148" height="426" alt="ТТС Инжиниринг">
+      <img class="brand__logo brand__logo--ink" src="../assets/img/tts-logo.png" width="1148" height="426" alt="" aria-hidden="true">
+      <span class="brand__text">
+        <span class="brand__name">ТТС Инжиниринг</span>
+        <span class="brand__region">Казахстан</span>
       </span>
     </a>
 
-    <nav class="main-nav" id="menu" aria-label="Основное меню">
-      <a href="#catalog">Оборудование</a>
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a class="nav__link" href="/#catalog" data-stage>Оборудование</a>
 
-      <div class="nav-group" data-nav-group>
-        <button class="nav-trigger" type="button" aria-expanded="false" aria-haspopup="true">Каталог</button>
-        <div class="nav-dropdown" aria-label="Разделы каталога">
-          <a href="#zsss"><strong>Заводы сухих смесей</strong><span>SmartDryMix 5–50+ т/ч</span></a>
-          <a href="#beton"><strong>Бетонные заводы</strong><span>Товарный бетон, ЖБИ и дороги</span></a>
-          <a href="#vpi"><strong>Заводы ВПИ</strong><span>Готовые линии QUNFENG + ТТС</span></a>
-          <a href="#terminals"><strong>Цементные терминалы</strong><span>SmartStock 1000–5000 тонн</span></a>
-          <a href="#pkn"><strong>Пневмокамерные насосы</strong><span>ПКН 10–60 т/ч, подача до 250 м</span></a>
-          <a class="all" href="#catalog"><strong>Весь каталог →</strong><span>23 позиции, поиск и фильтры</span></a>
+      <div class="nav__group">
+        <button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="menu-catalog">
+          Каталог
+          <svg class="nav__chevron" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"></path>
+          </svg>
+        </button>
+        <div class="dropdown" id="menu-catalog" hidden>
+          <a class="dropdown__link" href="/catalog/smartdrymix/" data-stage>
+            <span class="dropdown__title">Заводы сухих смесей</span>
+            <span class="dropdown__note">SmartDryMix 5–50+ т/ч</span>
+          </a>
+          <a class="dropdown__link" href="/catalog/smartbeton/" data-stage>
+            <span class="dropdown__title">Бетонные заводы</span>
+            <span class="dropdown__note">Товарный бетон, ЖБИ и дороги</span>
+          </a>
+          <a class="dropdown__link" href="/catalog/vpi/" data-stage>
+            <span class="dropdown__title">Заводы ВПИ</span>
+            <span class="dropdown__note">Готовые линии QUNFENG + ТТС</span>
+          </a>
+          <a class="dropdown__link" href="/catalog/smartstock/" data-stage>
+            <span class="dropdown__title">Цементные терминалы</span>
+            <span class="dropdown__note">SmartStock 1000–5000 тонн</span>
+          </a>
+          <a class="dropdown__link" href="/catalog/pkn/" data-stage>
+            <span class="dropdown__title">Пневмокамерные насосы</span>
+            <span class="dropdown__note">ПКН 10–60 т/ч, подача до 250 м</span>
+          </a>
+          <a class="dropdown__link dropdown__link--all" href="/catalog/" data-stage>
+            <span class="dropdown__title">Весь каталог</span>
+            <span class="dropdown__note">23 позиции, поиск и фильтры</span>
+          </a>
         </div>
       </div>
 
-      <div class="nav-group" data-nav-group>
-        <button class="nav-trigger" type="button" aria-expanded="false" aria-haspopup="true">Сервис</button>
-        <div class="nav-dropdown" aria-label="Сервис и запчасти">
-          <a href="#service"><strong>Инженерный сервис</strong><span>Диагностика, запуск и поддержка 24/7</span></a>
-          <a href="#parts"><strong>Запасные части</strong><span>Подбор комплектующих и автоматики</span></a>
+      <div class="nav__group">
+        <button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="menu-service">
+          Сервис
+          <svg class="nav__chevron" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"></path>
+          </svg>
+        </button>
+        <div class="dropdown dropdown--narrow" id="menu-service" hidden>
+          <a class="dropdown__link" href="/service/" data-stage>
+            <span class="dropdown__title">Инженерный сервис</span>
+            <span class="dropdown__note">Диагностика, запуск и поддержка 24/7</span>
+          </a>
+          <a class="dropdown__link" href="/parts/" data-stage>
+            <span class="dropdown__title">Запасные части</span>
+            <span class="dropdown__note">Подбор комплектующих и автоматики</span>
+          </a>
         </div>
       </div>
 
-      <a href="#company">О компании</a>
-      <a href="#projects">Проекты</a>
+      <a class="nav__link" href="/#company" data-stage>О компании</a>
+      <a class="nav__link" href="/#projects" data-stage>Проекты</a>
     </nav>
 
-    <a class="btn btn--primary btn--header" href="#contact">Получить расчёт</a>
+    <a class="btn btn--solid btn--sm masthead__cta" href="/#contact" data-stage>Получить расчёт</a>
 
-    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu">
-      <span></span>
-      <span class="visually-hidden">Открыть меню</span>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть меню">
+      <span class="burger__bar"></span>
+      <span class="burger__bar"></span>
+      <span class="burger__bar"></span>
     </button>
-
   </div>
 </header>
 
 <main>
-  <section class="hero2" id="top">
-    <div class="container hero2-grid">
+  <section class="hero" id="hero">
+    <div class="hero__wash" aria-hidden="true"></div>
+    <img class="hero__watermark hero__watermark--knockout" src="../assets/img/tts-mark-light.png" alt="" aria-hidden="true" width="1744" height="2004">
+    <img class="hero__watermark hero__watermark--ink" src="../assets/img/tts-mark.png" alt="" aria-hidden="true" width="512" height="588">
+    <div class="hero__photo" aria-hidden="true"></div>
+    <video class="hero__video" data-src="../assets/video/hero-loop.mp4" poster="../assets/video/hero-poster.jpg"
+           muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+    <div class="hero__scrim" aria-hidden="true"></div>
 
-      <div>
-        <p class="eyebrow reveal">Инжиниринг полного цикла с 2006 года</p>
-
-        <h1 class="reveal">
-          Заводы сухих смесей, бетонные заводы и цементные терминалы
-          <span class="stroke">от проекта до запуска</span>
+    <div class="shell hero__grid">
+      <div class="hero__copy">
+        <h1 class="hero__title reveal" style="--reveal-delay:.05s">
+          Заводы и производственные линии для стройматериалов
+          <span class="marker">от проекта до запуска</span>
         </h1>
 
-        <p class="hero2-lead reveal">
-          Оборудование для производства сухих строительных смесей, товарного бетона,
-          ЖБИ, ВПИ и строительства «под ключ».
-        </p>
+        <p class="hero__lead reveal" style="--reveal-delay:.16s">Оборудование для производства сухих строительных смесей, товарного бетона, ЖБИ, ВПИ и строительства «под ключ».</p>
 
-        <div class="hero2-actions reveal">
-          <a class="btn btn--primary" href="#catalog">Перейти в каталог →</a>
-          <a class="btn btn--ink" href="#quiz">Выбрать оборудование</a>
+        <div class="hero__actions reveal" style="--reveal-delay:.24s">
+          <a class="btn btn--solid btn--lg" href="/catalog/" data-stage>
+            Перейти в каталог
+            <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+            </svg>
+          </a>
+          <a class="btn btn--ghost btn--lg" href="/#quiz" data-stage>Выбрать оборудование</a>
         </div>
       </div>
 
-      <div class="hero2-product reveal">
-        <div class="hero2-tag">
-          <strong>SmartStock 1000–5000</strong>
-          <span>Цементные терминалы</span>
-        </div>
+      <div class="hero__stage reveal" style="--reveal-delay:.12s">
         <picture>
-          <source srcset="../assets/img/equipment-silos.webp" type="image/webp">
-          <img src="../assets/img/equipment-silos.png"
-               alt="Силосный склад цемента ТТС: четыре силоса на опорной раме"
-               width="988" height="949" fetchpriority="high">
+          <source srcset="../assets/img/hero-plant-tts.webp" type="image/webp">
+          <img class="hero__plant" src="../assets/img/hero-plant-tts.png" width="1617" height="941"
+               alt="Бетонный завод ТТС: силосы цемента, смесительный узел, конвейер и склад заполнителей">
         </picture>
+        <p class="tag">
+          <svg class="tag__mark" viewBox="0 0 12 14" width="12" height="14" aria-hidden="true" focusable="false">
+            <path d="M6 0l6 3.5v7L6 14 0 10.5v-7z" fill="currentColor"></path>
+          </svg>
+          Проектирование и поставка под ключ
+        </p>
       </div>
-
     </div>
 
-    <div class="hero2-strip">
-      <div class="container hero2-strip-inner">
-        <div class="item">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M2.5 8.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+    <div class="shell">
+      <ul class="proofs reveal" style="--reveal-delay:.34s">
+        <li class="proofs__item">
+          <svg class="proofs__mark" viewBox="0 0 12 14" width="12" height="14" aria-hidden="true" focusable="false">
+            <path d="M6 0l6 3.5v7L6 14 0 10.5v-7z" fill="currentColor"></path>
           </svg>
+          <img class="proofs__icon" src="../assets/icons/proof-production.svg?v=3" width="64" height="64" alt="">
           Собственное производство
-        </div>
-        <div class="item">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M2.5 8.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </li>
+        <li class="proofs__item">
+          <svg class="proofs__mark" viewBox="0 0 12 14" width="12" height="14" aria-hidden="true" focusable="false">
+            <path d="M6 0l6 3.5v7L6 14 0 10.5v-7z" fill="currentColor"></path>
           </svg>
+          <img class="proofs__icon" src="../assets/icons/proof-stock.svg?v=3" width="64" height="64" alt="">
           Оборудование в наличии
-        </div>
-        <div class="item">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M2.5 8.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </li>
+        <li class="proofs__item">
+          <svg class="proofs__mark" viewBox="0 0 12 14" width="12" height="14" aria-hidden="true" focusable="false">
+            <path d="M6 0l6 3.5v7L6 14 0 10.5v-7z" fill="currentColor"></path>
           </svg>
+          <img class="proofs__icon" src="../assets/icons/proof-almaty.svg?v=3" width="64" height="64" alt="">
           Филиал в Алматы — проекты по Казахстану
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="quiz on-light" id="quiz">
+    <div class="shell quiz__grid">
+      <div>
+        <p class="kicker">Подбор за 2 минуты</p>
+        <h2 class="quiz__title">Какой объект вы планируете?</h2>
+        <p class="quiz__lead">Ответьте на три вопроса — покажем базовую конфигурацию и подготовим исходные данные для инженера.</p>
+      </div>
+
+      <div class="quiz__fields">
+        <label class="field">
+          <span class="field__label">Тип объекта</span>
+          <select class="field__select" id="quizDirection">
+            <option value="zsss">Завод сухих смесей</option>
+            <option value="beton" selected>Бетонный завод</option>
+            <option value="terminal">Цементный терминал</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field__label">Производительность / хранение</span>
+          <select class="field__select" id="quizCapacity"></select>
+        </label>
+
+        <label class="field">
+          <span class="field__label">Стадия проекта</span>
+          <select class="field__select" id="quizStage">
+            <option>Формируем идею</option>
+            <option selected>Выбираем технологию</option>
+            <option>Есть площадка и ТЗ</option>
+          </select>
+        </label>
+
+        <button class="btn btn--solid btn--lg quiz__submit" id="quizSubmit" type="button">
+          Показать решение
+          <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+            <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="shell quiz__output" id="quizOutput" role="region" aria-live="polite" hidden>
+      <div class="recommendation on-dark">
+        <div>
+          <p class="kicker">Предварительная рекомендация</p>
+          <p class="recommendation__title" id="recTitle"></p>
+          <p class="recommendation__text" id="recText"></p>
         </div>
-        <div class="status">
-          <span class="dot" aria-hidden="true"></span>
-          Проектирование и поставка под ключ
+        <div class="recommendation__meta">
+          <span id="recCapacity"></span>
+          <span id="recStage"></span>
+          <a class="link-arrow" href="/#contact" data-stage>
+            Получить инженерный расчёт
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+            </svg>
+          </a>
         </div>
+      </div>
+
+      <div>
+        <div class="matches__head">
+          <h3 class="matches__title">Оборудование под выбранные параметры</h3>
+          <p class="matches__note">Первая карточка — основная рекомендация. Вторая, если доступна, показывает вариант с запасом производительности.</p>
+        </div>
+        <div class="matches__cards" id="quizCards"></div>
       </div>
     </div>
   </section>
 </main>
 
-<script>
-(function () {
-  'use strict';
+<button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Светлая тема">
+  <svg class="theme-toggle__sun" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width="1.9"></circle>
+    <path d="M12 2.4v2.6M12 19v2.6M4.6 4.6l1.9 1.9M17.5 17.5l1.9 1.9M2.4 12h2.6M19 12h2.6M4.6 19.4l1.9-1.9M17.5 6.5l1.9-1.9"
+          fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+  </svg>
+  <svg class="theme-toggle__moon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+    <path d="M20.2 14.9A8.6 8.6 0 0 1 9.1 3.8a8.6 8.6 0 1 0 11.1 11.1z" fill="currentColor"></path>
+  </svg>
+</button>
 
-  var header = document.getElementById('header');
-  var onScroll = function () {
-    header.classList.toggle('is-stuck', window.scrollY > 12);
-  };
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+<a class="quiz-cta" href="/marquiz/" aria-label="Получить расчёт проекта" data-stage data-marquiz>
+  <svg class="quiz-cta__icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
+    <path d="M3 4h14M3 10h14M3 16h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+  </svg>
+  <span class="quiz-cta__label">Получить расчёт проекта</span>
+</a>
 
-  var groups = Array.prototype.slice.call(document.querySelectorAll('[data-nav-group]'));
-  var isDesktop = function () { return window.matchMedia('(min-width: 1025px)').matches; };
+<div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
 
-  var closeAll = function (except) {
-    groups.forEach(function (g) {
-      if (g === except) return;
-      g.dataset.open = 'false';
-      g.querySelector('.nav-trigger').setAttribute('aria-expanded', 'false');
-    });
-  };
-
-  groups.forEach(function (group) {
-    var trigger = group.querySelector('.nav-trigger');
-
-    var setOpen = function (open) {
-      group.dataset.open = open ? 'true' : 'false';
-      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (open) closeAll(group);
-    };
-
-    trigger.addEventListener('click', function () {
-      setOpen(group.dataset.open !== 'true');
-    });
-
-    group.addEventListener('mouseenter', function () { if (isDesktop()) setOpen(true); });
-    group.addEventListener('mouseleave', function () { if (isDesktop()) setOpen(false); });
-    group.addEventListener('focusout', function (e) {
-      if (isDesktop() && !group.contains(e.relatedTarget)) setOpen(false);
-    });
-  });
-
-  var burger = document.getElementById('burger');
-  var menu = document.getElementById('menu');
-
-  var setMenu = function (open) {
-    menu.classList.toggle('is-open', open);
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    document.body.style.overflow = open ? 'hidden' : '';
-  };
-
-  burger.addEventListener('click', function () {
-    setMenu(!menu.classList.contains('is-open'));
-  });
-
-  menu.addEventListener('click', function (e) {
-    if (e.target.closest('a') && !isDesktop()) setMenu(false);
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape') return;
-    closeAll(null);
-    if (menu.classList.contains('is-open')) {
-      setMenu(false);
-      burger.focus();
-    }
-  });
-
-  var items = document.querySelectorAll('.reveal');
-
-  if (!('IntersectionObserver' in window)) {
-    items.forEach(function (el) { el.classList.add('is-visible'); });
-    return;
-  }
-
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry, i) {
-      if (!entry.isIntersecting) return;
-      var el = entry.target;
-      setTimeout(function () { el.classList.add('is-visible'); }, i * 90);
-      observer.unobserve(el);
-    });
-  }, { threshold: .12 });
-
-  items.forEach(function (el) { observer.observe(el); });
-})();
-</script>
-
+<script src="../assets/js/quiz.js?v=7d746f86" defer></script>
+<script src="../assets/js/app.js?v=5e927ed2" defer></script>
 </body>
 </html>
