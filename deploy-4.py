@@ -20,17 +20,21 @@ CREDS = os.path.expandvars(r'%LOCALAPPDATA%\CrazyAssistant\creds\card-199.env')
 PAGES = [
     ('site/4/index.html', '4/index.html'),
     ('site/4/catalog/index.html', '4/catalog/index.html'),
+    ('site/4/catalog/smartbeton/index.html', '4/catalog/smartbeton/index.html'),
 ]
 
 # общие файлы, чью метку версии в ссылках нужно держать в актуальном состоянии.
 # Страница подключает не все — берётся то, что в ней реально есть.
 VERSIONED = [
     ('style.css', 'site/assets/css/style.css', 'assets/css/style.css'),
+    ('page.css', 'site/assets/css/page.css', 'assets/css/page.css'),
     ('catalog.css', 'site/assets/css/catalog.css', 'assets/css/catalog.css'),
+    ('smartbeton.css', 'site/assets/css/smartbeton.css', 'assets/css/smartbeton.css'),
     ('app.js', 'site/assets/js/app.js', 'assets/js/app.js'),
     ('quiz.js', 'site/assets/js/quiz.js', 'assets/js/quiz.js'),
     ('form.js', 'site/assets/js/form.js', 'assets/js/form.js'),
     ('catalog.js', 'site/assets/js/catalog.js', 'assets/js/catalog.js'),
+    ('model-pick.js', 'site/assets/js/model-pick.js', 'assets/js/model-pick.js'),
 ]
 
 # Картинки версий не имеют — имя файла меняется вместе с содержимым.
@@ -39,6 +43,8 @@ VERSIONED = [
 IMAGES = [
     'catalog-bg.jpg',
     'catalog-bg.webp',
+    'smartbeton-bg.jpg',
+    'smartbeton-bg.webp',
 ]
 
 

@@ -9,6 +9,13 @@
     terminal: '/catalog/smartstock/'
   };
 
+  var CATALOG_SLUG = { zsss: 'smartdrymix/', beton: 'smartbeton/', terminal: 'smartstock/' };
+
+  // какие страницы направлений уже собраны — у остальных ссылка остаётся заглушкой
+  var BUILT = { beton: true };
+
+  var CATALOG_ROOT = document.documentElement.dataset.catalogRoot || '';
+
   var DIRECTIONS = {
     zsss: {
       label: 'Заводы сухих смесей',
@@ -180,9 +187,10 @@
 
     var actions = element('div', 'model__actions');
 
+    var ready = Boolean(CATALOG_ROOT && BUILT[key]);
     var more = element('a', 'btn btn--ghost', 'Подробнее');
-    more.href = CATALOG_PAGE[key];
-    more.setAttribute('data-stage', '');
+    more.href = ready ? CATALOG_ROOT + CATALOG_SLUG[key] : CATALOG_PAGE[key];
+    if (!ready) more.setAttribute('data-stage', '');
 
     var quote = element('a', 'btn btn--solid', 'Получить КП');
     quote.href = '/#contact';

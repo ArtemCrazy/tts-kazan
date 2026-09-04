@@ -1,64 +1,13 @@
 /* Общий каталог оборудования.
-   Подключается только страницей каталога: токены, кнопки, поля и подвал
-   приходят из style.css, здесь описано только то, чего нет на главной. */
+   Подключается только страницей каталога поверх style.css и page.css:
+   здесь описано лишь то, чего нет на других внутренних страницах —
+   табы, фильтры, карточка позиции и модальное описание. */
 
-/* ============ Шапка страницы ============ */
-
-.page-head {
-  padding-block: var(--s-7) var(--s-8);
-}
-
-/* снимок смещён вниз: в верхней части кадра пустое небо */
+/* снимок шапки — свой у каждой страницы, сама шапка живёт в page.css */
 .page-head::before {
   background-image: image-set(url("../img/catalog-bg.webp") type("image/webp"),
                               url("../img/catalog-bg.jpg") type("image/jpeg"));
   background-position: center 65%;
-}
-
-.crumbs { margin-bottom: var(--s-6); }
-
-.crumbs__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2) var(--s-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  color: var(--c-text-faint);
-  font-size: var(--fs-small);
-}
-
-/* разделитель рисуем стилями: в разметке крошек ему делать нечего */
-.crumbs__item + .crumbs__item::before {
-  content: "/";
-  margin-right: var(--s-3);
-  color: var(--c-rule);
-}
-
-.crumbs__link {
-  color: var(--c-text-muted);
-  text-decoration: none;
-  transition: color 0.18s var(--ease);
-}
-
-.crumbs__link:hover { color: var(--c-text); }
-
-.page-head__title {
-  max-width: 20ch;
-  margin-top: var(--s-4);
-  font-family: var(--font-display);
-  font-size: var(--fs-display);
-  font-weight: var(--fw-display);
-  letter-spacing: var(--track-tight);
-  line-height: 1.08;
-}
-
-.page-head__lead {
-  max-width: 62ch;
-  margin-top: var(--s-5);
-  color: var(--c-text-muted);
-  font-size: var(--fs-lead);
-  line-height: 1.6;
 }
 
 /* ============ Фильтры ============ */

@@ -4,11 +4,11 @@
 // фильтров не меняются, поэтому данные описаны здесь один раз и никуда не дублируются.
 (function () {
   var DIRECTION_PAGE = {
-    zsss: '/catalog/smartdrymix/',
-    beton: '/catalog/smartbeton/',
-    vpi: '/catalog/vpi/',
-    terminal: '/catalog/smartstock/',
-    pkn: '/catalog/pkn/'
+    zsss: { href: 'smartdrymix/', built: false },
+    beton: { href: 'smartbeton/', built: true },
+    vpi: { href: 'vpi/', built: false },
+    terminal: { href: 'smartstock/', built: false },
+    pkn: { href: 'pkn/', built: false }
   };
 
   var CATEGORY_LABEL = {
@@ -268,7 +268,11 @@
     modal.querySelector('[data-modal="capacity"]').textContent = item.capacity;
     modal.querySelector('[data-modal="features"]').innerHTML =
       item.features.map(function (f) { return '<li class="modal__feature">' + f + '</li>'; }).join('');
-    modal.querySelector('[data-modal="page"]').href = DIRECTION_PAGE[item.cat];
+    var page = DIRECTION_PAGE[item.cat];
+    var pageLink = modal.querySelector('[data-modal="page"]');
+    pageLink.href = page.href;
+    if (page.built) pageLink.removeAttribute('data-stage');
+    else pageLink.setAttribute('data-stage', '');
     modal.querySelector('[data-modal="quote"]').dataset.quote = item.id;
     modal.hidden = false;
     document.body.classList.add('is-locked');
