@@ -1165,11 +1165,13 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 
 /* Заголовок и описание стоят в одной строке сетки и выравниваются
    по базовой линии — иначе описание висит выше заголовка. */
+/* Зазор колонок тот же, что у сеток карточек ниже (24px): иначе правая
+   колонка шапки не встаёт по вертикали со второй карточкой. */
 .section-head {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: baseline;
-  column-gap: var(--s-8);
+  column-gap: var(--s-5);
   row-gap: var(--s-4);
   margin-bottom: var(--s-7);
 }
@@ -1478,7 +1480,9 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
+  overflow: hidden;
   border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
   background: var(--c-rule);
 }
 
@@ -1528,12 +1532,23 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 .trust__cell {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-1);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--s-3);
+  row-gap: var(--s-1);
+  align-items: center;
+}
+
+/* тот же фирменный шестигранник, что в преимуществах первого экрана
+   и в списках блоков направлений */
+.trust__mark {
+  grid-row: 1;
+  flex: none;
+  color: var(--c-emerald);
 }
 
 .trust__value {
+  grid-row: 1;
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
@@ -1541,6 +1556,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 .trust__label {
+  grid-column: 2;
   color: var(--c-text-muted);
   font-size: var(--fs-small);
   line-height: 1.5;
@@ -1645,6 +1661,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 .pkn__panel {
+  position: relative;
   display: grid;
   place-items: center;
   padding: var(--s-5);
@@ -1659,9 +1676,15 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   height: auto;
 }
 
+/* подпись лежит плашкой в левом верхнем углу кадра — как в прототипе */
 .pkn__caption {
-  margin-top: var(--s-4);
-  color: var(--c-text-faint);
+  position: absolute;
+  top: var(--s-4);
+  left: var(--s-4);
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--r-s);
+  background: var(--c-ink);
+  color: var(--c-paper);
   font-size: var(--fs-micro);
   font-weight: 600;
   letter-spacing: 0.1em;
