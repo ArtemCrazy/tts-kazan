@@ -76,7 +76,7 @@
 .tab {
   padding: var(--s-3) var(--s-5);
   border: 1px solid var(--c-rule);
-  border-radius: var(--r-pill);
+  border-radius: var(--r-m);
   background: var(--c-paper);
   color: var(--c-text);
   font: 600 var(--fs-small) / 1.2 var(--font-base);

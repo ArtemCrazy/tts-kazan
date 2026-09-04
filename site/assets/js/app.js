@@ -120,6 +120,46 @@
     }
   }
 
+  // Раскрытие вопросов. Открытие рисует CSS само, а закрытие приходится
+  // придерживать: <details> прячет содержимое до того, как успеет пройти
+  // переход, и блок схлопывается рывком.
+  Array.prototype.forEach.call(document.querySelectorAll('.faq__item'), function (item) {
+    var panel = item.querySelector('.faq__panel');
+    var summary = item.querySelector('summary');
+    if (!panel || !summary) return;
+
+    summary.addEventListener('click', function (event) {
+      if (!item.open) return;
+      event.preventDefault();
+      if (item.classList.contains('is-closing')) return;
+
+      var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (calm) {
+        item.open = false;
+        return;
+      }
+
+      var timer = null;
+
+      function finish() {
+        clearTimeout(timer);
+        panel.removeEventListener('transitionend', onEnd);
+        item.classList.remove('is-closing');
+        item.open = false;
+      }
+
+      function onEnd(e) {
+        if (e.target === panel) finish();
+      }
+
+      item.classList.add('is-closing');
+      panel.addEventListener('transitionend', onEnd);
+      // страховка: если браузер не умеет анимировать строки сетки,
+      // события не будет — вопрос обязан закрыться в любом случае
+      timer = setTimeout(finish, 450);
+    });
+  });
+
   function showNotice(text) {
     notice.textContent = text;
     notice.hidden = false;

@@ -1852,14 +1852,13 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 .faq__watermark {
   position: absolute;
   left: -7%;
-  top: 50%;
-  height: 112%;
+  top: var(--s-7);
+  height: clamp(320px, 40vw, 620px);
   aspect-ratio: 1744 / 2004;
   opacity: 0.06;
   background: var(--c-ink);
   -webkit-mask: url("../img/tts-mark-light.png") center / contain no-repeat;
   mask: url("../img/tts-mark-light.png") center / contain no-repeat;
-  transform: translateY(-50%);
   pointer-events: none;
 }
 
@@ -1917,11 +1916,33 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
   transform: rotate(180deg);
 }
 
+.faq__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s var(--ease), padding-bottom 0.32s var(--ease);
+}
+
+.faq__item[open] .faq__panel {
+  grid-template-rows: 1fr;
+  padding-bottom: var(--s-5);
+}
+
+/* закрытие придерживает скрипт: без этого браузер прячет ответ мгновенно */
+.faq__item.is-closing .faq__panel {
+  grid-template-rows: 0fr;
+  padding-bottom: 0;
+}
+
 .faq__answer {
   max-width: 62ch;
-  padding-bottom: var(--s-5);
+  min-height: 0;
+  overflow: hidden;
   color: var(--c-text-muted);
   line-height: 1.62;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__panel { transition: none; }
 }
 
 /* перенос строки, заданный макетом: на узких экранах текст ломается сам */
