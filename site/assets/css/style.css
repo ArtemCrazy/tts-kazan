@@ -1165,13 +1165,14 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 
 /* Заголовок и описание стоят в одной строке сетки и выравниваются
    по базовой линии — иначе описание висит выше заголовка. */
-/* Зазор колонок тот же, что у сеток карточек ниже (24px): иначе правая
-   колонка шапки не встаёт по вертикали со второй карточкой. */
+/* Зазор двухколоночных блоков на всей странице один — 64px (ВПИ, бетонные
+   заводы, о компании, ПКН). Правая колонка шапки обязана вставать на ту же
+   вертикаль, иначе секция уезжает относительно соседних. */
 .section-head {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: baseline;
-  column-gap: var(--s-5);
+  column-gap: var(--s-8);
   row-gap: var(--s-4);
   margin-bottom: var(--s-7);
 }
@@ -1562,10 +1563,11 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   line-height: 1.5;
 }
 
+/* две карточки — та же двухколоночная сетка, что и у соседних секций */
 .service__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-5);
+  gap: var(--s-8);
 }
 
 .service-card {
