@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/montserrat-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/fonts/montserrat.css">
-<link rel="stylesheet" href="../assets/css/style.css?v=112cc372">
+<link rel="stylesheet" href="../assets/css/style.css?v=d18a1318">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -36,7 +36,7 @@
     </a>
 
     <nav class="nav" id="nav" aria-label="Основная навигация">
-      <a class="nav__link" href="/#catalog" data-stage>Оборудование</a>
+      <a class="nav__link" href="#catalog">Оборудование</a>
 
       <div class="nav__group">
         <button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="menu-catalog">
@@ -92,11 +92,11 @@
         </div>
       </div>
 
-      <a class="nav__link" href="/#company" data-stage>О компании</a>
-      <a class="nav__link" href="/#projects" data-stage>Проекты</a>
+      <a class="nav__link" href="#company">О компании</a>
+      <a class="nav__link" href="#projects">Проекты</a>
     </nav>
 
-    <a class="btn btn--solid btn--sm masthead__cta" href="/#contact" data-stage>Получить расчёт</a>
+    <a class="btn btn--solid btn--sm masthead__cta" href="#contact">Получить расчёт</a>
 
     <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть меню">
       <span class="burger__bar"></span>
@@ -132,7 +132,7 @@
               <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
             </svg>
           </a>
-          <a class="btn btn--ghost btn--lg" href="/#quiz" data-stage>Выбрать оборудование</a>
+          <a class="btn btn--ghost btn--lg" href="#quiz">Выбрать оборудование</a>
         </div>
       </div>
 
@@ -229,7 +229,7 @@
         <div class="recommendation__meta">
           <span id="recCapacity"></span>
           <span id="recStage"></span>
-          <a class="link-arrow" href="/#contact" data-stage>
+          <a class="link-arrow" href="#contact">
             Получить инженерный расчёт
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
               <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
@@ -422,7 +422,7 @@
         <h2 class="about__title">Инженерная экспертиза, производство и локальная поддержка</h2>
         <p class="about__text">ТТС Инжиниринг объединяет проектирование, собственное производство оборудования и автоматизации, поставку и сопровождение промышленных объектов.</p>
         <p class="about__text">Филиал в Алматы помогает учитывать требования площадки, логистику и особенности реализации проектов в Казахстане.</p>
-        <a class="btn btn--solid btn--lg about__link" href="#projects" data-stage>
+        <a class="btn btn--solid btn--lg about__link" href="#projects">
           Посмотреть проекты
           <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
             <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
@@ -504,7 +504,7 @@
                 <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
               </svg>
             </a>
-            <a class="link-arrow" href="/#contact" data-stage>
+            <a class="link-arrow" href="#contact">
               Оставить заявку
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
                 <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
@@ -533,7 +533,7 @@
                 <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
               </svg>
             </a>
-            <a class="link-arrow" href="/#contact" data-stage>
+            <a class="link-arrow" href="#contact">
               Отправить запрос
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
                 <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
@@ -589,7 +589,200 @@
       </div>
     </div>
   </section>
+
+  <section class="projects" id="projects">
+    <div class="shell">
+      <div class="section-head">
+        <p class="kicker section-head__kicker">Проекты в Казахстане</p>
+        <h2 class="section-head__title">Решения под продукт, площадку и задачу</h2>
+        <a class="link-arrow section-head__lead projects__link" href="#contact">
+          Обсудить похожий проект
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="projects__grid">
+        <article class="project">
+          <p class="project__meta">Бетонный завод · Актобе</p>
+          <h3 class="project__title">Производство стеновых панелей</h3>
+          <p class="project__text">Компоновка завода под серийный выпуск ЖБИ и интеграцию в действующую площадку.</p>
+        </article>
+        <article class="project">
+          <p class="project__meta">Бетонный завод · Астана</p>
+          <h3 class="project__title">Объёмные блоки</h3>
+          <p class="project__text">Автоматизированный комплекс для запуска нового производственного направления.</p>
+        </article>
+        <article class="project">
+          <p class="project__meta">БСУ + терминал · Алматы</p>
+          <h3 class="project__title">Единая производственная площадка</h3>
+          <p class="project__text">Синхронизация бетонного производства и узла приёма, хранения и подачи цемента.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq on-light" id="faq">
+    <div class="shell faq__grid">
+      <div class="faq__intro">
+        <p class="kicker">Частые вопросы</p>
+        <h2 class="faq__title">Подбор начинается с вашей задачи</h2>
+      </div>
+
+      <div class="faq__list">
+        <details class="faq__item" open>
+          <summary class="faq__question">Какие данные нужны для первого расчёта?</summary>
+          <p class="faq__answer">Тип продукта, требуемая производительность, доступное сырьё, данные площадки, логистика и плановый срок запуска.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question">Можно ли заказать завод и цементный терминал одним проектом?</summary>
+          <p class="faq__answer">Да. Мы можем разработать связанную концепцию производства, хранения, подачи материалов и общей автоматизации.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question">Выполняете ли вы модернизацию действующего объекта?</summary>
+          <p class="faq__answer">Да, после технического аудита и определения точек интеграции нового оборудования и АСУ.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__question">Как выбрать между механической и пневматической подачей?</summary>
+          <p class="faq__answer">Выбор зависит от схемы разгрузки, требуемой производительности, расстояний, площадки и эксплуатационных затрат.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="shell contact__grid">
+      <div class="contact__copy">
+        <p class="kicker">Обсудим проект</p>
+        <h2 class="contact__title">Получите расчёт оборудования под вашу задачу</h2>
+        <p class="contact__lead">Инженер уточнит продукт, производительность и исходные данные площадки, затем предложит состав оборудования и следующий этап проекта.</p>
+
+        <div class="contact__details">
+          <strong class="contact__office">Филиал ТТС Инжиниринг в Казахстане</strong>
+          <span>Алматы, ул. Казыбек Би, 22, офис 302</span>
+          <span>Пн–Пт, 9:00–18:00</span>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <form class="form" id="leadForm" novalidate>
+          <h3 class="form__title">Оставьте контакты</h3>
+          <p class="form__note">Перезвоним в рабочее время и уточним задачу.</p>
+
+          <label class="field">
+            <span class="field__label">Направление</span>
+            <select class="field__select" id="leadDirection" name="direction">
+              <option value="zsss">Заводы сухих смесей</option>
+              <option value="beton" selected>Бетонные заводы</option>
+              <option value="vpi">Заводы ВПИ</option>
+              <option value="terminal">Цементные терминалы</option>
+              <option value="service">Инженерный сервис</option>
+              <option value="parts">Запасные части и автоматика</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Ваше имя</span>
+            <input class="field__input" name="name" type="text" autocomplete="name" placeholder="Имя Фамилия" required>
+            <span class="field__error" data-error></span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Телефон для связи</span>
+            <input class="field__input" name="phone" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+            <span class="field__error" data-error></span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Комментарий</span>
+            <textarea class="field__input field__textarea" name="comment" rows="3" placeholder="Кратко опишите задачу"></textarea>
+          </label>
+
+          <label class="consent">
+            <input class="consent__box" type="checkbox" name="consent" required>
+            <span class="consent__text">Я согласен на обработку персональных данных.</span>
+            <span class="field__error" data-error></span>
+          </label>
+
+          <button class="btn btn--solid btn--lg form__submit" type="submit">
+            Получить консультацию
+            <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+            </svg>
+          </button>
+        </form>
+
+        <div class="form-done" id="leadDone" role="status" hidden>
+          <span class="form-done__mark" aria-hidden="true">
+            <svg viewBox="0 0 12 14" width="16" height="18" focusable="false">
+              <path d="M6 0l6 3.5v7L6 14 0 10.5v-7z" fill="currentColor"></path>
+            </svg>
+          </span>
+          <h3 class="form-done__title">Заявка подготовлена</h3>
+          <p class="form-done__text">В рабочей версии данные уйдут менеджеру вместе с выбранным направлением и рекламным источником.</p>
+          <button class="link-arrow" id="leadAgain" type="button">
+            Отправить ещё одну заявку
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="footer">
+  <div class="shell footer__grid">
+    <div class="footer__brand">
+      <img class="footer__logo" src="../assets/img/tts-logo-light.png" width="1148" height="426" alt="ТТС Инжиниринг">
+      <p class="footer__about">Заводы, терминалы и технологические линии для строительной индустрии Казахстана.</p>
+    </div>
+
+    <nav class="footer__col" aria-label="Оборудование">
+      <h4 class="footer__heading">Оборудование</h4>
+      <a href="/catalog/smartdrymix/" data-stage>Заводы сухих смесей</a>
+      <a href="/catalog/smartbeton/" data-stage>Бетонные заводы</a>
+      <a href="/catalog/vpi/" data-stage>Заводы ВПИ</a>
+      <a href="/catalog/smartstock/" data-stage>Цементные терминалы</a>
+      <a href="/catalog/pkn/" data-stage>Пневмокамерные насосы</a>
+    </nav>
+
+    <nav class="footer__col" aria-label="Компания">
+      <h4 class="footer__heading">Компания</h4>
+      <a href="#company">О компании</a>
+      <a href="#projects">Проекты</a>
+      <a href="#service">Сервис</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+
+    <nav class="footer__col" aria-label="Документы">
+      <h4 class="footer__heading">Документы</h4>
+      <a href="/privacy/" data-stage>Политика конфиденциальности</a>
+      <a href="/personal-data/" data-stage>Обработка данных</a>
+      <span class="footer__legal">БИН 191141028147</span>
+    </nav>
+  </div>
+
+  <div class="shell footer__catalog">
+    <div>
+      <strong class="footer__catalog-title">Весь каталог оборудования</strong>
+      <span class="footer__catalog-note">23 конфигурации в пяти направлениях — с поиском и фильтрами.</span>
+    </div>
+    <a class="btn btn--ghost" href="/catalog/" data-stage>
+      Открыть весь каталог
+      <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+        <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+      </svg>
+    </a>
+  </div>
+
+  <div class="shell footer__bottom">
+    <span>© 2026 ТТС Инжиниринг Казахстан</span>
+    <span>Тестовая версия сайта</span>
+  </div>
+</footer>
 
 <a class="quiz-cta" href="/marquiz/" aria-label="Получить расчёт проекта" data-stage data-marquiz>
   <svg class="quiz-cta__icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
@@ -600,7 +793,8 @@
 
 <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
 
-<script src="../assets/js/quiz.js?v=7d746f86" defer></script>
-<script src="../assets/js/app.js?v=5e927ed2" defer></script>
+<script src="../assets/js/quiz.js?v=3fc77794" defer></script>
+<script src="../assets/js/app.js?v=0c0275fb" defer></script>
+<script src="../assets/js/form.js?v=792eb0af" defer></script>
 </body>
 </html>

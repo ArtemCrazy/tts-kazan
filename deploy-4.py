@@ -19,6 +19,14 @@ CREDS = os.path.expandvars(r'%LOCALAPPDATA%\CrazyAssistant\creds\card-199.env')
 PAGE = 'site/4/index.html'
 CSS = 'site/assets/css/style.css'
 
+# файлы, чью метку версии в ссылке нужно держать в актуальном состоянии
+VERSIONED = [
+    ('style.css', CSS),
+    ('app.js', 'site/assets/js/app.js'),
+    ('quiz.js', 'site/assets/js/quiz.js'),
+    ('form.js', 'site/assets/js/form.js'),
+]
+
 
 def read_env(path):
     if not os.path.exists(path):
@@ -35,18 +43,36 @@ def read_env(path):
 
 
 def refresh_cache_token():
-    """Метка версии = хеш содержимого CSS: меняется сама, когда меняются стили."""
-    token = hashlib.md5(open(CSS, 'rb').read()).hexdigest()[:8]
+    """Метка версии = хеш содержимого файла: меняется сама, когда меняется файл.
+
+    Без этого браузер отдаёт посетителю старую копию из кэша, и правки
+    «не появляются» — уже наступали на это и со стилями, и со скриптами.
+    """
     html = open(PAGE, encoding='utf-8').read()
-    current = re.search(r'style\.css\?v=([a-z0-9]+)', html)
-    if not current:
-        sys.exit('В 4/index.html не нашёл ссылку на style.css с меткой версии.')
-    if current.group(1) == token:
-        print(f'метка версии актуальна: ?v={token}')
-        return
-    open(PAGE, 'w', encoding='utf-8').write(
-        html.replace(f'style.css?v={current.group(1)}', f'style.css?v={token}'))
-    print(f'метка версии обновлена: ?v={current.group(1)} -> ?v={token}')
+    changed = []
+
+    for name, path in VERSIONED:
+        if not os.path.exists(path):
+            continue
+        token = hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
+        pattern = re.escape(name) + r'\?v=([a-z0-9]+)'
+        current = re.search(pattern, html)
+        if not current:
+            # файл подключён без метки — добавляем
+            html = html.replace(name + '"', f'{name}?v={token}"')
+            changed.append(f'{name}: метка добавлена ({token})')
+            continue
+        if current.group(1) == token:
+            continue
+        html = html.replace(f'{name}?v={current.group(1)}', f'{name}?v={token}')
+        changed.append(f'{name}: {current.group(1)} -> {token}')
+
+    if changed:
+        open(PAGE, 'w', encoding='utf-8').write(html)
+        for line in changed:
+            print('  версия ' + line)
+    else:
+        print('метки версий актуальны')
 
 
 def ensure_dir(sftp, path):
@@ -71,8 +97,13 @@ def main():
     transport.connect(username=env['SFTP_USER'], password=env['SFTP_PASSWORD'])
     sftp = paramiko.SFTPClient.from_transport(transport)
 
+    uploads = [(PAGE, '4/index.html'), (CSS, 'assets/css/style.css')]
+    for name, path in VERSIONED:
+        if name.endswith('.js') and os.path.exists(path):
+            uploads.append((path, 'assets/js/' + name))
+
     try:
-        for local, remote in [(PAGE, '4/index.html'), (CSS, 'assets/css/style.css')]:
+        for local, remote in uploads:
             target = posixpath.join(root, remote)
             ensure_dir(sftp, posixpath.dirname(target))
             sftp.put(local, target)

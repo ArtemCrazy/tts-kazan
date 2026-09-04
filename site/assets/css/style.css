@@ -291,6 +291,17 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   backdrop-filter: blur(14px);
 }
 
+/* Панель отстоит от пункта меню, и в этом зазоре курсор оказывается
+   вне группы — меню закрывалось, пока мышь до него шла. Невидимый мостик
+   перекрывает зазор и делает область наведения сплошной. */
+.dropdown::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: calc(var(--s-4) * -1);
+  height: var(--s-4);
+}
+
 .dropdown[hidden] { display: none; }
 
 .dropdown--narrow { width: 296px; }
@@ -1759,6 +1770,389 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   .trust { grid-template-columns: minmax(0, 1fr); }
   .stats { grid-template-columns: minmax(0, 1fr); }
   .specs { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
+}
+
+/* при переходе по якорю липкая шапка не должна накрывать заголовок блока */
+section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
+
+/* прокрутка к якорю плавная средствами браузера, без участия скрипта */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ============ Блок «Проекты» ============ */
+
+.projects {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: linear-gradient(160deg, var(--c-ink) 0%, var(--c-ink-deep) 100%);
+}
+
+.projects__link { justify-self: end; align-self: end; }
+
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-5);
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-6);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
+  background: rgba(255, 255, 255, 0.03);
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.project:hover {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.project__meta {
+  color: var(--c-emerald-lift);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.project__title {
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+  line-height: 1.2;
+}
+
+.project__text {
+  margin-top: var(--s-3);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+/* ============ Блок «Частые вопросы» ============ */
+
+.faq {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: var(--c-paper);
+}
+
+.faq__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
+  align-items: start;
+}
+
+.faq__title {
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 2.4vw, 2.25rem);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.faq__list { border-top: 1px solid var(--c-rule); }
+
+.faq__item { border-bottom: 1px solid var(--c-rule); }
+
+.faq__question {
+  display: flex;
+  gap: var(--s-4);
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--s-5);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq__question::-webkit-details-marker { display: none; }
+
+/* знак «плюс»: одна палочка гаснет при раскрытии */
+.faq__question::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  flex: none;
+  background:
+    linear-gradient(var(--c-emerald), var(--c-emerald)) center / 100% 2px no-repeat,
+    linear-gradient(var(--c-emerald), var(--c-emerald)) center / 2px 100% no-repeat;
+  transition: transform 0.25s var(--ease);
+}
+
+.faq__item[open] .faq__question::after {
+  background: linear-gradient(var(--c-emerald), var(--c-emerald)) center / 100% 2px no-repeat;
+  transform: rotate(180deg);
+}
+
+.faq__answer {
+  max-width: 62ch;
+  padding-bottom: var(--s-5);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+/* ============ Блок «Форма заявки» ============ */
+
+.contact {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: linear-gradient(150deg, var(--c-ink) 0%, var(--c-steel) 100%);
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
+  align-items: center;
+}
+
+.contact__title {
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 2.4vw, 2.25rem);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.contact__lead {
+  max-width: 48ch;
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+.contact__details {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-rule);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+}
+
+.contact__office { color: var(--c-text); font-weight: 600; }
+
+.form-card {
+  padding: var(--s-7);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.form { display: grid; gap: var(--s-4); }
+
+.form__title {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+
+.form__note {
+  margin-top: calc(var(--s-2) * -1);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+}
+
+.field__input {
+  width: 100%;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-s);
+  background: rgba(8, 24, 39, 0.42);
+  color: var(--c-text);
+  font: inherit;
+  transition: border-color 0.18s var(--ease);
+}
+
+.field__input::placeholder { color: var(--c-text-faint); }
+.field__input:hover { border-color: rgba(255, 255, 255, 0.32); }
+
+.field__textarea { resize: vertical; min-height: 88px; }
+
+.field__error {
+  color: #ff9d9d;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+
+.field.is-invalid .field__input,
+.consent.is-invalid .consent__box { border-color: #ff9d9d; }
+
+.consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-2) var(--s-3);
+  align-items: start;
+  cursor: pointer;
+}
+
+.consent__box {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--c-emerald);
+}
+
+.consent__text {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.consent .field__error { grid-column: 2; }
+
+.form__submit { margin-top: var(--s-2); justify-content: center; }
+
+/* селект унаследован из блока квиза, где секция светлая: на тёмной карточке
+   его белый фон давал белый текст на белом — задаём тёмный вариант */
+.form-card .field__select {
+  background-color: rgba(8, 24, 39, 0.42);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 6l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='1.8' stroke-linecap='square'/%3E%3C/svg%3E");
+  color: var(--c-text);
+}
+
+.form-card .field__select:hover { border-color: rgba(255, 255, 255, 0.32); }
+
+.form-done { display: grid; gap: var(--s-3); justify-items: start; }
+
+/* display у блока перебивает атрибут hidden — возвращаем ему силу */
+.form-done[hidden] { display: none; }
+
+.form-done__mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  background: var(--c-emerald-deep);
+  color: var(--c-paper);
+}
+
+.form-done__title {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+
+.form-done__text {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+/* ============ Подвал ============ */
+
+.footer {
+  padding-block: var(--s-8) var(--s-6);
+  background: var(--c-ink-deep);
+  border-top: 1px solid var(--c-rule);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr));
+  gap: var(--s-7) var(--s-6);
+}
+
+.footer__logo { width: auto; height: 30px; }
+
+.footer__about {
+  max-width: 34ch;
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+.footer__col { display: grid; gap: var(--s-3); align-content: start; }
+
+.footer__heading {
+  margin-bottom: var(--s-1);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+.footer__col a {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  transition: color 0.18s var(--ease);
+}
+
+.footer__col a:hover { color: var(--c-text); }
+
+.footer__legal { color: var(--c-text-faint); font-size: var(--fs-small); }
+
+.footer__catalog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-5);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--s-8);
+  padding: var(--s-5) 0;
+  border-block: 1px solid var(--c-rule);
+}
+
+.footer__catalog-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+
+.footer__catalog-note {
+  display: block;
+  margin-top: var(--s-1);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  justify-content: space-between;
+  margin-top: var(--s-5);
+  color: var(--c-text-faint);
+  font-size: var(--fs-small);
+}
+
+@media (max-width: 1100px) {
+  .projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project:last-child { grid-column: 1 / -1; }
+
+  .faq__grid,
+  .contact__grid { grid-template-columns: minmax(0, 1fr); gap: var(--s-7); }
+
+  .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .projects__link { justify-self: start; }
+}
+
+@media (max-width: 760px) {
+  .projects__grid { grid-template-columns: minmax(0, 1fr); }
+  .project:last-child { grid-column: auto; }
+  .footer__grid { grid-template-columns: minmax(0, 1fr); }
+  .form-card { padding: var(--s-5); }
 }
 
 @media (max-width: 1100px) {

@@ -139,6 +139,21 @@
     var link = event.target.closest('[data-stage]');
     if (!link) return;
     event.preventDefault();
+
+    // Якорь на раздел, который уже собран на этой странице, — не подсказка,
+    // а рабочая ссылка. Прокручиваем сами: адреса записаны как "/#contact",
+    // и браузер по ним ушёл бы в корень сайта, а не к блоку.
+    var href = link.getAttribute('href') || '';
+    var id = href.indexOf('#') > -1 ? href.slice(href.indexOf('#') + 1) : '';
+    var target = id && document.getElementById(id);
+
+    if (target && !link.hasAttribute('data-marquiz')) {
+      var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      target.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + id);
+      return;
+    }
+
     showNotice(link.hasAttribute('data-marquiz')
       ? 'Кнопка откроет квиз Marquiz — ждём ссылку от заказчика'
       : 'Раздел появится на следующем этапе сборки');
