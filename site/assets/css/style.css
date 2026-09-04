@@ -1954,34 +1954,42 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 
 /* ============ Блок «Форма заявки» ============ */
 
-.contact {
+/* ============ Фотоподложка секции ============ */
+
+/* Снимок под фирменным градиентом. Градиент держит цвет блока и контраст
+   текста, снимок читается сквозь него. Сам снимок задаёт секция — так приём
+   переиспользуется, а замена фотографии остаётся правкой в одну строку. */
+.photo-bed {
   position: relative;
   isolation: isolate;
-  padding-block: clamp(56px, 7vw, 104px);
   background: var(--c-ink-deep);
 }
 
-/* снимок площадки — фон блока */
-.contact::before {
+.photo-bed::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -2;
-  background-image: image-set(url("../img/hero-bg-dusk.webp") type("image/webp"),
-                              url("../img/hero-bg-dusk.jpg") type("image/jpeg"));
   background-position: center;
   background-size: cover;
 }
 
-/* фирменный градиент поверх снимка: держит контраст текста и цвет блока,
-   снимок остаётся читаемым сквозь него */
-.contact::after {
+.photo-bed::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   background: linear-gradient(150deg, var(--c-ink) 0%, var(--c-steel) 100%);
   opacity: 0.9;
+}
+
+.contact {
+  padding-block: clamp(56px, 7vw, 104px);
+}
+
+.contact::before {
+  background-image: image-set(url("../img/hero-bg-dusk.webp") type("image/webp"),
+                              url("../img/hero-bg-dusk.jpg") type("image/jpeg"));
 }
 
 .contact__grid {

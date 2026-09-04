@@ -33,6 +33,14 @@ VERSIONED = [
     ('catalog.js', 'site/assets/js/catalog.js', 'assets/js/catalog.js'),
 ]
 
+# Картинки версий не имеют — имя файла меняется вместе с содержимым.
+# Сюда добавляем только то, чего ещё нет на сервере: общая выгрузка картинок
+# идёт через deploy.py и трогает страницы коллеги.
+IMAGES = [
+    'catalog-bg.jpg',
+    'catalog-bg.webp',
+]
+
 
 def read_env(path):
     if not os.path.exists(path):
@@ -108,6 +116,10 @@ def main():
     for _, path, remote in VERSIONED:
         if os.path.exists(path):
             uploads.append((path, remote))
+    for name in IMAGES:
+        path = 'site/assets/img/' + name
+        if os.path.exists(path):
+            uploads.append((path, 'assets/img/' + name))
 
     try:
         for local, remote in uploads:

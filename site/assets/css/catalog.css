@@ -6,7 +6,13 @@
 
 .page-head {
   padding-block: var(--s-7) var(--s-8);
-  background: linear-gradient(150deg, var(--c-ink) 0%, var(--c-steel) 100%);
+}
+
+/* снимок смещён вниз: в верхней части кадра пустое небо */
+.page-head::before {
+  background-image: image-set(url("../img/catalog-bg.webp") type("image/webp"),
+                              url("../img/catalog-bg.jpg") type("image/jpeg"));
+  background-position: center 65%;
 }
 
 .crumbs { margin-bottom: var(--s-6); }
