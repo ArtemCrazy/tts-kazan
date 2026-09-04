@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/montserrat-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/fonts/montserrat.css">
-<link rel="stylesheet" href="../assets/css/style.css?v=d18a1318">
+<link rel="stylesheet" href="../assets/css/style.css?v=dfb8d812">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -595,12 +595,6 @@
       <div class="section-head">
         <p class="kicker section-head__kicker">Проекты в Казахстане</p>
         <h2 class="section-head__title">Решения под продукт, площадку и задачу</h2>
-        <a class="link-arrow section-head__lead projects__link" href="#contact">
-          Обсудить похожий проект
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-            <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
-          </svg>
-        </a>
       </div>
 
       <div class="projects__grid">
@@ -620,10 +614,18 @@
           <p class="project__text">Синхронизация бетонного производства и узла приёма, хранения и подачи цемента.</p>
         </article>
       </div>
+
+      <a class="btn btn--solid btn--lg projects__link" href="#contact">
+        Обсудить похожий проект
+        <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+          <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+        </svg>
+      </a>
     </div>
   </section>
 
   <section class="faq on-light" id="faq">
+    <span class="faq__watermark" aria-hidden="true"></span>
     <div class="shell faq__grid">
       <div class="faq__intro">
         <p class="kicker">Частые вопросы</p>
@@ -655,7 +657,7 @@
     <div class="shell contact__grid">
       <div class="contact__copy">
         <p class="kicker">Обсудим проект</p>
-        <h2 class="contact__title">Получите расчёт оборудования под вашу задачу</h2>
+        <h2 class="contact__title">Получите расчёт<br class="br-wide"> оборудования под<br class="br-wide"> вашу задачу</h2>
         <p class="contact__lead">Инженер уточнит продукт, производительность и исходные данные площадки, затем предложит состав оборудования и следующий этап проекта.</p>
 
         <div class="contact__details">
@@ -765,22 +767,23 @@
     </nav>
   </div>
 
-  <div class="shell footer__catalog">
-    <div>
-      <strong class="footer__catalog-title">Весь каталог оборудования</strong>
-      <span class="footer__catalog-note">23 конфигурации в пяти направлениях — с поиском и фильтрами.</span>
+  <div class="shell">
+    <div class="footer__catalog">
+      <div class="footer__catalog-copy">
+        <strong class="footer__catalog-title">Весь каталог оборудования</strong>
+        <span class="footer__catalog-note">23 конфигурации в пяти направлениях — с поиском и фильтрами.</span>
+      </div>
+      <a class="btn btn--ghost footer__catalog-link" href="/catalog/" data-stage>
+        Открыть весь каталог
+        <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+          <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
+        </svg>
+      </a>
     </div>
-    <a class="btn btn--ghost" href="/catalog/" data-stage>
-      Открыть весь каталог
-      <svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
-        <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
-      </svg>
-    </a>
   </div>
 
   <div class="shell footer__bottom">
     <span>© 2026 ТТС Инжиниринг Казахстан</span>
-    <span>Тестовая версия сайта</span>
   </div>
 </footer>
 
@@ -795,6 +798,6 @@
 
 <script src="../assets/js/quiz.js?v=3fc77794" defer></script>
 <script src="../assets/js/app.js?v=0c0275fb" defer></script>
-<script src="../assets/js/form.js?v=792eb0af" defer></script>
+<script src="../assets/js/form.js?v=07485e94" defer></script>
 </body>
 </html>

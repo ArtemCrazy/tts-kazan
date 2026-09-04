@@ -1,0 +1,504 @@
+/* Общий каталог оборудования.
+   Подключается только страницей каталога: токены, кнопки, поля и подвал
+   приходят из style.css, здесь описано только то, чего нет на главной. */
+
+/* ============ Шапка страницы ============ */
+
+.page-head {
+  padding-block: var(--s-7) var(--s-8);
+  background: linear-gradient(150deg, var(--c-ink) 0%, var(--c-steel) 100%);
+}
+
+.crumbs { margin-bottom: var(--s-6); }
+
+.crumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--c-text-faint);
+  font-size: var(--fs-small);
+}
+
+/* разделитель рисуем стилями: в разметке крошек ему делать нечего */
+.crumbs__item + .crumbs__item::before {
+  content: "/";
+  margin-right: var(--s-3);
+  color: var(--c-rule);
+}
+
+.crumbs__link {
+  color: var(--c-text-muted);
+  text-decoration: none;
+  transition: color 0.18s var(--ease);
+}
+
+.crumbs__link:hover { color: var(--c-text); }
+
+.page-head__title {
+  max-width: 20ch;
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1.08;
+}
+
+.page-head__lead {
+  max-width: 62ch;
+  margin-top: var(--s-5);
+  color: var(--c-text-muted);
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+}
+
+/* ============ Фильтры ============ */
+
+.catalog {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: var(--c-arctic);
+}
+
+/* надзаголовок уже стоит в шапке страницы — заголовок и пояснение
+   поднимаются в первый ряд сетки .section-head */
+.catalog__intro .section-head__title { grid-area: 1 / 1 / 2 / 2; }
+.catalog__intro .section-head__lead { grid-area: 1 / 2 / 2 / 3; }
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+.tab {
+  padding: var(--s-3) var(--s-5);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-pill);
+  background: var(--c-paper);
+  color: var(--c-text);
+  font: 600 var(--fs-small) / 1.2 var(--font-base);
+  cursor: pointer;
+  transition: border-color 0.18s var(--ease), background 0.18s var(--ease), color 0.18s var(--ease);
+}
+
+.tab:hover { border-color: var(--c-rule-strong); }
+
+.tab[aria-pressed="true"] {
+  border-color: var(--c-ink);
+  background: var(--c-ink);
+  color: var(--c-paper);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--s-4);
+  margin-top: var(--s-5);
+}
+
+.filters .field__input { min-height: 52px; }
+
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: var(--s-6);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--c-rule);
+}
+
+.results__count {
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+.results__reset {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-text);
+  font: 600 var(--fs-small) / 1.2 var(--font-base);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.results__reset:hover { color: var(--c-emerald-ink); }
+
+/* ============ Карточка позиции ============ */
+
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-5);
+  margin-top: var(--s-6);
+}
+
+.catalog__grid[hidden] { display: none; }
+
+.product {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
+  background: var(--c-paper);
+  transition: border-color 0.25s var(--ease);
+}
+
+.product:hover { border-color: var(--c-rule-strong); }
+
+/* Кадр позиции. Пока это фирменная подложка со знаком и снимком направления —
+   фотобанк оборудования заказчик ещё не передал. Снимок задаётся одним
+   правилом на направление, поэтому подмена на реальные фото правится в
+   одном месте и не трогает разметку. */
+.product__media {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+  aspect-ratio: 4 / 3;
+  padding: var(--s-4);
+  border: 0;
+  border-bottom: 1px solid var(--c-rule);
+  background: linear-gradient(165deg, var(--c-paper) 0%, var(--c-arctic) 100%);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.product__media::after,
+.modal__media::after {
+  content: "";
+  position: absolute;
+  inset: 20%;
+  opacity: 0.07;
+  background: var(--c-ink);
+  -webkit-mask: url("../img/tts-mark-light.png") center / contain no-repeat;
+  mask: url("../img/tts-mark-light.png") center / contain no-repeat;
+}
+
+.product__media::before {
+  content: "";
+  position: absolute;
+  inset: var(--s-6) var(--s-4) var(--s-4);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.product__media[data-cat="beton"]::before { background-image: url("../img/beton-plant.webp"); }
+.product__media[data-cat="vpi"]::before { background-image: url("../img/vpi-press.webp"); }
+.product__media[data-cat="terminal"]::before { background-image: url("../img/equipment-silos.webp"); }
+.product__media[data-cat="pkn"]::before { background-image: url("../img/pkn-pump.webp"); }
+
+.product__status,
+.product__code {
+  position: relative;
+  z-index: 1;
+}
+
+.product__status {
+  padding: var(--s-1) var(--s-3);
+  border-radius: var(--r-pill);
+  background: var(--c-ink);
+  color: var(--c-paper);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.product__code {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: var(--track-tight);
+  color: var(--c-text);
+}
+
+.product__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--s-5);
+}
+
+.product__category {
+  color: var(--c-emerald-ink);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.product__title {
+  margin-top: var(--s-3);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+  line-height: 1.2;
+}
+
+.product__text {
+  margin-bottom: var(--s-5);
+  margin-top: var(--s-3);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+.product__capacity {
+  display: grid;
+  gap: var(--s-1);
+  margin-top: auto;
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--c-rule);
+}
+
+.product__capacity span {
+  color: var(--c-text-faint);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.product__capacity strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: var(--track-tight);
+}
+
+/* кнопки прижаты к низу: карточки в ряду разной высоты из-за длины описания */
+.product__actions {
+  display: grid;
+  gap: var(--s-3);
+  padding-top: var(--s-5);
+}
+
+.product__quote { justify-content: center; }
+
+.product__details {
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-s);
+  background: none;
+  color: var(--c-text);
+  font: 600 var(--fs-small) / 1.2 var(--font-base);
+  cursor: pointer;
+  transition: border-color 0.18s var(--ease);
+}
+
+.product__details:hover { border-color: var(--c-rule-strong); }
+
+/* ============ Ничего не найдено ============ */
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+  padding: var(--s-8) var(--s-5);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
+  background: var(--c-paper);
+  text-align: center;
+}
+
+.empty[hidden] { display: none; }
+
+.empty__title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: var(--track-tight);
+}
+
+.empty__text {
+  max-width: 52ch;
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+/* ============ Модальное описание ============ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: var(--s-5);
+  background: rgba(8, 24, 39, 0.72);
+  overflow-y: auto;
+}
+
+.modal[hidden] { display: none; }
+
+.modal__dialog {
+  position: relative;
+  width: min(100%, 720px);
+  max-height: calc(100vh - var(--s-8));
+  overflow-y: auto;
+  border-radius: var(--r-m);
+  background: var(--c-paper);
+  color: var(--c-ink);
+
+  --c-text: var(--c-ink);
+  --c-text-muted: rgba(12, 34, 51, 0.72);
+  --c-text-faint: rgba(12, 34, 51, 0.68);
+  --c-rule: rgba(12, 34, 51, 0.16);
+  --c-rule-strong: rgba(12, 34, 51, 0.34);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--s-4);
+  right: var(--s-4);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-pill);
+  background: var(--c-paper);
+  color: var(--c-ink);
+  cursor: pointer;
+  transition: border-color 0.18s var(--ease);
+}
+
+.modal__close:hover { border-color: var(--c-rule-strong); }
+
+.modal__media {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-6);
+  aspect-ratio: 16 / 9;
+  padding: var(--s-5) 76px var(--s-5) var(--s-5);
+  border-bottom: 1px solid var(--c-rule);
+  background: linear-gradient(165deg, var(--c-paper) 0%, var(--c-arctic) 100%);
+  overflow: hidden;
+}
+
+.modal__media::before {
+  content: "";
+  position: absolute;
+  inset: var(--s-7) var(--s-5) var(--s-4);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.modal__media[data-cat="beton"]::before { background-image: url("../img/beton-plant.webp"); }
+.modal__media[data-cat="vpi"]::before { background-image: url("../img/vpi-press.webp"); }
+.modal__media[data-cat="terminal"]::before { background-image: url("../img/equipment-silos.webp"); }
+.modal__media[data-cat="pkn"]::before { background-image: url("../img/pkn-pump.webp"); }
+
+.modal__body { padding: var(--s-6); }
+
+.modal__title {
+  margin-top: var(--s-3);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1.12;
+}
+
+.modal__text {
+  max-width: 62ch;
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+.modal__subtitle {
+  margin-top: var(--s-6);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+.modal__features {
+  display: grid;
+  gap: var(--s-3);
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.modal__feature {
+  position: relative;
+  padding-left: var(--s-5);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+/* фирменный шестигранник вместо маркера списка */
+.modal__feature::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 10px;
+  height: 11px;
+  background: var(--c-emerald);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+.modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4) var(--s-6);
+  align-items: center;
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-rule);
+}
+
+.modal__actions .link-arrow { color: var(--c-ink); }
+
+body.is-locked { overflow: hidden; }
+
+/* ============ Адаптив ============ */
+
+@media (max-width: 1100px) {
+  .catalog__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .catalog__intro .section-head__title,
+  .catalog__intro .section-head__lead { grid-area: auto; }
+}
+
+@media (max-width: 760px) {
+  .catalog__grid { grid-template-columns: minmax(0, 1fr); }
+  .filters { grid-template-columns: minmax(0, 1fr); }
+  .page-head { padding-block: var(--s-6) var(--s-7); }
+  .modal { padding: 0; }
+
+  .modal__dialog {
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .modal__media { aspect-ratio: 4 / 3; }
+  .modal__body { padding: var(--s-5); }
+}

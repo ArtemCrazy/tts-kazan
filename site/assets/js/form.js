@@ -48,6 +48,21 @@
     return form.elements[n];
   }).filter(Boolean);
 
+  function track(event, payload) {
+    window.dataLayer = window.dataLayer || [];
+    var data = { event: event, page_url: location.href, page_title: document.title };
+    for (var key in payload) data[key] = payload[key];
+    window.dataLayer.push(data);
+  }
+
+  // form_start по п.13 ТЗ — один раз за визит, на первом осмысленном вводе
+  var started = false;
+  form.addEventListener('input', function () {
+    if (started) return;
+    started = true;
+    track('form_start', { form_id: form.id });
+  });
+
   checked.forEach(function (control) {
     control.addEventListener('blur', function () { validate(control); });
     control.addEventListener('input', function () {
@@ -75,12 +90,11 @@
       return;
     }
 
-    if (window.dataLayer) {
-      window.dataLayer.push({
-        event: 'form_submit_success',
-        direction: form.elements.direction ? form.elements.direction.value : ''
-      });
-    }
+    track('form_submit_success', {
+      form_id: form.id,
+      direction: form.elements.direction ? form.elements.direction.value : '',
+      model: form.elements.model ? form.elements.model.value : ''
+    });
 
     form.hidden = true;
     done.hidden = false;
@@ -93,6 +107,7 @@
       checked.forEach(function (control) { showError(control, ''); });
       done.hidden = true;
       form.hidden = false;
+      started = false;
       form.elements.name.focus();
     });
   }

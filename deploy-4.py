@@ -16,15 +16,21 @@ import sys
 import paramiko
 
 CREDS = os.path.expandvars(r'%LOCALAPPDATA%\CrazyAssistant\creds\card-199.env')
-PAGE = 'site/4/index.html'
-CSS = 'site/assets/css/style.css'
+# страницы концепции 4: локальный файл -> путь на сервере
+PAGES = [
+    ('site/4/index.html', '4/index.html'),
+    ('site/4/catalog/index.html', '4/catalog/index.html'),
+]
 
-# файлы, чью метку версии в ссылке нужно держать в актуальном состоянии
+# общие файлы, чью метку версии в ссылках нужно держать в актуальном состоянии.
+# Страница подключает не все — берётся то, что в ней реально есть.
 VERSIONED = [
-    ('style.css', CSS),
-    ('app.js', 'site/assets/js/app.js'),
-    ('quiz.js', 'site/assets/js/quiz.js'),
-    ('form.js', 'site/assets/js/form.js'),
+    ('style.css', 'site/assets/css/style.css', 'assets/css/style.css'),
+    ('catalog.css', 'site/assets/css/catalog.css', 'assets/css/catalog.css'),
+    ('app.js', 'site/assets/js/app.js', 'assets/js/app.js'),
+    ('quiz.js', 'site/assets/js/quiz.js', 'assets/js/quiz.js'),
+    ('form.js', 'site/assets/js/form.js', 'assets/js/form.js'),
+    ('catalog.js', 'site/assets/js/catalog.js', 'assets/js/catalog.js'),
 ]
 
 
@@ -42,17 +48,19 @@ def read_env(path):
     return env
 
 
-def refresh_cache_token():
+def refresh_cache_token(page):
     """Метка версии = хеш содержимого файла: меняется сама, когда меняется файл.
 
     Без этого браузер отдаёт посетителю старую копию из кэша, и правки
     «не появляются» — уже наступали на это и со стилями, и со скриптами.
     """
-    html = open(PAGE, encoding='utf-8').read()
+    html = open(page, encoding='utf-8').read()
     changed = []
 
-    for name, path in VERSIONED:
+    for name, path, _ in VERSIONED:
         if not os.path.exists(path):
+            continue
+        if name not in html:
             continue
         token = hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
         pattern = re.escape(name) + r'\?v=([a-z0-9]+)'
@@ -68,11 +76,9 @@ def refresh_cache_token():
         changed.append(f'{name}: {current.group(1)} -> {token}')
 
     if changed:
-        open(PAGE, 'w', encoding='utf-8').write(html)
+        open(page, 'w', encoding='utf-8').write(html)
         for line in changed:
-            print('  версия ' + line)
-    else:
-        print('метки версий актуальны')
+            print(f'  {page}: версия {line}')
 
 
 def ensure_dir(sftp, path):
@@ -87,7 +93,8 @@ def ensure_dir(sftp, path):
 
 
 def main():
-    refresh_cache_token()
+    for page, _ in PAGES:
+        refresh_cache_token(page)
 
     env = read_env(CREDS)
     root = env['SFTP_DIR'].rstrip('/')
@@ -97,10 +104,10 @@ def main():
     transport.connect(username=env['SFTP_USER'], password=env['SFTP_PASSWORD'])
     sftp = paramiko.SFTPClient.from_transport(transport)
 
-    uploads = [(PAGE, '4/index.html'), (CSS, 'assets/css/style.css')]
-    for name, path in VERSIONED:
-        if name.endswith('.js') and os.path.exists(path):
-            uploads.append((path, 'assets/js/' + name))
+    uploads = list(PAGES)
+    for _, path, remote in VERSIONED:
+        if os.path.exists(path):
+            uploads.append((path, remote))
 
     try:
         for local, remote in uploads:
