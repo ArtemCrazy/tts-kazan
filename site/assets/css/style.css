@@ -866,9 +866,9 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   color: var(--c-text);
 }
 
-/* светлый зелёный на белом даёт контраст 2.87 при норме WCAG AA 4.5 —
-   на светлых секциях берём тёмный оттенок палитры, он даёт 5.01 */
-.on-light .link-arrow { color: var(--c-emerald-ink); }
+/* на светлых секциях ссылки идут фирменным тёмным: зелёный тут и по
+   контрасту слабее нормы, и спорит с зелёными кнопками рядом */
+.on-light .link-arrow { color: var(--c-ink); }
 
 .on-dark {
   --c-text: var(--c-paper);
@@ -1443,7 +1443,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 
 .about {
   padding-block: clamp(56px, 7vw, 104px);
-  background: linear-gradient(180deg, var(--c-paper) 0%, var(--c-arctic) 100%);
+  background: var(--c-paper);
 }
 
 .about__grid {
@@ -1470,7 +1470,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   line-height: 1.62;
 }
 
-.about__link { margin-top: var(--s-6); }
+.about__link { align-self: start; margin-top: var(--s-6); }
 
 /* решётка из четырёх плиток: линии рисуются зазором, сквозь который
    виден фон секции — так не приходится городить лишние границы */
@@ -1583,7 +1583,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 .service-card__tag {
-  color: var(--c-emerald-ink);
+  color: var(--c-ink);
   font-size: var(--fs-micro);
   font-weight: 600;
   letter-spacing: 0.11em;
