@@ -866,6 +866,10 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   color: var(--c-text);
 }
 
+/* светлый зелёный на белом даёт контраст 2.87 при норме WCAG AA 4.5 —
+   на светлых секциях берём тёмный оттенок палитры, он даёт 5.01 */
+.on-light .link-arrow { color: var(--c-emerald-ink); }
+
 .on-dark {
   --c-text: var(--c-paper);
   --c-text-muted: rgba(255, 255, 255, 0.72);
@@ -1161,7 +1165,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 
 /* Заголовок и описание стоят в одной строке сетки и выравниваются
    по базовой линии — иначе описание висит выше заголовка. */
-.categories__head {
+.section-head {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: baseline;
@@ -1170,9 +1174,9 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   margin-bottom: var(--s-7);
 }
 
-.categories__kicker { grid-area: 1 / 1 / 2 / 2; }
+.section-head__kicker { grid-area: 1 / 1 / 2 / 2; }
 
-.categories__title {
+.section-head__title {
   grid-area: 2 / 1 / 3 / 2;
   font-family: var(--font-display);
   font-size: clamp(1.625rem, 2.4vw, 2.25rem);
@@ -1182,7 +1186,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   text-wrap: balance;
 }
 
-.categories__lead {
+.section-head__lead {
   grid-area: 2 / 2 / 3 / 3;
   max-width: 46ch;
   color: var(--c-text-muted);
@@ -1190,11 +1194,11 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 @media (max-width: 760px) {
-  .categories__head { grid-template-columns: minmax(0, 1fr); }
+  .section-head { grid-template-columns: minmax(0, 1fr); }
 
-  .categories__kicker,
-  .categories__title,
-  .categories__lead { grid-area: auto; }
+  .section-head__kicker,
+  .section-head__title,
+  .section-head__lead { grid-area: auto; }
 }
 
 .categories__grid {
@@ -1433,6 +1437,303 @@ button { font: inherit; color: inherit; background: none; border: 0; }
     white-space: normal;
     text-align: center;
   }
+}
+
+/* ============ Блок «О компании» ============ */
+
+.about {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: linear-gradient(180deg, var(--c-paper) 0%, var(--c-arctic) 100%);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
+  align-items: center;
+}
+
+.about__title {
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 2.4vw, 2.25rem);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.about__text {
+  max-width: 52ch;
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+.about__link { margin-top: var(--s-6); }
+
+/* решётка из четырёх плиток: линии рисуются зазором, сквозь который
+   виден фон секции — так не приходится городить лишние границы */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--c-rule);
+  background: var(--c-rule);
+}
+
+.stats__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-height: 168px;
+  padding: var(--s-5);
+  background: var(--c-paper);
+}
+
+.stats__value {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1;
+}
+
+.stats__value--text {
+  font-size: 1.375rem;
+  line-height: 1.2;
+}
+
+.stats__label {
+  margin-top: auto;
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+/* ============ Блок «Сервис и комплектующие» ============ */
+
+.service {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: var(--c-arctic);
+}
+
+.trust {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-5) var(--s-6);
+  margin-bottom: var(--s-7);
+  padding-block: var(--s-5);
+  border-block: 1px solid var(--c-rule);
+}
+
+.trust__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.trust__value {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+
+.trust__label {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.service__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-5);
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-6);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
+  background: var(--c-paper);
+}
+
+.service-card__top {
+  display: flex;
+  gap: var(--s-4);
+  align-items: center;
+  margin-bottom: var(--s-5);
+}
+
+.service-card__index {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--r-pill);
+  background: var(--c-ink);
+  color: var(--c-paper);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.service-card__tag {
+  color: var(--c-emerald-ink);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.service-card__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+  line-height: 1.2;
+}
+
+.service-card__text {
+  margin-top: var(--s-3);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+.service-card__points {
+  flex-grow: 1;
+  margin-top: var(--s-5);
+  border-top: 1px solid var(--c-rule);
+}
+
+.service-card__points li {
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--c-rule);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.service-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  align-items: center;
+  margin-top: var(--s-5);
+}
+
+/* ============ Блок «Пневмокамерные насосы» ============ */
+
+.pkn {
+  padding-block: clamp(56px, 7vw, 104px);
+  background: var(--c-arctic);
+}
+
+/* серая секция вплотную к серой — без линии стык не читается */
+.service + .pkn { border-top: 1px solid var(--c-rule); }
+
+.pkn__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
+  align-items: center;
+}
+
+.pkn__panel {
+  display: grid;
+  place-items: center;
+  padding: var(--s-5);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-m);
+  background: var(--c-paper);
+}
+
+.pkn__shot {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+}
+
+.pkn__caption {
+  margin-top: var(--s-4);
+  color: var(--c-text-faint);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pkn__title {
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 2.4vw, 2.25rem);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1.12;
+}
+
+.pkn__lead {
+  max-width: 48ch;
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+  margin-block: var(--s-6);
+  padding-block: var(--s-5);
+  border-block: 1px solid var(--c-rule);
+}
+
+.specs__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 1;
+}
+
+.specs__label {
+  display: block;
+  margin-top: var(--s-2);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+
+.pkn__note {
+  max-width: 48ch;
+  margin-bottom: var(--s-6);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .about__grid,
+  .pkn__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-7);
+  }
+
+  .service__grid { grid-template-columns: minmax(0, 1fr); }
+
+  .pkn__stage { order: -1; }
+}
+
+@media (max-width: 760px) {
+  .trust { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .specs { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
 }
 
 @media (max-width: 1100px) {
