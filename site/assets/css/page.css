@@ -122,7 +122,11 @@
 }
 
 .cards--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.cards--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-8);
+}
 
 .card {
   display: flex;
@@ -198,11 +202,14 @@
 .models {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-5);
+  gap: var(--s-8);
   margin-top: var(--s-6);
 }
 
-.models--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.models--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-5);
+}
 
 .model {
   display: flex;
@@ -288,7 +295,7 @@
   text-transform: uppercase;
 }
 
-.model__link { margin-top: var(--s-5); }
+.model__link { justify-content: center; margin-top: var(--s-5); }
 
 /* ============ Этапы ============ */
 
@@ -519,6 +526,10 @@
   .cards,
   .cards--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .models--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .models,
+  .models--3,
+  .cards--2 { gap: var(--s-5); }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .split { grid-template-columns: minmax(0, 1fr); gap: var(--s-7); }
   .band { grid-template-columns: minmax(0, 1fr); }
