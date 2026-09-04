@@ -28,6 +28,11 @@
 
   --track-tight: -0.02em;
 
+  /* Вес заголовков секций. На узких экранах опускается (см. медиазапрос):
+     900 при мелком кегле выглядит заметно плотнее, чем при крупном,
+     и заголовок секции начинает спорить с h1 первого экрана. */
+  --fw-display: 900;
+
   --s-1: 4px;
   --s-2: 8px;
   --s-3: 12px;
@@ -895,7 +900,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   margin-top: var(--s-4);
   font-family: var(--font-display);
   font-size: clamp(1.625rem, 2.4vw, 2.25rem);
-  font-weight: 900;
+  font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
   line-height: 1.12;
   text-wrap: balance;
@@ -1169,7 +1174,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   margin-top: var(--s-4);
   font-family: var(--font-display);
   font-size: clamp(1.625rem, 2.4vw, 2.25rem);
-  font-weight: 900;
+  font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
   line-height: 1.12;
   text-wrap: balance;
@@ -1350,7 +1355,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   margin-top: var(--s-4);
   font-family: var(--font-display);
   font-size: clamp(1.625rem, 2.4vw, 2.25rem);
-  font-weight: 900;
+  font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
   line-height: 1.12;
   text-wrap: balance;
@@ -1528,6 +1533,10 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 @media (max-width: 560px) {
+  /* при мелком кегле Black выглядит плотнее, чем при крупном, — опускаем
+     до веса h1 первого экрана, чтобы заголовки читались одинаково */
+  :root { --fw-display: 800; }
+
   .hero { padding-block: var(--s-6) 0; }
   .hero__actions { gap: var(--s-3); }
   .hero__actions .btn { flex: 1 1 100%; }
