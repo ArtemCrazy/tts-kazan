@@ -16,12 +16,22 @@ import sys
 import paramiko
 
 CREDS = os.path.expandvars(r'%LOCALAPPDATA%\CrazyAssistant\creds\card-199.env')
-# страницы концепции 4: локальный файл -> путь на сервере
-PAGES = [
-    ('site/4/index.html', '4/index.html'),
-    ('site/4/catalog/index.html', '4/catalog/index.html'),
-    ('site/4/catalog/smartbeton/index.html', '4/catalog/smartbeton/index.html'),
-]
+def find_pages():
+    """Все страницы концепции 4: локальный файл -> путь на сервере.
+
+    Список не держим руками — страницы генерируются tools/build-pages.py,
+    и любая забытая строчка означала бы, что на сервер уехало не всё.
+    """
+    pages = []
+    for dirpath, _dirs, files in os.walk('site/4'):
+        if 'index.html' not in files:
+            continue
+        local = posixpath.join(dirpath.replace(os.sep, '/'), 'index.html')
+        pages.append((local, local[len('site/'):]))
+    return sorted(pages)
+
+
+PAGES = find_pages()
 
 # общие файлы, чью метку версии в ссылках нужно держать в актуальном состоянии.
 # Страница подключает не все — берётся то, что в ней реально есть.

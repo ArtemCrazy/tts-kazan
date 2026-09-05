@@ -1228,6 +1228,8 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 @media (max-width: 760px) {
+  .form-card { --error-lines: calc(2 * 1.4 * var(--fs-small)); }
+
   .section-head { grid-template-columns: minmax(0, 1fr); }
 
   .section-head__kicker,
@@ -2042,6 +2044,7 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 .contact__office { color: var(--c-text); font-weight: 600; }
 
 .form-card {
+  display: grid;
   padding: var(--s-7);
   border: 1px solid var(--c-rule);
   border-radius: var(--r-m);
@@ -2081,6 +2084,8 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 .field__textarea { resize: vertical; min-height: 88px; }
 
 .field__error {
+  display: block;
+  min-height: var(--error-lines, calc(1.4 * var(--fs-small)));
   color: var(--c-danger);
   font-size: var(--fs-small);
   line-height: 1.4;
@@ -2124,10 +2129,20 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 
 .form-card .field__select:hover { border-color: rgba(255, 255, 255, 0.32); }
 
-.form-done { display: grid; gap: var(--s-3); justify-items: start; }
+.form-done { display: grid; gap: var(--s-3); justify-items: start; align-content: start; }
 
-/* display у блока перебивает атрибут hidden — возвращаем ему силу */
-.form-done[hidden] { display: none; }
+/* скрытая половина остаётся в потоке, но не видна и не читается озвучкой:
+   иначе карточка меняет высоту, и фон секции пересчитывается */
+.form-card > .form,
+.form-card > .form-done { grid-area: 1 / 1; }
+
+.form-card > [hidden] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.form-card > .form[hidden] { display: grid; }
+.form-card > .form-done[hidden] { display: grid; }
 
 .form-done__mark {
   display: grid;

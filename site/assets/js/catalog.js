@@ -4,11 +4,11 @@
 // фильтров не меняются, поэтому данные описаны здесь один раз и никуда не дублируются.
 (function () {
   var DIRECTION_PAGE = {
-    zsss: { href: 'smartdrymix/', built: false },
+    zsss: { href: 'smartdrymix/', built: true },
     beton: { href: 'smartbeton/', built: true },
-    vpi: { href: 'vpi/', built: false },
-    terminal: { href: 'smartstock/', built: false },
-    pkn: { href: 'pkn/', built: false }
+    vpi: { href: 'vpi/', built: true },
+    terminal: { href: 'smartstock/', built: true },
+    pkn: { href: 'pkn/', built: true }
   };
 
   var CATEGORY_LABEL = {

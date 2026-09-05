@@ -12,7 +12,7 @@
   var CATALOG_SLUG = { zsss: 'smartdrymix/', beton: 'smartbeton/', terminal: 'smartstock/' };
 
   // какие страницы направлений уже собраны — у остальных ссылка остаётся заглушкой
-  var BUILT = { beton: true };
+  var BUILT = { zsss: true, beton: true, terminal: true };
 
   var CATALOG_ROOT = document.documentElement.dataset.catalogRoot || '';
 

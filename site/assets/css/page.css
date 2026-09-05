@@ -6,7 +6,10 @@
 
 /* ============ Шапка внутренней страницы ============ */
 
-.page-head { padding-block: var(--s-7) var(--s-8); }
+.page-head {
+  padding-block: var(--s-7) var(--s-8);
+  background: linear-gradient(150deg, var(--c-ink) 0%, var(--c-steel) 100%);
+}
 
 .crumbs { margin-bottom: var(--s-6); }
 
@@ -518,6 +521,10 @@
   font-size: var(--fs-small);
   line-height: 1.6;
 }
+
+/* секция состоит из одной полосы перелинковки — полное вертикальное
+   поле секции оставляет вокруг неё слишком много пустоты */
+.page-section:has(> .shell > .band) { padding-block: var(--s-8); }
 
 /* ============ Адаптив ============ */
 
