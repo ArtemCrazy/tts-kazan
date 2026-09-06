@@ -49,6 +49,12 @@ VERSIONED = [
 # Картинки версий не имеют — имя файла меняется вместе с содержимым.
 # Сюда добавляем только то, чего ещё нет на сервере: общая выгрузка картинок
 # идёт через deploy.py и трогает страницы коллеги.
+# шрифты: фирменный Actay появился вместе с брендбуком
+FONTS = [
+    'actay-wide.woff2',
+    'actay.css',
+]
+
 IMAGES = [
     'catalog-bg.jpg',
     'catalog-bg.webp',
@@ -141,6 +147,10 @@ def main():
         path = 'site/assets/img/' + name
         if os.path.exists(path):
             uploads.append((path, 'assets/img/' + name))
+    for name in FONTS:
+        path = 'site/assets/fonts/' + name
+        if os.path.exists(path):
+            uploads.append((path, 'assets/fonts/' + name))
 
     try:
         for local, remote in uploads:

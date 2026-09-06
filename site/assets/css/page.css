@@ -47,6 +47,7 @@
   font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
   line-height: 1.08;
+  overflow-wrap: break-word;
 }
 
 .page-head__lead {
@@ -154,7 +155,7 @@
   color: var(--c-paper);
   font-family: var(--font-display);
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: var(--fw-display);
 }
 
 .card__tag {
@@ -282,7 +283,7 @@
   display: block;
   font-family: var(--font-display);
   font-size: 1.25rem;
-  font-weight: 800;
+  font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
 }
 
@@ -318,7 +319,7 @@
 .step__index {
   font-family: var(--font-display);
   font-size: var(--fs-micro);
-  font-weight: 800;
+  font-weight: var(--fw-display);
   letter-spacing: 0.11em;
   color: var(--c-emerald-ink);
 }

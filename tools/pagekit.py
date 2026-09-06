@@ -95,7 +95,9 @@ def head(ctx, title, description, extra_css=()):
 <link rel="icon" href="{ctx.asset('img/favicon.png')}" type="image/png">
 <link rel="apple-touch-icon" href="{ctx.asset('img/apple-touch-icon.png')}">
 <link rel="preload" href="{ctx.asset('fonts/montserrat-cyrillic.woff2')}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{ctx.asset('fonts/actay-wide.woff2')}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{ctx.asset('fonts/montserrat.css')}">
+<link rel="stylesheet" href="{ctx.asset('fonts/actay.css')}">
 {css}
 <script>document.documentElement.classList.add('js');</script>
 </head>

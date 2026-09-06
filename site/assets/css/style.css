@@ -21,7 +21,7 @@
   --c-danger: #ff9d9d;
 
   --font-base: "Montserrat", "Segoe UI", Arial, sans-serif;
-  --font-display: "Actay Wide", "Actay", "Montserrat", "Segoe UI", Arial, sans-serif;
+  --font-display: "Actay Wide", "Montserrat", "Segoe UI", Arial, sans-serif;
 
   --fs-micro: 0.688rem;
   --fs-small: 0.875rem;
@@ -31,10 +31,10 @@
 
   --track-tight: -0.02em;
 
-  /* Вес заголовков — один на всех ширинах: и у h1, и у заголовков секций.
-     Раньше на узких экранах он опускался до 800, из-за чего шрифт
-     на телефоне выглядел иначе, чем на десктопе. */
-  --fw-display: 900;
+  /* Вес заголовков. У Actay Wide единственное начертание — Bold, вес 700.
+     Просить больше нельзя: браузер начнёт подделывать жирность.
+     Один вес на всех ширинах — мобильная версия не должна отличаться. */
+  --fw-display: 700;
 
   --s-1: 4px;
   --s-2: 8px;
@@ -477,6 +477,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
   line-height: 1.08;
+  overflow-wrap: break-word;
   text-wrap: balance;
 }
 
@@ -1014,7 +1015,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   margin-top: var(--s-2);
   font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
 }
 
@@ -1105,7 +1106,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 .model__code {
   font-family: var(--font-display);
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: var(--fw-display);
   letter-spacing: var(--track-tight);
   line-height: 1;
 }
@@ -2053,8 +2054,14 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
   backdrop-filter: blur(10px);
 }
 
-/* зазор рассчитан так, чтобы сообщение об ошибке помещалось в него целиком */
-.form { display: grid; gap: var(--s-5); }
+/* зазор рассчитан так, чтобы сообщение об ошибке помещалось в него целиком.
+   minmax(0, 1fr): без него колонка растягивается под самую длинную строку
+   и заголовок формы вылезает за край карточки на узком экране. */
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+}
 
 .form__title {
   font-family: var(--font-display);
@@ -2145,6 +2152,8 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 
 /* скрытая половина остаётся в потоке, но не видна и не читается озвучкой:
    иначе карточка меняет высоту, и фон секции пересчитывается */
+.form-card { grid-template-columns: minmax(0, 1fr); }
+
 .form-card > .form,
 .form-card > .form-done { grid-area: 1 / 1; }
 

@@ -1,0 +1,11 @@
+/* Actay Wide — фирменный шрифт заголовков из брендбука ТТС.
+   В семействе есть только одно начертание — Bold (вес 700), поэтому
+   объявляем его именно как 700: если запросить 800 или 900, браузер
+   начнёт подделывать жирность и буквы поплывут. */
+@font-face {
+  font-family: 'Actay Wide';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fonts/actay-wide.woff2) format('woff2');
+}
