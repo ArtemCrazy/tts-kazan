@@ -192,10 +192,10 @@ def smartbeton():
         'Бетонные заводы SmartBeton 60, 90, 120 и 135 производительностью до 100 м³/ч: товарный '
         'бетон, ЖБИ и дорожное строительство, собственная АСУ SmartMix, полный цикл от чертежей '
         'до запуска.',
-        ('smartbeton.css',), DIRECTION_SCRIPTS, 'Собственная АСУ SmartMix и техподдержка 24/7', 'models',
+        (), DIRECTION_SCRIPTS, 'Собственная АСУ SmartMix и техподдержка 24/7', 'models',
         [
             lambda c: k.page_head(c, {
-                'crumb': 'Бетонные заводы', 'under_catalog': True, 'photo': True,
+                'crumb': 'Бетонные заводы', 'under_catalog': True, 'photo': 'smartbeton',
                 'kicker': 'Бетонные заводы для Казахстана',
                 'title': 'Бетонные заводы SmartBeton',
                 'lead': 'Проектируем и производим заводы под ваш продукт, площадку и логистику — '
@@ -373,7 +373,7 @@ def vpi():
         (), DIRECTION_SCRIPTS, 'QUNFENG + ТТС · готовые линии ВПИ', 'models',
         [
             lambda c: k.page_head(c, {
-                'crumb': 'Заводы ВПИ', 'under_catalog': True,
+                'crumb': 'Заводы ВПИ', 'under_catalog': True, 'photo': 'vpi',
                 'kicker': 'QUNFENG + ТТС · готовые линии ВПИ',
                 'title': 'Готовая линия ВПИ под ключ',
                 'lead': 'Вибропрессование от рецептуры до готовой продукции. ТТС отвечает за бетонный '
@@ -527,7 +527,7 @@ def smartstock():
         (), DIRECTION_SCRIPTS, 'Приёмка · хранение · отгрузка', 'models',
         [
             lambda c: k.page_head(c, {
-                'crumb': 'Цементные терминалы', 'under_catalog': True,
+                'crumb': 'Цементные терминалы', 'under_catalog': True, 'photo': 'smartstock',
                 'kicker': 'Комплексы под ключ для Казахстана',
                 'title': 'Цементные терминалы SmartStock',
                 'lead': 'Индивидуально спроектированные и полностью автоматизированные комплексы, '
@@ -673,7 +673,7 @@ def pkn():
         (), DIRECTION_SCRIPTS, 'Вертикальное исполнение · шкаф управления в комплекте', 'models',
         [
             lambda c: k.page_head(c, {
-                'crumb': 'Пневмокамерные насосы', 'under_catalog': True,
+                'crumb': 'Пневмокамерные насосы', 'under_catalog': True, 'photo': 'pkn',
                 'kicker': 'Пневмотранспорт сыпучих материалов',
                 'title': 'Пневмокамерные насосы',
                 'lead': 'Перемещают цемент и другие сыпучие и порошкообразные материалы сжатым '
@@ -1132,15 +1132,15 @@ def personal_data():
 def cookie():
     return build(
         'cookie', 1, 'cookie/index.html',
-        'Файлы cookie — ТТС Инжиниринг Казахстан',
+        'Политика использования файлов cookie — ТТС Инжиниринг Казахстан',
         'Какие файлы cookie использует сайт ТТС Инжиниринг Казахстан и как отказаться '
         'от необязательных.',
         (), ('app.js',), 'Документы', 'doc', cta_home=True,
         blocks=[
             lambda c: k.page_head(c, {
-                'crumb': 'Файлы cookie',
+                'crumb': 'Политика использования файлов cookie',
                 'kicker': 'Документы',
-                'title': 'Файлы cookie',
+                'title': 'Политика использования файлов cookie',
                 'lead': 'Какие файлы cookie ставит сайт, зачем они нужны и как отказаться '
                         'от необязательных.',
             }),

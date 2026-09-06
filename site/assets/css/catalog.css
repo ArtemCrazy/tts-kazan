@@ -3,13 +3,6 @@
    здесь описано лишь то, чего нет на других внутренних страницах —
    табы, фильтры, карточка позиции и модальное описание. */
 
-/* снимок шапки — свой у каждой страницы, сама шапка живёт в page.css */
-.page-head::before {
-  background-image: image-set(url("../img/catalog-bg.webp") type("image/webp"),
-                              url("../img/catalog-bg.jpg") type("image/jpeg"));
-  background-position: center 65%;
-}
-
 /* ============ Фильтры ============ */
 
 .catalog {

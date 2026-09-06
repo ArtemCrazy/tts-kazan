@@ -221,8 +221,8 @@ def chrome_bottom(ctx, scripts):
     <nav class="footer__col" aria-label="Документы">
       <h3 class="footer__heading">Документы</h3>
       <a {ctx.link('privacy')}>Политика конфиденциальности</a>
-      <a {ctx.link('personal')}>Обработка данных</a>
-      <a {ctx.link('cookie')}>Файлы cookie</a>
+      <a {ctx.link('personal')}>Согласие на обработку персональных данных</a>
+      <a {ctx.link('cookie')}>Политика использования файлов cookie</a>
       <span class="footer__legal">БИН 191141028147</span>
     </nav>
   </div>
@@ -290,7 +290,9 @@ def page_head(ctx, spec):
         </li>''' for value, label in spec['stats'])
         stats = f'\n      <ul class="page-stats">\n{cells}\n      </ul>'
 
-    photo = ' photo-bed' if spec.get('photo') else ''
+    photo = ''
+    if spec.get('photo'):
+        photo = ' photo-bed" data-photo="%s' % spec['photo']
     return f'''  <section class="page-head{photo}">
     <div class="shell">
       <nav class="crumbs" aria-label="Хлебные крошки">
@@ -482,6 +484,7 @@ def contact(ctx, spec):
           </label>''')
 
     details = '\n'.join(f'          <span>{e(line)}</span>' for line in spec['details'])
+    consent_link = ctx.link('personal')
     title = spec['title'].replace('|', '<br class="br-wide"> ')
 
     return f'''  <section class="contact photo-bed" id="contact">
@@ -506,7 +509,7 @@ def contact(ctx, spec):
 
           <label class="consent">
             <input class="consent__box" name="consent" type="checkbox" required>
-            <span class="consent__text">Я согласен на обработку персональных данных.</span>
+            <span class="consent__text">Я согласен на <a class="consent__link" {consent_link}>обработку персональных данных</a></span>
             <span class="field__error" data-error></span>
           </label>
 

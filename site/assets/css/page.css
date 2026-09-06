@@ -663,3 +663,38 @@
   line-height: 0.9;
   color: var(--c-emerald-lift);
 }
+
+/* ============ Снимки в шапках направлений ============ */
+
+/* У бетонных заводов — фотография действующей площадки. У остальных
+   направлений своих фотографий нет: кадр собран из рендера оборудования
+   на фирменной подложке. Заменяется на реальное фото правкой одной строки. */
+.page-head[data-photo="catalog"]::before {
+  background-image: image-set(url("../img/catalog-bg.webp") type("image/webp"),
+                              url("../img/catalog-bg.jpg") type("image/jpeg"));
+  background-position: center 65%;
+}
+
+.page-head[data-photo="smartbeton"]::before {
+  background-image: image-set(url("../img/smartbeton-bg.webp") type("image/webp"),
+                              url("../img/smartbeton-bg.jpg") type("image/jpeg"));
+  background-position: center 62%;
+}
+
+.page-head[data-photo="vpi"]::before {
+  background-image: image-set(url("../img/vpi-bg.webp") type("image/webp"),
+                              url("../img/vpi-bg.jpg") type("image/jpeg"));
+  background-position: center bottom;
+}
+
+.page-head[data-photo="smartstock"]::before {
+  background-image: image-set(url("../img/smartstock-bg.webp") type("image/webp"),
+                              url("../img/smartstock-bg.jpg") type("image/jpeg"));
+  background-position: center bottom;
+}
+
+.page-head[data-photo="pkn"]::before {
+  background-image: image-set(url("../img/pkn-bg.webp") type("image/webp"),
+                              url("../img/pkn-bg.jpg") type("image/jpeg"));
+  background-position: center bottom;
+}

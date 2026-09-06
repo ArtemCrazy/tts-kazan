@@ -8,9 +8,9 @@
   var again = document.getElementById('leadAgain');
 
   var messages = {
-    name: 'Укажите, как к вам обращаться',
-    phone: 'Оставьте телефон для связи',
-    consent: 'Без согласия мы не сможем обработать заявку'
+    name: 'Укажите имя',
+    phone: 'Оставьте телефон',
+    consent: 'Нужно согласие'
   };
 
   function fieldOf(control) {
@@ -37,7 +37,7 @@
       // цифр должно хватать на реальный номер — маску не навязываем,
       // человек может писать с кодом страны и без него
       var digits = value.replace(/\D/g, '');
-      if (digits.length < 10) text = 'Похоже, в номере не хватает цифр';
+      if (digits.length < 10) text = 'Проверьте номер';
     }
 
     showError(control, text);

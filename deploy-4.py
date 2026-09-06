@@ -39,7 +39,6 @@ VERSIONED = [
     ('style.css', 'site/assets/css/style.css', 'assets/css/style.css'),
     ('page.css', 'site/assets/css/page.css', 'assets/css/page.css'),
     ('catalog.css', 'site/assets/css/catalog.css', 'assets/css/catalog.css'),
-    ('smartbeton.css', 'site/assets/css/smartbeton.css', 'assets/css/smartbeton.css'),
     ('app.js', 'site/assets/js/app.js', 'assets/js/app.js'),
     ('quiz.js', 'site/assets/js/quiz.js', 'assets/js/quiz.js'),
     ('form.js', 'site/assets/js/form.js', 'assets/js/form.js'),
@@ -55,6 +54,12 @@ IMAGES = [
     'catalog-bg.webp',
     'smartbeton-bg.jpg',
     'smartbeton-bg.webp',
+    'vpi-bg.jpg',
+    'vpi-bg.webp',
+    'smartstock-bg.jpg',
+    'smartstock-bg.webp',
+    'pkn-bg.jpg',
+    'pkn-bg.webp',
 ]
 
 

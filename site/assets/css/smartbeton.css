@@ -1,9 +1,0 @@
-/* Бетонные заводы SmartBeton.
-   Страница целиком собрана из page.css — здесь только снимок шапки.
-   Снимок временный: фотобанк оборудования заказчик ещё не передал. */
-
-.page-head::before {
-  background-image: image-set(url("../img/smartbeton-bg.webp") type("image/webp"),
-                              url("../img/smartbeton-bg.jpg") type("image/jpeg"));
-  background-position: center 62%;
-}
