@@ -554,3 +554,112 @@
   .figures { grid-template-columns: minmax(0, 1fr); }
   .page-head__actions .btn { flex: 1 1 100%; justify-content: center; }
 }
+
+/* ============ Текстовый документ ============ */
+
+/* Юридические страницы: узкая колонка, длинная строка тут только мешает читать */
+.doc { max-width: 78ch; }
+
+.doc__section + .doc__section { margin-top: var(--s-7); }
+
+.doc__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+  line-height: 1.25;
+}
+
+.doc__text {
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+.doc__list {
+  display: grid;
+  gap: var(--s-3);
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+.doc__item {
+  position: relative;
+  padding-left: var(--s-5);
+}
+
+.doc__item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 9px;
+  background: var(--c-emerald);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+.doc__meta {
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-rule);
+  color: var(--c-text-faint);
+  font-size: var(--fs-small);
+}
+
+/* ============ Плашка-предупреждение ============ */
+
+/* Заметная рамка: страница не должна выглядеть готовым документом,
+   пока заказчик не прислал утверждённый текст */
+.callout {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 78ch;
+  padding: var(--s-6);
+  border: 1px solid var(--c-rule);
+  border-left: 3px solid var(--c-emerald);
+  border-radius: var(--r-m);
+  background: var(--c-paper);
+}
+
+.callout__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+
+.callout__text {
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+.callout + .doc { margin-top: var(--s-8); }
+
+/* ============ Карточка-ссылка ============ */
+
+.card--link {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.25s var(--ease);
+}
+
+.card--link:hover { border-color: var(--c-rule-strong); }
+
+.card--link .card__title { margin-top: 0; }
+
+/* ============ Страница 404 ============ */
+
+.error__code {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+  line-height: 0.9;
+  color: var(--c-emerald-lift);
+}

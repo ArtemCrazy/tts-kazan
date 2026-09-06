@@ -23,10 +23,15 @@ SITE = {
     'pkn': 'catalog/pkn/',
     'service': 'service/',
     'parts': 'parts/',
+    'privacy': 'privacy/',
+    'personal': 'personal-data/',
+    'cookie': 'cookie/',
+    'notfound': '404/',
 }
 
-# Юридические страницы ещё не делаем — ссылки на них остаются заглушками
-STAGED = {'privacy': '/privacy/', 'personal': '/personal-data/'}
+# Ничего не осталось: все разделы, на которые ведут ссылки, собраны.
+# Заглушкой остаётся только внешний квиз Marquiz — ждём ссылку от заказчика.
+STAGED = {}
 
 DIRECTIONS = [
     ('smartdrymix', 'Заводы сухих смесей', 'SmartDryMix 5–50+ т/ч'),
@@ -98,7 +103,7 @@ def head(ctx, title, description, extra_css=()):
 '''
 
 
-def chrome_top(ctx, topline_right, skip_to):
+def chrome_top(ctx, topline_right, skip_to, cta='#contact'):
     items = []
     for key, title, note in DIRECTIONS:
         items.append(
@@ -172,7 +177,7 @@ def chrome_top(ctx, topline_right, skip_to):
       <a class="nav__link" href="{ctx.url('home')}#projects">Проекты</a>
     </nav>
 
-    <a class="btn btn--solid btn--sm masthead__cta" href="#contact">Получить расчёт</a>
+    <a class="btn btn--solid btn--sm masthead__cta" href="{cta}">Получить расчёт</a>
 
     <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть меню">
       <span class="burger__bar"></span>
@@ -201,12 +206,12 @@ def chrome_bottom(ctx, scripts):
     </div>
 
     <nav class="footer__col" aria-label="Оборудование">
-      <h4 class="footer__heading">Оборудование</h4>
+      <h3 class="footer__heading">Оборудование</h3>
 {equipment}
     </nav>
 
     <nav class="footer__col" aria-label="Компания">
-      <h4 class="footer__heading">Компания</h4>
+      <h3 class="footer__heading">Компания</h3>
       <a href="{ctx.url('home')}#company">О компании</a>
       <a href="{ctx.url('home')}#projects">Проекты</a>
       <a {ctx.link('service')}>Инженерный сервис</a>
@@ -214,9 +219,10 @@ def chrome_bottom(ctx, scripts):
     </nav>
 
     <nav class="footer__col" aria-label="Документы">
-      <h4 class="footer__heading">Документы</h4>
+      <h3 class="footer__heading">Документы</h3>
       <a {ctx.link('privacy')}>Политика конфиденциальности</a>
       <a {ctx.link('personal')}>Обработка данных</a>
+      <a {ctx.link('cookie')}>Файлы cookie</a>
       <span class="footer__legal">БИН 191141028147</span>
     </nav>
   </div>
@@ -524,3 +530,36 @@ def contact(ctx, spec):
     </div>
   </section>
 '''
+
+
+def doc(sections, updated=None):
+    """Текст документа: заголовок раздела, абзацы и перечисления."""
+    blocks = []
+    for item in sections:
+        parts = [f'        <h2 class="doc__title">{e(item["title"])}</h2>']
+        for text in item.get('text', []):
+            parts.append(f'        <p class="doc__text">{e(text)}</p>')
+        if item.get('list'):
+            rows = '\n'.join(f'          <li class="doc__item">{e(row)}</li>' for row in item['list'])
+            parts.append(f'        <ul class="doc__list">\n{rows}\n        </ul>')
+        blocks.append('      <section class="doc__section">\n' + '\n'.join(parts) + '\n      </section>')
+    meta = f'\n      <p class="doc__meta">{e(updated)}</p>' if updated else ''
+    return '      <div class="doc">\n' + '\n'.join(blocks) + meta + '\n      </div>'
+
+
+def callout(title, lines):
+    body = '\n'.join(f'        <p class="callout__text">{e(line)}</p>' for line in lines)
+    return (f'      <div class="callout">\n'
+            f'        <strong class="callout__title">{e(title)}</strong>\n'
+            f'{body}\n'
+            f'      </div>')
+
+
+def link_cards(ctx, items, modifier='cards--4'):
+    blocks = []
+    for key, title, text in items:
+        blocks.append(f'''        <a class="card card--link" {ctx.link(key)}>
+          <h3 class="card__title">{e(title)}</h3>
+          <p class="card__text">{e(text)}</p>
+        </a>''')
+    return f'      <div class="cards {modifier}">\n' + '\n'.join(blocks) + '\n      </div>'
