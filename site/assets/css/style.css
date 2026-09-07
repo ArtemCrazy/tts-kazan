@@ -1280,6 +1280,24 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   background-color: var(--c-paper);
 }
 
+.category__media[data-cat]::before {
+  content: "";
+  position: absolute;
+  inset: var(--s-7) var(--s-5) var(--s-4);
+  z-index: 1;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.category__media[data-cat="beton"]::before {
+  background-image: url("../img/beton-plant.webp");
+}
+
+.category__media[data-cat="terminal"]::before {
+  background-image: url("../img/equipment-silos.webp");
+}
+
 .category__media::after {
   content: "";
   position: absolute;
@@ -1295,6 +1313,7 @@ button { font: inherit; color: inherit; background: none; border: 0; }
    по одной линии с заголовком, описанием и кнопкой */
 .category__index {
   position: absolute;
+  z-index: 2;
   top: var(--s-6);
   left: var(--s-6);
   display: grid;

@@ -1223,6 +1223,11 @@ def main():
         path = main_build(fn)
         print('  собрана  %s' % os.path.relpath(path, os.path.dirname(ROOT)))
 
+    print()
+    print('Типограф:')
+    import typograph
+    typograph.main()
+
 
 def main_build(fn):
     return fn()
