@@ -1061,6 +1061,10 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   font-size: var(--fs-small);
 }
 
+/* Целевое действие блока — обычная кнопка, а не ссылка со стрелкой:
+   со стрелкой её принимали за подпись, а не за то, что можно нажать. */
+.recommendation__cta { margin-top: var(--s-2); }
+
 .matches__head {
   display: flex;
   flex-wrap: wrap;
@@ -1157,10 +1161,18 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   color: var(--c-text);
 }
 
-.model__plate--photo .model__badge { border-color: var(--c-rule-strong); }
+/* Бейдж лежит поверх рендера, поэтому у него своя подложка в цвет поля:
+   картинка заходит под него, а надпись не смешивается с оборудованием. */
+.model__plate--photo .model__badge {
+  border-color: var(--c-rule-strong);
+  background: var(--c-paper);
+}
 
+/* Зелёный бейдж свою подложку не отдаёт — иначе белая подложка соседнего
+   правила делает его белым по белому. */
 .model__plate--photo .model__badge--alt {
   border-color: transparent;
+  background: var(--c-emerald-deep);
   color: var(--c-paper);
 }
 
