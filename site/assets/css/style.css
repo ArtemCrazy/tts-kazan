@@ -1100,6 +1100,40 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   background: var(--c-paper);
 }
 
+/* ============ Рендеры оборудования ============ */
+
+/* Один список на весь сайт: карточка каталога, модальное окно, подсказка квиза
+   и карточка модели на странице направления берут картинку отсюда через
+   data-render. Путь к файлу написан один раз и только здесь — разметке не нужно
+   знать, на какой глубине лежит страница. Источник рендеров — брошюры клиента,
+   см. tools/extract-renders.py. */
+[data-render="smartdrymix-5"] { --render: url("../img/smartdrymix-5.webp"); }
+[data-render="smartdrymix-20"] { --render: url("../img/smartdrymix-20.webp"); }
+[data-render="smartdrymix-50"] { --render: url("../img/smartdrymix-50.webp"); }
+[data-render="smartbeton-60"] { --render: url("../img/smartbeton-60.webp"); }
+[data-render="smartbeton-90"] { --render: url("../img/smartbeton-90.webp"); }
+[data-render="smartbeton-120"] { --render: url("../img/smartbeton-120.webp"); }
+[data-render="smartbeton-135"] { --render: url("../img/smartbeton-135.webp"); }
+[data-render="smartbeton-30s"] { --render: url("../img/smartbeton-30s.webp"); }
+[data-render="smartbeton-60s"] { --render: url("../img/smartbeton-60s.webp"); }
+[data-render="smartbeton-90s"] { --render: url("../img/smartbeton-90s.webp"); }
+[data-render="equipment-silos"] { --render: url("../img/equipment-silos.webp"); }
+[data-render="pkn-pump"] { --render: url("../img/pkn-pump.webp"); }
+
+/* Полоса с рендером оборудования. Общий компонент: её ставит и квиз на главной,
+   и карточки моделей на страницах направлений — рендер приходит переменной
+   --render, поэтому один и тот же класс обслуживает любое направление.
+   Пропорция взята под рендеры из брошюр — они горизонтальные. */
+.model__media {
+  aspect-ratio: 16 / 10;
+  background-color: var(--c-paper);
+  background-image: var(--render, none);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-bottom: 1px solid var(--c-rule);
+}
+
 .model__plate {
   display: grid;
   gap: var(--s-3);
@@ -1283,8 +1317,9 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   box-shadow: 0 18px 40px rgba(12, 34, 51, 0.14);
 }
 
-/* до этой полосы ляжет фотография; пока — пустое место с еле заметным
-   фирменным знаком, чтобы заглушка не спорила с содержимым карточки */
+/* Рендер направления берётся из брошюры клиента. У направления без рендера
+   остаётся пустое место с еле заметным фирменным знаком — заглушка не спорит
+   с содержимым карточки. */
 .category__media {
   position: relative;
   aspect-ratio: 1.17 / 1;
@@ -1300,6 +1335,10 @@ button { font: inherit; color: inherit; background: none; border: 0; }
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.category__media[data-cat="zsss"]::before {
+  background-image: url("../img/smartdrymix-50.webp");
 }
 
 .category__media[data-cat="beton"]::before {

@@ -221,6 +221,7 @@
 .model {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   padding: var(--s-6);
   border: 1px solid var(--c-rule);
   border-radius: var(--r-m);
@@ -229,6 +230,14 @@
 }
 
 .model:hover { border-color: var(--c-rule-strong); }
+
+/* Здесь карточка сама держит внутренние поля, поэтому полосу с рендером
+   выводим за них теми же токенами — картинка идёт от края до края,
+   как в карточке каталога, а не висит в рамке из воздуха. */
+.model__media {
+  margin: calc(var(--s-6) * -1) calc(var(--s-6) * -1) var(--s-5);
+  border-bottom: 1px solid var(--c-rule);
+}
 
 .model__top {
   display: flex;
@@ -556,7 +565,15 @@
   .models--3,
   .steps,
   .figures { grid-template-columns: minmax(0, 1fr); }
-  .page-head__actions .btn { flex: 1 1 100%; justify-content: center; }
+  /* Кнопка занимает всю строку, но подпись в неё не помещается целиком:
+     на узком экране разрешаем переносить её по словам, иначе кнопка
+     распирает страницу и появляется горизонтальная прокрутка. */
+  .page-head__actions .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 /* ============ Текстовый документ ============ */
@@ -677,6 +694,12 @@
   background-image: image-set(url("../img/catalog-bg.webp") type("image/webp"),
                               url("../img/catalog-bg.jpg") type("image/jpeg"));
   background-position: center 65%;
+}
+
+.page-head[data-photo="smartdrymix"]::before {
+  background-image: image-set(url("../img/smartdrymix-bg.webp") type("image/webp"),
+                              url("../img/smartdrymix-bg.jpg") type("image/jpeg"));
+  background-position: center bottom;
 }
 
 .page-head[data-photo="smartbeton"]::before {

@@ -11,6 +11,24 @@
 
   var CATALOG_SLUG = { zsss: 'smartdrymix/', beton: 'smartbeton/', terminal: 'smartstock/' };
 
+  // Рендеры из брошюр клиента. Ключ — название модели, а не вариант подбора:
+  // одна и та же машина попадает в несколько ответов квиза, и картинка
+  // описана один раз. У цементных терминалов свой рендер только на категорию —
+  // отдельных изображений под вместимость клиент пока не присылал.
+  var RENDER = {
+    'SmartDryMix 5 G-L': 'smartdrymix-5',
+    'SmartDryMix 20 C-L': 'smartdrymix-20',
+    'SmartDryMix 50 GC-T': 'smartdrymix-50',
+    'SmartBeton 60': 'smartbeton-60',
+    'SmartBeton 90': 'smartbeton-90',
+    'SmartBeton 120': 'smartbeton-120',
+    'SmartBeton 135': 'smartbeton-135',
+    'SmartStock 1000': 'equipment-silos',
+    'SmartStock 2000': 'equipment-silos',
+    'SmartStock 3000': 'equipment-silos',
+    'SmartStock 5000': 'equipment-silos'
+  };
+
   // какие страницы направлений уже собраны — у остальных ссылка остаётся заглушкой
   var BUILT = { zsss: true, beton: true, terminal: true };
 
@@ -210,6 +228,11 @@
       actions
     );
 
+    if (RENDER[item.name]) {
+      var media = element('div', 'model__media');
+      media.dataset.render = RENDER[item.name];
+      card.append(media);
+    }
     card.append(plate, body);
     return card;
   }

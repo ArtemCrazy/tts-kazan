@@ -20,31 +20,31 @@
   };
 
   var CATALOG = [
-    { id: "zsss-5", cat: "zsss", purpose: "drymix", scale: "compact", code: "5 G-L",
+    { id: "zsss-5", img: "smartdrymix-5", cat: "zsss", purpose: "drymix", scale: "compact", code: "5 G-L",
       status: "Пример конфигурации", name: "SmartDryMix 5 G-L", capacity: "5 т/ч",
       text: "Компактный гипсовый завод горизонтальной компоновки для запуска собственного производства.",
       features: ["Гипсовые смеси", "Горизонтальная компоновка", "Модульный состав под продукт и площадку"] },
-    { id: "zsss-20", cat: "zsss", purpose: "drymix", scale: "medium", code: "20 C-L",
+    { id: "zsss-20", img: "smartdrymix-20", cat: "zsss", purpose: "drymix", scale: "medium", code: "20 C-L",
       status: "Пример конфигурации", name: "SmartDryMix 20 C-L", capacity: "20 т/ч",
       text: "Горизонтальный цементно-песчаный завод среднего масштаба.",
       features: ["Цементно-песчаные смеси", "Горизонтальная компоновка", "Собственная АСУ SmartDryMix"] },
-    { id: "zsss-50", cat: "zsss", purpose: "drymix", scale: "industrial", code: "50 GC-T",
+    { id: "zsss-50", img: "smartdrymix-50", cat: "zsss", purpose: "drymix", scale: "industrial", code: "50 GC-T",
       status: "Пример конфигурации", name: "SmartDryMix 50 GC-T", capacity: "50 т/ч",
       text: "Крупная универсальная башенная линия для гипсовых и цементно-песчаных смесей.",
       features: ["Гипсовые и цементные смеси", "Башенная компоновка", "Промышленная производительность"] },
-    { id: "beton-60", cat: "beton", purpose: "ready", scale: "compact", code: "60",
+    { id: "beton-60", img: "smartbeton-60", cat: "beton", purpose: "ready", scale: "compact", code: "60",
       status: "Готовая конфигурация", name: "SmartBeton 60", capacity: "до 50 м³/ч",
       text: "Компактный завод для старта производства товарного бетона на ограниченной площадке.",
       features: ["Товарный бетон", "Компактная компоновка", "Стабильная работа в разных климатических условиях"] },
-    { id: "beton-90", cat: "beton", purpose: "ready", scale: "medium", code: "90",
+    { id: "beton-90", img: "smartbeton-90", cat: "beton", purpose: "ready", scale: "medium", code: "90",
       status: "Готовая конфигурация", name: "SmartBeton 90", capacity: "до 75 м³/ч",
       text: "Завод средней производительности с гибкой комплектацией под тип смеси.",
       features: ["Гибкая комплектация", "Двухвальный смеситель CO-NELE", "АСУ SmartMix"] },
-    { id: "beton-120", cat: "beton", purpose: "ready", scale: "industrial", code: "120",
+    { id: "beton-120", img: "smartbeton-120", cat: "beton", purpose: "ready", scale: "industrial", code: "120",
       status: "Готовая конфигурация", name: "SmartBeton 120", capacity: "до 90 м³/ч",
       text: "Универсальный завод для товарного бетона и широкого спектра бетонных смесей.",
       features: ["Товарный бетон и ЖБИ", "Конвейерная или скиповая подача", "АСУ SmartMix"] },
-    { id: "beton-135", cat: "beton", purpose: "ready", scale: "industrial", code: "135",
+    { id: "beton-135", img: "smartbeton-135", cat: "beton", purpose: "ready", scale: "industrial", code: "135",
       status: "Готовая конфигурация", name: "SmartBeton 135", capacity: "до 100 м³/ч",
       text: "Высокопроизводительный завод для крупных объёмов и масштабных строительных задач.",
       features: ["Крупные объёмы", "Интенсивное смешивание", "Один оператор на весь завод"] },
@@ -56,7 +56,7 @@
       status: "Типовая модель", name: "SmartBeton 25 S", capacity: "до 15 м³/ч",
       text: "Базовое решение для выпуска плитки, брусчатки, бордюров и блоков.",
       features: ["До 22 изделий за цикл", "Под QUNFENG QF 700–QS 1000", "Интеграция с вибропрессом"] },
-    { id: "vpi-30", cat: "vpi", purpose: "vpi", scale: "medium", code: "30 S",
+    { id: "vpi-30", img: "smartbeton-30s", cat: "vpi", purpose: "vpi", scale: "medium", code: "30 S",
       status: "Типовая модель", name: "SmartBeton 30 S", capacity: "до 15 м³/ч",
       text: "Универсальная конфигурация для широкой номенклатуры одно- и двухслойных изделий.",
       features: ["До 30 изделий за цикл", "Основная и лицевая смесь", "Адресная подача бетона"] },
@@ -64,7 +64,7 @@
       status: "Типовая модель", name: "SmartBeton 50 S", capacity: "до 20 м³/ч",
       text: "Завод среднего масштаба для интенсивной загрузки и расширенной продуктовой программы.",
       features: ["До 36 изделий за цикл", "Под QUNFENG QS 1200–1300", "Синхронизация с формовочным циклом"] },
-    { id: "vpi-60", cat: "vpi", purpose: "vpi", scale: "industrial", code: "60 S",
+    { id: "vpi-60", img: "smartbeton-60s", cat: "vpi", purpose: "vpi", scale: "industrial", code: "60 S",
       status: "Типовая модель", name: "SmartBeton 60 S", capacity: "до 30 м³/ч",
       text: "Промышленная конфигурация для высокопроизводительного вибропресса.",
       features: ["До 54 изделий за цикл", "Под QUNFENG QS 1500", "Непрерывная работа"] },
@@ -72,7 +72,7 @@
       status: "Типовая модель", name: "SmartBeton 70 S", capacity: "до 30 м³/ч",
       text: "Комплектация для крупного формовочного оборудования с точным дозированием.",
       features: ["До 54 изделий за цикл", "Под QUNFENG QS 1800", "Точное дозирование компонентов"] },
-    { id: "vpi-90", cat: "vpi", purpose: "vpi", scale: "industrial", code: "90 S",
+    { id: "vpi-90", img: "smartbeton-90s", cat: "vpi", purpose: "vpi", scale: "industrial", code: "90 S",
       status: "Типовая модель", name: "SmartBeton 90 S", capacity: "до 40 м³/ч",
       text: "Старшая типовая модель для крупных объёмов и широкой номенклатуры изделий.",
       features: ["До 66 изделий за цикл", "Под QUNFENG QS 2000", "Максимальная типовая мощность"] },
@@ -166,9 +166,17 @@
     return CATALOG.filter(function (item) { return matches(item, query); });
   }
 
+  // Рендер позиции подставляется атрибутом, а путь к файлу живёт в стилях:
+  // так одна и та же разметка работает на любой глубине вложенности страницы.
+  // Своего рендера нет — остаётся картинка направления.
+  function renderAttr(item) {
+    return item.img ? ' data-render="' + item.img + '"' : '';
+  }
+
   function cardMarkup(item) {
     return '<article class="product">' +
       '<button class="product__media" type="button" data-cat="' + item.cat + '" data-open="' + item.id + '"' +
+        renderAttr(item) +
         ' aria-label="Характеристики: ' + item.name + '">' +
         '<span class="product__status">' + item.status + '</span>' +
         '<span class="product__code">' + item.code + '</span>' +
@@ -259,7 +267,10 @@
 
   function openModal(item) {
     lastFocused = document.activeElement;
-    modal.querySelector('[data-modal="media"]').dataset.cat = item.cat;
+    var media = modal.querySelector('[data-modal="media"]');
+    media.dataset.cat = item.cat;
+    if (item.img) media.dataset.render = item.img;
+    else media.removeAttribute('data-render');
     modal.querySelector('[data-modal="status"]').textContent = item.status;
     modal.querySelector('[data-modal="code"]').textContent = item.code;
     modal.querySelector('[data-modal="category"]').textContent = CATEGORY_LABEL[item.cat];

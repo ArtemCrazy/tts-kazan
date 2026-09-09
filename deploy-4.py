@@ -66,6 +66,22 @@ IMAGES = [
     'smartstock-bg.webp',
     'pkn-bg.jpg',
     'pkn-bg.webp',
+    'smartdrymix-bg.jpg',
+    'smartdrymix-bg.webp',
+    # рендеры оборудования из брошюр клиента: на сервер уходит только webp,
+    # PNG-исходники остаются в репозитории как запас качества
+    'smartdrymix-5.webp',
+    'smartdrymix-20.webp',
+    'smartdrymix-50.webp',
+    'smartbeton-60.webp',
+    'smartbeton-90.webp',
+    'smartbeton-120.webp',
+    'smartbeton-135.webp',
+    'smartbeton-30s.webp',
+    'smartbeton-60s.webp',
+    'smartbeton-90s.webp',
+    'equipment-silos.webp',
+    'pkn-pump.webp',
 ]
 
 

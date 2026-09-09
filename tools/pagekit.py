@@ -343,8 +343,10 @@ def models(items, modifier=''):
               <strong class="model__value">{e(value)}</strong>
               <span class="model__label">{e(label)}</span>
             </div>''' for value, label in m['specs'])
+        media = ('          <div class="model__media" data-render="%s"></div>\n' % e(m['img'])
+                 if m.get('img') else '')
         blocks.append(f'''        <article class="model">
-          <div class="model__top">
+{media}          <div class="model__top">
             <span class="model__tag">{e(m['tag'])}</span>
             <span class="model__code">{e(m['code'])}</span>
           </div>

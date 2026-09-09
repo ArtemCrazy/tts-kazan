@@ -134,19 +134,25 @@
   mask: url("../img/tts-mark-light.png") center / contain no-repeat;
 }
 
+/* Две переменные, а не одна: --render-cat — общий вид направления, --render —
+   рендер конкретной позиции. Приоритет задан порядком внутри var(), а не
+   весом селекторов: правило направления по весу сильнее атрибута позиции,
+   и на одной переменной позиция всегда проигрывала бы. */
 .product__media::before {
   content: "";
   position: absolute;
   inset: var(--s-6) var(--s-4) var(--s-4);
+  background-image: var(--render, var(--render-cat, none));
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-.product__media[data-cat="beton"]::before { background-image: url("../img/beton-plant.webp"); }
-.product__media[data-cat="vpi"]::before { background-image: url("../img/vpi-press.webp"); }
-.product__media[data-cat="terminal"]::before { background-image: url("../img/equipment-silos.webp"); }
-.product__media[data-cat="pkn"]::before { background-image: url("../img/pkn-pump.webp"); }
+.product__media[data-cat="zsss"] { --render-cat: url("../img/smartdrymix-50.webp"); }
+.product__media[data-cat="beton"] { --render-cat: url("../img/beton-plant.webp"); }
+.product__media[data-cat="vpi"] { --render-cat: url("../img/vpi-press.webp"); }
+.product__media[data-cat="terminal"] { --render-cat: url("../img/equipment-silos.webp"); }
+.product__media[data-cat="pkn"] { --render-cat: url("../img/pkn-pump.webp"); }
 
 .product__status,
 .product__code {
@@ -347,15 +353,17 @@
   content: "";
   position: absolute;
   inset: var(--s-7) var(--s-5) var(--s-4);
+  background-image: var(--render, var(--render-cat, none));
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-.modal__media[data-cat="beton"]::before { background-image: url("../img/beton-plant.webp"); }
-.modal__media[data-cat="vpi"]::before { background-image: url("../img/vpi-press.webp"); }
-.modal__media[data-cat="terminal"]::before { background-image: url("../img/equipment-silos.webp"); }
-.modal__media[data-cat="pkn"]::before { background-image: url("../img/pkn-pump.webp"); }
+.modal__media[data-cat="zsss"] { --render-cat: url("../img/smartdrymix-50.webp"); }
+.modal__media[data-cat="beton"] { --render-cat: url("../img/beton-plant.webp"); }
+.modal__media[data-cat="vpi"] { --render-cat: url("../img/vpi-press.webp"); }
+.modal__media[data-cat="terminal"] { --render-cat: url("../img/equipment-silos.webp"); }
+.modal__media[data-cat="pkn"] { --render-cat: url("../img/pkn-pump.webp"); }
 
 .modal__body { padding: var(--s-6); }
 
