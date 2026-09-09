@@ -26,6 +26,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, '.claude', 'context', 'media', '2026-09-02')
 IMG = os.path.join(ROOT, 'site', 'assets', 'img')
+LOOSE_SRC = os.path.join(ROOT, 'source', 'renders')
 
 BROCHURE = {
     'zsss': '1611-document.pdf',   # Брошюра ЗССС
@@ -47,6 +48,14 @@ RENDERS = [
     ('smartbeton-90s',  'vpi',   227, 'SmartBeton 90 S для линии ВПИ'),
     ('pkn-pump',        'bsu',   111, 'Пневмокамерный насос'),
     ('equipment-silos', 'bsu',   103, 'Силосы для сыпучих материалов'),
+]
+
+# Рендеры, присланные не в брошюре, а отдельными картинками (таблица правок).
+# Оригиналы лежат в source/renders/, здесь только имя файла и что на нём.
+LOOSE = [
+    ('smartstock-1000', 'smartstock-1000.jpg', 'Цементный терминал на 1000 тонн'),
+    ('smartstock-2000', 'smartstock-2000.jpg', 'Цементный терминал на 2000 тонн'),
+    ('smartstock-5000', 'smartstock-5000.jpg', 'Цементный терминал на 5000 тонн'),
 ]
 
 # Подложка шапок направлений: тот же диагональный градиент, что уже стоит
@@ -83,6 +92,12 @@ def drop_white(im):
     return im
 
 
+def trim(im):
+    """Обрезать прозрачные поля по краям."""
+    box = im.getbbox()
+    return im.crop(box) if box else im
+
+
 def cutout(doc, xref):
     """Рендер без фона: маской брошюры, если она есть, иначе заливкой от краёв."""
     pix = pymupdf.Pixmap(doc, xref)
@@ -92,8 +107,7 @@ def cutout(doc, xref):
     im = Image.open(io.BytesIO(pix.tobytes('png'))).convert('RGBA')
     if im.getchannel('A').getextrema()[0] == 255:
         im = drop_white(im)
-    box = im.getbbox()
-    return im.crop(box) if box else im
+    return trim(im)
 
 
 def save(im, name, alpha=True, max_side=MAX_SIDE, max_web=MAX_WEB):
@@ -154,6 +168,14 @@ def main():
 
     # Шапка растягивается на всю ширину экрана, поэтому её не ужимаем
     # до карточного размера — оставляем как у остальных направлений.
+    print('Отдельные рендеры от клиента:')
+    for name, fname, note in LOOSE:
+        path = os.path.join(LOOSE_SRC, fname)
+        if not os.path.exists(path):
+            print('   %-18s нет исходника: %s' % (name, fname))
+            continue
+        save(trim(drop_white(Image.open(path).convert('RGBA'))), name)
+
     print('Кадры для шапок:')
     for name, source, share in BEDS:
         save(bed(source, share), name, alpha=False,

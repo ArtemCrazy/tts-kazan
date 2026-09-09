@@ -11,10 +11,9 @@
 
   var CATALOG_SLUG = { zsss: 'smartdrymix/', beton: 'smartbeton/', terminal: 'smartstock/' };
 
-  // Рендеры из брошюр клиента. Ключ — название модели, а не вариант подбора:
-  // одна и та же машина попадает в несколько ответов квиза, и картинка
-  // описана один раз. У цементных терминалов свой рендер только на категорию —
-  // отдельных изображений под вместимость клиент пока не присылал.
+  // Рендеры клиента. Ключ — название модели, а не вариант подбора: одна и та же
+  // машина попадает в несколько ответов квиза, и картинка описана один раз.
+  // У SmartStock 3000 своего рендера пока нет — там общий вид силосов.
   var RENDER = {
     'SmartDryMix 5 G-L': 'smartdrymix-5',
     'SmartDryMix 20 C-L': 'smartdrymix-20',
@@ -23,10 +22,10 @@
     'SmartBeton 90': 'smartbeton-90',
     'SmartBeton 120': 'smartbeton-120',
     'SmartBeton 135': 'smartbeton-135',
-    'SmartStock 1000': 'equipment-silos',
-    'SmartStock 2000': 'equipment-silos',
+    'SmartStock 1000': 'smartstock-1000',
+    'SmartStock 2000': 'smartstock-2000',
     'SmartStock 3000': 'equipment-silos',
-    'SmartStock 5000': 'equipment-silos'
+    'SmartStock 5000': 'smartstock-5000'
   };
 
   // какие страницы направлений уже собраны — у остальных ссылка остаётся заглушкой
@@ -190,7 +189,9 @@
   function buildCard(item, index, key) {
     var card = element('article', 'model');
 
-    var plate = element('div', 'model__plate on-dark');
+    var art = RENDER[item.name];
+    var plate = element('div', 'model__plate' + (art ? ' model__plate--photo' : ' on-dark'));
+    if (art) plate.dataset.render = art;
     plate.append(
       element('span', 'model__badge' + (index ? ' model__badge--alt' : ''),
         index ? 'С запасом производительности' : 'Основная рекомендация'),
@@ -228,11 +229,6 @@
       actions
     );
 
-    if (RENDER[item.name]) {
-      var media = element('div', 'model__media');
-      media.dataset.render = RENDER[item.name];
-      card.append(media);
-    }
     card.append(plate, body);
     return card;
   }

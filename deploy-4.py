@@ -80,6 +80,9 @@ IMAGES = [
     'smartbeton-30s.webp',
     'smartbeton-60s.webp',
     'smartbeton-90s.webp',
+    'smartstock-1000.webp',
+    'smartstock-2000.webp',
+    'smartstock-5000.webp',
     'equipment-silos.webp',
     'pkn-pump.webp',
 ]
