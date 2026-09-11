@@ -1917,12 +1917,20 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 .projects__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(8, auto);
   gap: var(--s-5);
 }
 
+/* Карточка не считает свою высоту сама, а встаёт в общие строки блока:
+   снимок, город, заголовок, задача, решение и цифры совпадают по высоте
+   у всех трёх, сколько бы текста ни было в каждой. Строк восемь: три
+   верхних, четыре под «задачу» и «решение» и одна под цифры. */
 .project {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: span 8;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: subgrid;
+  align-content: start;
   padding: var(--s-6);
   border: 1px solid var(--c-rule);
   border-radius: var(--r-m);
@@ -1986,7 +1994,13 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
                               url("../img/project-aktobe.jpg") type("image/jpeg"));
 }
 
-.project__brief { margin-top: var(--s-4); }
+.project__brief {
+  display: grid;
+  grid-row: span 4;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: subgrid;
+  align-content: start;
+}
 
 .project__term {
   margin-top: var(--s-4);
@@ -2005,7 +2019,8 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s-4);
-  margin-top: auto;
+  align-content: start;
+  margin-top: var(--s-5);
   padding-top: var(--s-5);
   border-top: 1px solid var(--c-rule);
 }
