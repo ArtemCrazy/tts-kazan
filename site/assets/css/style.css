@@ -87,6 +87,9 @@ img { max-width: 100%; }
 ul,
 ol { margin: 0; padding: 0; list-style: none; }
 
+dl,
+dd { margin: 0; }
+
 h1, h2, h3, h4, p { margin: 0; }
 
 a { color: inherit; text-decoration: none; }
@@ -1248,7 +1251,6 @@ button { font: inherit; color: inherit; background: none; border: 0; }
 }
 
 .model__spec-value {
-  margin: 0;
   font-size: var(--fs-body);
   font-weight: 700;
   white-space: nowrap;
@@ -1942,7 +1944,7 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 }
 
 .project__title {
-  margin-top: var(--s-4);
+  margin-top: var(--s-3);
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
@@ -1955,6 +1957,73 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
   color: var(--c-text-muted);
   font-size: var(--fs-small);
   line-height: 1.6;
+}
+
+/* Снимок объекта идёт от края до края карточки — те же отрицательные поля,
+   что у рендера в карточке модели, чтобы полоса читалась одинаково везде. */
+.project__photo {
+  aspect-ratio: 16 / 9;
+  margin: calc(var(--s-6) * -1) calc(var(--s-6) * -1) var(--s-5);
+  border-bottom: 1px solid var(--c-rule);
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  background-color: var(--c-ink-deep);
+  background-position: center;
+  background-size: cover;
+}
+
+.project__photo[data-photo="kulsary"] {
+  background-image: image-set(url("../img/project-kulsary.webp") type("image/webp"),
+                              url("../img/project-kulsary.jpg") type("image/jpeg"));
+}
+
+.project__photo[data-photo="astana"] {
+  background-image: image-set(url("../img/project-astana.webp") type("image/webp"),
+                              url("../img/project-astana.jpg") type("image/jpeg"));
+}
+
+.project__photo[data-photo="aktobe"] {
+  background-image: image-set(url("../img/project-aktobe.webp") type("image/webp"),
+                              url("../img/project-aktobe.jpg") type("image/jpeg"));
+}
+
+.project__brief { margin-top: var(--s-4); }
+
+.project__term {
+  margin-top: var(--s-4);
+  color: var(--c-text-faint);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.project__brief .project__text { margin-top: var(--s-2); }
+
+/* Цифры прижаты к низу карточки: у кейсов разной длины описания, а нижняя
+   полоса должна вставать на одну линию во всех трёх. */
+.project__figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+  margin-top: auto;
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-rule);
+}
+
+.project__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: var(--fw-display);
+  letter-spacing: var(--track-tight);
+}
+
+.project__label {
+  display: block;
+  margin-top: var(--s-2);
+  color: var(--c-text-faint);
+  font-size: var(--fs-micro);
+  line-height: 1.4;
 }
 
 /* ============ Блок «Частые вопросы» ============ */
@@ -2379,7 +2448,11 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 
 @media (max-width: 1100px) {
   .projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* третья карточка занимает всю строку — снимок в ней приплюснут,
+     иначе он перевешивает две карточки над собой */
   .project:last-child { grid-column: 1 / -1; }
+  .project:last-child .project__photo { aspect-ratio: 3 / 1; }
 
   .faq__grid,
   .contact__grid { grid-template-columns: minmax(0, 1fr); gap: var(--s-7); }
@@ -2395,6 +2468,7 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
 @media (max-width: 760px) {
   .projects__grid { grid-template-columns: minmax(0, 1fr); }
   .project:last-child { grid-column: auto; }
+  .project:last-child .project__photo { aspect-ratio: 16 / 9; }
 
   .footer { --footer-cols: minmax(0, 1fr); }
 

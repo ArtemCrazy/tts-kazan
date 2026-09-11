@@ -58,6 +58,17 @@ LOOSE = [
     ('smartstock-5000', 'smartstock-5000.jpg', 'Цементный терминал на 5000 тонн'),
 ]
 
+# Фотографии объектов: в отличие от рендеров это не вырезки, а кадры целиком,
+# поэтому фон не снимаем — только уменьшаем и отдаём в двух форматах.
+PHOTO_SRC = os.path.join(ROOT, 'source', 'photos')
+PHOTO_WIDTH = 900
+
+PHOTOS = [
+    ('project-kulsary', 'project-kulsary.png', 'Завод в Атырауской области, Кульсары'),
+    ('project-astana', 'project-astana.png', 'Завод в цехе, Астана / Кокшетау'),
+    ('project-aktobe', 'project-aktobe.png', 'Завод в Актобе, район Астана'),
+]
+
 # Подложка шапок направлений: тот же диагональный градиент, что уже стоит
 # под силосами и вибропрессом, — иначе новая шапка выбьется из ряда.
 BED = ((0x14, 0x2F, 0x44), (0x1C, 0x3C, 0x55))
@@ -175,6 +186,23 @@ def main():
             print('   %-18s нет исходника: %s' % (name, fname))
             continue
         save(trim(drop_white(Image.open(path).convert('RGBA'))), name)
+
+    print('Фотографии объектов:')
+    for name, fname, note in PHOTOS:
+        path = os.path.join(PHOTO_SRC, fname)
+        if not os.path.exists(path):
+            print('   %-18s нет исходника: %s' % (name, fname))
+            continue
+        im = Image.open(path).convert('RGB')
+        im = im.resize((PHOTO_WIDTH, round(im.height * PHOTO_WIDTH / im.width)),
+                       Image.LANCZOS)
+        jpg = os.path.join(IMG, name + '.jpg')
+        webp = os.path.join(IMG, name + '.webp')
+        im.save(jpg, quality=82, optimize=True, progressive=True)
+        im.save(webp, quality=80, method=6)
+        print('   %-18s %dx%d   jpg %d КБ · webp %d КБ   %s' % (
+            name, im.width, im.height,
+            os.path.getsize(jpg) // 1024, os.path.getsize(webp) // 1024, note))
 
     print('Кадры для шапок:')
     for name, source, share in BEDS:

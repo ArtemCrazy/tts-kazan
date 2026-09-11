@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проекты в Казахстане</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Archivo:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20262B;
+    --ink-soft:#54606A;
+    --concrete:#F1EFEA;
+    --panel:#FFFFFF;
+    --line:#DCD7CE;
+    --steel:#3C5364;
+    --rust:#B5551F;
+  }
+
+  *{box-sizing:border-box;}
+  .cases-block h1, .cases-block h3, .cases-block p{
+    margin:0;
+    padding:0;
+  }
+
+  .cases-block{
+    background:var(--concrete);
+    padding:80px 24px 96px;
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--ink);
+  }
+
+  .cases-inner{
+    max-width:1180px;
+    margin:0 auto;
+  }
+
+  /* ---- header ---- */
+  .cases-header{
+    display:table;
+    width:100%;
+    margin-bottom:52px;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:24px;
+  }
+
+  .cases-header-text{
+    display:table-cell;
+    vertical-align:bottom;
+    width:75%;
+  }
+
+  .cases-cta-cell{
+    display:table-cell;
+    vertical-align:bottom;
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .cases-eyebrow{
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:16px;
+  }
+
+  .cases-heading{
+    font-family:'PT Serif', serif;
+    font-weight:400;
+    font-size:clamp(28px, 4.2vw, 46px);
+    line-height:1.16;
+    color:var(--ink);
+  }
+
+  .cases-cta{
+    display:inline-block;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    text-decoration:none;
+    white-space:nowrap;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--ink);
+  }
+
+  .cases-cta:hover{
+    color:var(--rust);
+    border-color:var(--rust);
+  }
+
+  /* ---- table-based 3-column row (robust, no flex/grid needed) ---- */
+  .cases-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:14px 0;
+    table-layout:fixed;
+  }
+
+  .cases-table td{
+    width:33.333%;
+    vertical-align:top;
+    padding:0;
+  }
+
+  .case-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+  }
+
+  .case-photo{
+    position:relative;
+    background:repeating-linear-gradient(135deg, #E4E0D7 0 2px, #ECE9E2 2px 18px);
+    border-bottom:1px solid var(--line);
+    height:230px;
+    overflow:hidden;
+  }
+
+  .case-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .case-tag{
+    position:absolute;
+    top:14px;
+    left:14px;
+    background:var(--ink);
+    color:#fff;
+    font-family:'Archivo', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.02em;
+    padding:5px 10px;
+  }
+
+  .photo-placeholder-icon{
+    width:34px;
+    height:34px;
+    stroke:var(--ink-soft);
+    opacity:0.6;
+  }
+
+  .case-photo .photo-label{
+    display:block;
+    margin-top:10px;
+    color:var(--ink-soft);
+    font-size:13px;
+  }
+
+  .case-photo-gallery{
+    width:100%;
+    border-collapse:collapse;
+  }
+
+  .case-photo-gallery td{
+    padding:0;
+    width:33.333%;
+  }
+
+  .case-photo-gallery img{
+    display:block;
+    width:100%;
+    height:172px;
+    object-fit:cover;
+  }
+
+  .case-photo-gallery td:not(:last-child) img{
+    border-right:2px solid var(--concrete);
+  }
+
+  .case-body{
+    padding:26px 24px 28px;
+  }
+
+  .case-title{
+    font-family:'Archivo', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    line-height:1.3;
+    margin:0 0 10px;
+  }
+
+  .case-location{
+    font-size:14px;
+    line-height:1.4;
+    color:var(--ink-soft);
+    margin:0 0 18px;
+  }
+
+  .case-field{
+    margin:0 0 16px;
+  }
+
+  .case-field:last-child{
+    margin-bottom:0;
+  }
+
+  .case-field .field-label{
+    display:block;
+    font-size:12px;
+    color:var(--rust);
+    font-weight:600;
+    margin:0 0 4px;
+  }
+
+  .case-field .field-text{
+    font-size:14.5px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:0;
+  }
+
+  .case-stats{
+    display:table;
+    width:100%;
+    margin-top:18px;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+
+  .case-stat{
+    display:table-cell;
+    width:50%;
+    vertical-align:top;
+    padding-right:10px;
+  }
+
+  .case-stat .stat-value{
+    display:block;
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size:22px;
+    color:var(--ink);
+    line-height:1.1;
+  }
+
+  .case-stat .stat-label{
+    display:block;
+    margin-top:4px;
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.4;
+  }
+
+  .case-stats-3{
+    table-layout:fixed;
+  }
+
+  .case-stats-3 .case-stat{
+    width:33.333%;
+    padding-right:4px;
+    overflow:hidden;
+  }
+
+  .case-stats-3 .case-stat:last-child{
+    padding-right:0;
+  }
+
+  .case-stats-3 .stat-value{
+    font-size:15px;
+    white-space:nowrap;
+  }
+
+  .case-stats-3 .stat-label{
+    font-size:10.5px;
+    line-height:1.3;
+  }
+
+</style>
+</head>
+<body>
+
+<section class="cases-block">
+  <div class="cases-inner">
+
+    <div class="cases-header">
+      <div class="cases-header-text">
+        <div class="cases-eyebrow">Проекты в Казахстане</div>
+        <h1 class="cases-heading">Решения под продукт, площадку и задачу</h1>
+      </div>
+      <div class="cases-cta-cell">
+        <a href="#contact" class="cases-cta">Обсудить проект →</a>
+      </div>
+    </div>
+
+    <table class="cases-table" cellpadding="0" cellspacing="0">
+      <tr>
+
+        <!-- Кейс 1 -->
+        <td>
+          <div class="case-card">
+            <div class="case-photo">
+              <span class="case-tag">SmartBeton90</span>
+              <img src="images/case1-zavod.jpg" alt="Завод SmartBeton90 — Атырауская область, г. Кульсары">
+            </div>
+
+            <div class="case-body">
+              <h3 class="case-title">SmartBeton90 для товарного бетона с потенциалом под ЖБИ</h3>
+              <div class="case-location">📍 Атырауская область, г. Кульсары</div>
+
+              <div class="case-field">
+                <span class="field-label">Задача</span>
+                <p class="field-text">Наладить выпуск товарного бетона мощностью 90 м³/ч и предусмотреть возможность выдачи бетона под технологию ЖБИ.</p>
+              </div>
+
+              <div class="case-field">
+                <span class="field-label">Решение</span>
+                <p class="field-text">Привязали завод к существующему цеху и предусмотрели вторую воронку выгрузки — это даёт резерв, чтобы в будущем направить часть смеси прямо в цех под технологию ЖБИ.</p>
+              </div>
+
+              <div class="case-stats">
+                <div class="case-stat">
+                  <span class="stat-value">90 м³/ч</span>
+                  <span class="stat-label">производительность завода</span>
+                </div>
+                <div class="case-stat">
+                  <span class="stat-value">90 м³/ч</span>
+                  <span class="stat-label">выдача товарного бетона</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+
+        <!-- Кейс 2 -->
+        <td>
+          <div class="case-card">
+            <div class="case-photo">
+              <span class="case-tag">SmartBeton60</span>
+              <img src="images/case2-zavod.jpg" alt="Завод SmartBeton60 — Астана / Кокшетау">
+            </div>
+            <div class="case-body">
+              <h3 class="case-title">SmartBeton60 для производства свай или плит</h3>
+              <div class="case-location">📍 Астана / Кокшетау</div>
+
+              <div class="case-field">
+                <span class="field-label">Задача</span>
+                <p class="field-text">Обеспечить производство до 46 свай в час или до 35 плит в час — под это нужна бесперебойная подача бетонной смеси мощностью 60 м³/ч.</p>
+              </div>
+
+              <div class="case-field">
+                <span class="field-label">Решение</span>
+                <p class="field-text">Провели замеры цеха и разместили завод прямо внутри него — клиент получил бесперебойную подачу смеси на выпуск свай или плит и сэкономил на контуре утепления. Второй завод, заложенный в проект изначально, реализовали вторым этапом.</p>
+              </div>
+
+              <div class="case-stats case-stats-3">
+                <div class="case-stat">
+                  <span class="stat-value">60 м³/ч</span>
+                  <span class="stat-label">производительность завода</span>
+                </div>
+                <div class="case-stat">
+                  <span class="stat-value">46 свай/ч</span>
+                  <span class="stat-label">300×300×12000 мм</span>
+                </div>
+                <div class="case-stat">
+                  <span class="stat-value">35 плит/ч</span>
+                  <span class="stat-label">6000×2000×140 мм</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+
+        <!-- Кейс 3 -->
+        <td>
+          <div class="case-card">
+            <div class="case-photo">
+              <span class="case-tag">SmartBeton90</span>
+              <img src="images/case3-zavod.jpg" alt="Завод SmartBeton90 — г. Актобе, район Астана">
+            </div>
+            <div class="case-body">
+              <h3 class="case-title">SmartBeton90 для производства свай</h3>
+              <div class="case-location">📍 г. Актобе, район Астана</div>
+
+              <div class="case-field">
+                <span class="field-label">Задача</span>
+                <p class="field-text">Обеспечить производство до 75 свай в час нужным объёмом бетонной смеси.</p>
+              </div>
+
+              <div class="case-field">
+                <span class="field-label">Решение</span>
+                <p class="field-text">Провели аудит существующего цеха и разработали техническое решение для подачи смеси прямо в цеховую часть — с производительностью, рассчитанной под требования технологии.</p>
+              </div>
+
+              <div class="case-stats">
+                <div class="case-stat">
+                  <span class="stat-value">90 м³/ч</span>
+                  <span class="stat-label">производительность завода</span>
+                </div>
+                <div class="case-stat">
+                  <span class="stat-value">75 свай/ч</span>
+                  <span class="stat-label">300×300×12000 мм</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+
+      </tr>
+    </table>
+
+  </div>
+</section>
+
+</body>
+</html>
