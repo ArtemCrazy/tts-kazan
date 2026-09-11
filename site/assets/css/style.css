@@ -2473,7 +2473,6 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
   .projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .project:not(:last-child) { margin-bottom: var(--s-2); }
-  .project__photo { margin-bottom: var(--s-4); }
 
   /* третья карточка занимает всю строку — снимок в ней приплюснут,
      иначе он перевешивает две карточки над собой */
