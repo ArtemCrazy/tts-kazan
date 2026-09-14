@@ -287,9 +287,14 @@
   line-height: 1.6;
 }
 
+/* Ровно 2 колонки распадались на самых узких карточках: у длинных слов вроде
+   «производительность» и «индивидуально» нет пробела для переноса, поэтому
+   при нехватке места они не переносятся, а наезжают друг на друга. auto-fit
+   с нижней границей держит колонку не уже самого длинного слова — когда
+   места на две не хватает, вторая сама уходит на следующую строку. */
 .model__specs {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: var(--s-4);
   margin-top: auto;
   padding-top: var(--s-5);
@@ -578,6 +583,54 @@
     justify-content: center;
     white-space: normal;
     text-align: center;
+  }
+
+  /* Таблица сравнения на узком экране скроллилась вбок без всякого намёка
+     на это — со стороны выглядело так, будто текст просто обрезан. Вместо
+     скролла превращаем строки в карточки: заголовок колонки становится
+     подписью перед значением через data-label, тот же приём, что и в
+     остальных карточках страницы — новой разметки не потребовалось. */
+  .matrix__wrap { overflow-x: visible; }
+
+  .matrix,
+  .matrix tbody { display: block; }
+
+  .matrix thead { display: none; }
+
+  .matrix tr {
+    display: block;
+    padding: var(--s-5);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--r-m);
+  }
+
+  .matrix tr + tr { margin-top: var(--s-4); }
+
+  .matrix tbody th {
+    display: block;
+    padding: 0 0 var(--s-3);
+    border-bottom: 1px solid var(--c-rule);
+    white-space: normal;
+  }
+
+  /* Подпись сверху, значение снизу — не в строку: у ПКН среди значений
+     попадаются целые фразы («в сборе, со шкафом управления»), в строку
+     с подписью они бы не поместились и перенеслись некрасиво. */
+  .matrix td {
+    display: block;
+    padding: var(--s-3) 0 0;
+    border-bottom: 0;
+  }
+
+  .matrix td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: var(--s-1);
+    color: var(--c-text-faint);
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
   }
 }
 
