@@ -1,0 +1,11 @@
+/*
+Theme Name: ТТС Инжиниринг Казахстан
+Description: Тема сайта ТТС Инжиниринг. Вёрстка берётся из общего набора стилей проекта (assets/css), структура страниц — из блоков Gutenberg и полей.
+Version: 1.0.0
+Author: Crazy Studio
+Requires at least: 6.5
+Requires PHP: 8.0
+Text Domain: tts
+*/
+
+/* Сами стили лежат в assets/css — этот файл нужен WordPress только для описания темы. */
