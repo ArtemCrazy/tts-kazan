@@ -549,6 +549,53 @@ def doc(sections, updated=None):
     return '      <div class="doc">\n' + '\n'.join(blocks) + meta + '\n      </div>'
 
 
+def legal_doc(blocks, updated=None):
+    """Утверждённый юридический текст из source/legal/*.json (см. tools/extract-legal.py).
+
+    Разделы первого уровня — h2, подразделы — h3. Таблицы на мобильном
+    складываются в карточки, поэтому у ячеек есть data-label.
+    """
+    def inline(rs):
+        return ''.join(f'<strong>{e(t)}</strong>' if bold else e(t) for t, bold in rs)
+
+    sections, parts = [], []
+
+    def close():
+        if parts:
+            sections.append('      <section class="doc__section">\n' + '\n'.join(parts) + '\n      </section>')
+            parts.clear()
+
+    for b in blocks:
+        kind = b['type']
+        if kind == 'h2':
+            close()
+            parts.append(f'        <h2 class="doc__title">{e(b["text"])}</h2>')
+        elif kind == 'h3':
+            parts.append(f'        <h3 class="doc__subtitle">{e(b["text"])}</h3>')
+        elif kind == 'p':
+            parts.append(f'        <p class="doc__text">{inline(b["runs"])}</p>')
+        elif kind == 'ul':
+            rows = '\n'.join(f'          <li class="doc__item">{inline(rs)}</li>' for rs in b['items'])
+            parts.append(f'        <ul class="doc__list">\n{rows}\n        </ul>')
+        elif kind == 'table':
+            head = ''.join(f'<th scope="col">{e(h)}</th>' for h in b['head'])
+            rows = '\n'.join(
+                '              <tr>' + ''.join(f'<td data-label="{e(h)}">{e(c)}</td>'
+                                               for h, c in zip(b['head'], row)) + '</tr>'
+                for row in b['rows'])
+            parts.append(f'''        <div class="doc__table-wrap">
+          <table class="doc__table">
+            <thead><tr>{head}</tr></thead>
+            <tbody>
+{rows}
+            </tbody>
+          </table>
+        </div>''')
+    close()
+    meta = f'\n      <p class="doc__meta">{e(updated)}</p>' if updated else ''
+    return '      <div class="doc">\n' + '\n'.join(sections) + meta + '\n      </div>'
+
+
 def callout(title, lines):
     body = '\n'.join(f'        <p class="callout__text">{e(line)}</p>' for line in lines)
     return (f'      <div class="callout">\n'
