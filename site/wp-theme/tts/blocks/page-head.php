@@ -33,6 +33,16 @@ if ( $photo ) {
 }
 
 $has_action = ! empty( $primary['title'] ) || ! empty( $secondary['title'] );
+
+// Те же крошки уходят в разметку Schema.org (п. 14 ТЗ) — второй список не держим.
+$crumbs = array( array( 'name' => 'Главная', 'url' => tts_url( 'home' ) ) );
+if ( $catalog ) {
+	$crumbs[] = array( 'name' => 'Каталог оборудования', 'url' => tts_url( 'catalog' ) );
+}
+if ( $crumb ) {
+	$crumbs[] = array( 'name' => $crumb, 'url' => '' );
+}
+tts_schema_crumbs( $crumbs );
 ?>
 <section <?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<div class="shell">

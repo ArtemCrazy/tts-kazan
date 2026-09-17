@@ -8,6 +8,9 @@
 Картинки ищутся в assets темы и попадают в медиатеку, чтобы редактор мог
 их заменить обычным способом.
 
+Состав блоков каждой страницы описан отдельным модулем в tools/wp/seed:
+в модуле есть PAGE (адрес страницы) и функция blocks().
+
 Запуск:  python tools/wp/seed-blocks.py            — наполнить, что пусто
          python tools/wp/seed-blocks.py --force    — перезаписать страницы
 """
@@ -50,10 +53,18 @@ function tts_seed_image(string $rel): int {
     return (int) $id;
 }
 
-/** Значение поля: картинки описаны как {"image": "img/foo.png"} и превращаются в ID. */
+/**
+ * Значение поля: картинки описаны как {"image": "img/foo.png"} и превращаются
+ * в ID вложения. Если указан alt, он уезжает в медиатеку — иначе описание
+ * картинки из статической версии потерялось бы (доступность, п. 15.2 ТЗ).
+ */
 function tts_seed_value($value) {
-    if (is_array($value) && isset($value['image'])) return tts_seed_image($value['image']);
-    return $value;
+    if (!is_array($value) || !isset($value['image'])) return $value;
+    $id = tts_seed_image($value['image']);
+    if ($id && !empty($value['alt']) && !get_post_meta($id, '_wp_attachment_image_alt', true)) {
+        update_post_meta($id, '_wp_attachment_image_alt', $value['alt']);
+    }
+    return $id;
 }
 
 /**
@@ -117,102 +128,26 @@ foreach ($plan['pages'] as $page) {
 '''
 
 
-def home_blocks():
-    """Главная страница: пока первый экран и вопросы, остальные блоки добавим по ходу."""
-    return [
-        {
-            'block': 'hero',
-            'anchor': 'hero',
-            'fields': {
-                'tts_hero_title': 'Заводы и производственные линии для стройматериалов',
-                'tts_hero_accent': 'от проекта до запуска',
-                'tts_hero_lead': 'Оборудование для производства сухих строительных смесей, '
-                                 'товарного бетона, ЖБИ, ВПИ и строительства «под ключ».',
-                'tts_hero_primary': {'title': 'Перейти в каталог', 'url': '/catalog/', 'target': ''},
-                'tts_hero_secondary': {'title': 'Выбрать оборудование', 'url': '#quiz', 'target': ''},
-                'tts_hero_photo': {'image': 'img/hero-plant-tts.png'},
-                'tts_hero_tag': 'Проектирование и поставка под ключ',
-                'tts_hero_proofs': [
-                    {'tts_hero_proof_text': 'Собственное производство',
-                     'tts_hero_proof_icon': 'proof-production'},
-                    {'tts_hero_proof_text': 'Оборудование в наличии',
-                     'tts_hero_proof_icon': 'proof-stock'},
-                    {'tts_hero_proof_text': 'Филиал в Алматы — проекты по Казахстану',
-                     'tts_hero_proof_icon': 'proof-almaty'},
-                ],
-            },
-        },
-        {
-            'block': 'quiz',
-            'anchor': 'quiz',
-            'fields': {
-                'tts_quiz_kicker': 'Подбор за 2 минуты',
-                'tts_quiz_title': 'Какой объект вы планируете?',
-                'tts_quiz_lead': 'Ответьте на три вопроса — покажем базовую конфигурацию '
-                                 'и подготовим исходные данные для инженера.',
-                'tts_quiz_label_object': 'Тип объекта',
-                'tts_quiz_label_capacity': 'Производительность / хранение',
-                'tts_quiz_label_stage': 'Стадия проекта',
-                'tts_quiz_stages': [
-                    {'tts_quiz_stage': 'Формируем идею'},
-                    {'tts_quiz_stage': 'Выбираем технологию'},
-                    {'tts_quiz_stage': 'Есть площадка и ТЗ'},
-                ],
-                'tts_quiz_submit': 'Показать решение',
-                'tts_quiz_result_kicker': 'Предварительная рекомендация',
-                'tts_quiz_cta': {'title': 'Получить инженерный расчёт', 'url': '#contact', 'target': ''},
-                'tts_quiz_matches_title': 'Оборудование под выбранные параметры',
-                'tts_quiz_matches_note': 'Первая карточка — основная рекомендация. Вторая, если '
-                                         'доступна, показывает вариант с запасом производительности.',
-            },
-        },
-        {
-            'block': 'faq',
-            'anchor': 'faq',
-            'fields': {
-                'tts_faq_block_kicker': 'Частые вопросы',
-                'tts_faq_block_title': 'Подбор начинается с вашей задачи',
-                'tts_faq_block_place': 'home',
-            },
-        },
-        {
-            'block': 'form',
-            'anchor': 'contact',
-            'fields': {
-                'tts_form_kicker': 'Обсудим проект',
-                'tts_form_title': 'Получите расчёт оборудования под вашу задачу',
-                'tts_form_lead': 'Инженер уточнит продукт, производительность и исходные данные '
-                                 'площадки, затем предложит состав оборудования и следующий этап проекта.',
-                'tts_form_office': 'Филиал ТТС Инжиниринг в Казахстане',
-                'tts_form_details': [
-                    {'tts_form_detail': 'Алматы, ул. Казыбек Би, 22, офис 302'},
-                    {'tts_form_detail': 'Пн–Пт, 9:00–18:00'},
-                ],
-                'tts_form_card_title': 'Оставьте контакты',
-                'tts_form_note': 'Перезвоним в рабочее время и уточним задачу.',
-                'tts_form_direction_label': 'Направление',
-                'tts_form_directions': [
-                    {'tts_form_direction': 'Заводы сухих смесей'},
-                    {'tts_form_direction': 'Бетонные заводы'},
-                    {'tts_form_direction': 'Заводы ВПИ'},
-                    {'tts_form_direction': 'Цементные терминалы'},
-                    {'tts_form_direction': 'Инженерный сервис'},
-                    {'tts_form_direction': 'Запасные части и автоматика'},
-                ],
-                'tts_form_comment_label': 'Комментарий',
-                'tts_form_comment_hint': 'Кратко опишите задачу',
-                'tts_form_submit': 'Получить консультацию',
-                'tts_form_done_title': 'Заявка отправлена',
-                'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
-                'tts_form_again': 'Отправить ещё одну заявку',
-                'tts_form_source': 'general',
-            },
-        },
-    ]
+def pages():
+    """Страницы, для которых описано наполнение: модули в tools/wp/seed."""
+    import importlib.util
+
+    folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'seed')
+    found = []
+    for name in sorted(os.listdir(folder)):
+        if not name.endswith('.py') or name.startswith('_'):
+            continue
+        spec = importlib.util.spec_from_file_location('seed_' + name[:-3], os.path.join(folder, name))
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        if not hasattr(module, 'PAGE') or not hasattr(module, 'blocks'):
+            continue
+        found.append({'path': module.PAGE, 'blocks': module.blocks()})
+    return found
 
 
 def plan():
-    return {'pages': [{'path': 'home', 'blocks': home_blocks()}]}
+    return {'pages': pages()}
 
 
 def main():

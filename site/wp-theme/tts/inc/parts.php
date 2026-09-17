@@ -16,10 +16,14 @@ function tts_page_head( array $spec ): void {
 	$crumbs = array(
 		'<a class="crumbs__link" href="' . esc_url( tts_url( 'home' ) ) . '">Главная</a>',
 	);
+	$schema = array( array( 'name' => 'Главная', 'url' => tts_url( 'home' ) ) );
 	if ( ! empty( $spec['under_catalog'] ) ) {
 		$crumbs[] = '<a class="crumbs__link" href="' . esc_url( tts_url( 'catalog' ) )
 			. '">Каталог оборудования</a>';
+		$schema[] = array( 'name' => 'Каталог оборудования', 'url' => tts_url( 'catalog' ) );
 	}
+	$schema[] = array( 'name' => $spec['crumb'], 'url' => '' );
+	tts_schema_crumbs( $schema );
 	?>
 	<section class="page-head">
 		<div class="shell">

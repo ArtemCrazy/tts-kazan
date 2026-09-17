@@ -61,6 +61,8 @@ $items = tts_items(
 				<div class="faq__panel">
 					<?php
 					$answer = (string) get_field( 'tts_faq_answer', $item->ID );
+					// В разметку FAQPage попадают только показанные вопросы (п. 14 ТЗ)
+					tts_schema_faq( get_the_title( $item ), $answer );
 					// В поле лежит редактор: абзацы уже обёрнуты, добавляем только класс.
 					echo wp_kses_post( str_replace( '<p>', '<p class="faq__answer">', $answer ) );
 					?>

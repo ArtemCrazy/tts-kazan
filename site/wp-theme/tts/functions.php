@@ -17,6 +17,9 @@ require_once get_theme_file_path( 'inc/cpt.php' );
 require_once get_theme_file_path( 'inc/blocks.php' );
 require_once get_theme_file_path( 'inc/quiz.php' );
 require_once get_theme_file_path( 'inc/lead.php' );
+require_once get_theme_file_path( 'inc/catalog.php' );
+require_once get_theme_file_path( 'inc/analytics.php' );
+require_once get_theme_file_path( 'inc/seo.php' );
 
 // Поля появляются только вместе с плагином Secure Custom Fields.
 // Файлы полей блоков подключаем все: каждый блок описывает свои поля сам.

@@ -21,8 +21,14 @@ defined( 'ABSPATH' ) || exit;
 
 <div class="topline">
 	<div class="shell topline__inner">
-		<span class="topline__item">Инжиниринг для строительной индустрии Казахстана с 2006 года</span>
-		<span class="topline__item topline__item--muted">Алматы · проектирование, поставка, монтаж и сервис</span>
+		<?php
+		$left  = tts_setting( 'tts_settings_topline_left' )
+			?: 'Инжиниринг для строительной индустрии Казахстана с 2006 года';
+		$right = tts_setting( 'tts_settings_topline_right' )
+			?: 'Алматы · проектирование, поставка, монтаж и сервис';
+		?>
+		<span class="topline__item"><?php echo esc_html( $left ); ?></span>
+		<span class="topline__item topline__item--muted"><?php echo esc_html( $right ); ?></span>
 	</div>
 </div>
 

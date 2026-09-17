@@ -14,7 +14,12 @@ defined( 'ABSPATH' ) || exit;
 	<div class="shell footer__grid">
 		<div class="footer__brand">
 			<img class="footer__logo" src="<?php echo esc_url( tts_asset( 'img/tts-logo-light.png' )[0] ); ?>" width="1148" height="426" alt="ТТС Инжиниринг">
-			<p class="footer__about">Заводы, терминалы и технологические линии для строительной индустрии Казахстана.</p>
+			<p class="footer__about"><?php
+				echo esc_html(
+					tts_setting( 'tts_settings_footer_about' )
+					?: 'Заводы, терминалы и технологические линии для строительной индустрии Казахстана.'
+				);
+			?></p>
 		</div>
 
 		<nav class="footer__col" aria-label="Оборудование">
@@ -37,7 +42,11 @@ defined( 'ABSPATH' ) || exit;
 			<a <?php echo tts_link( 'privacy' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>Политика конфиденциальности</a>
 			<a <?php echo tts_link( 'personal' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>Согласие на обработку персональных данных</a>
 			<a <?php echo tts_link( 'cookie' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>Политика использования файлов cookie</a>
-			<span class="footer__legal">БИН 191141028147</span>
+			<?php $legal = tts_setting( 'tts_settings_footer_legal' ) ?: 'БИН 191141028147'; ?>
+			<span class="footer__legal"><?php echo esc_html( $legal ); ?></span>
+			<?php if ( tts_has_optional_analytics() ) : ?>
+			<a href="#" data-consent-reset>Настройки cookie</a>
+			<?php endif; ?>
 		</nav>
 	</div>
 

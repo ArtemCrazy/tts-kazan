@@ -113,6 +113,20 @@
       text: "Старшая модель линейки для высокой загрузки и промышленной производительности.",
       features: ["Для силосов, хопперов и вагонов", "0,6 МПа, 5–12 м³/мин", "Шкаф управления в комплекте"] }  ];
 
+  // Позиции из WordPress: блок каталога печатает их рядом с секцией в JSON.
+  // Нет этих данных — работает статическая версия с массивом выше.
+  var EXTERNAL = (function () {
+    var node = document.getElementById('tts-catalog-config');
+    if (!node) return null;
+    try { return JSON.parse(node.textContent); } catch (error) { return null; }
+  })();
+
+  if (EXTERNAL) {
+    if (EXTERNAL.items) CATALOG = EXTERNAL.items;
+    if (EXTERNAL.labels) CATEGORY_LABEL = EXTERNAL.labels;
+    if (EXTERNAL.pages) DIRECTION_PAGE = EXTERNAL.pages;
+  }
+
   var grid = document.getElementById('catalogGrid');
   if (!grid) return;
 
@@ -170,6 +184,10 @@
   // так одна и та же разметка работает на любой глубине вложенности страницы.
   // Своего рендера нет — остаётся картинка направления.
   function renderAttr(item) {
+    // Адрес из медиатеки подставляем переменной: путь к картинке в стилях
+    // жёстко не прописан, а кавычки внутри url() не нужны — адрес уже
+    // закодирован WordPress.
+    if (item.image) return ' style="--render:url(' + encodeURI(item.image) + ')"';
     return item.img ? ' data-render="' + item.img + '"' : '';
   }
 
@@ -269,7 +287,9 @@
     lastFocused = document.activeElement;
     var media = modal.querySelector('[data-modal="media"]');
     media.dataset.cat = item.cat;
-    if (item.img) media.dataset.render = item.img;
+    media.style.removeProperty('--render');
+    if (item.image) media.style.setProperty('--render', 'url("' + item.image + '")');
+    else if (item.img) media.dataset.render = item.img;
     else media.removeAttribute('data-render');
     modal.querySelector('[data-modal="status"]').textContent = item.status;
     modal.querySelector('[data-modal="code"]').textContent = item.code;
@@ -279,7 +299,7 @@
     modal.querySelector('[data-modal="capacity"]').textContent = item.capacity;
     modal.querySelector('[data-modal="features"]').innerHTML =
       item.features.map(function (f) { return '<li class="modal__feature">' + f + '</li>'; }).join('');
-    var page = DIRECTION_PAGE[item.cat];
+    var page = item.page ? { href: item.page, built: true } : DIRECTION_PAGE[item.cat];
     var pageLink = modal.querySelector('[data-modal="page"]');
     pageLink.href = page.href;
     if (page.built) pageLink.removeAttribute('data-stage');
