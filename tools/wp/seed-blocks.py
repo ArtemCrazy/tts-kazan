@@ -59,6 +59,27 @@ function tts_seed_image(string $rel): int {
  * картинки из статической версии потерялось бы (доступность, п. 15.2 ТЗ).
  */
 function tts_seed_value($value) {
+    // Направление задаётся слагом термина: в поле должен уехать его номер,
+    // иначе блок моделей покажет всё оборудование подряд.
+    if (is_array($value) && isset($value['term'])) {
+        $term = get_term_by('slug', $value['term'], $value['taxonomy'] ?? 'direction');
+        return $term ? (int) $term->term_id : '';
+    }
+    // Список записей по заголовкам: номера записей заранее неизвестны,
+    // а названия моделей в наполнении читаются понятнее.
+    if (is_array($value) && isset($value['posts'])) {
+        $ids = array();
+        foreach ((array) $value['posts'] as $title) {
+            $found = get_posts(array(
+                'post_type'   => $value['type'] ?? 'equipment',
+                'title'       => $title,
+                'numberposts' => 1,
+                'fields'      => 'ids',
+            ));
+            if ($found) $ids[] = (int) $found[0];
+        }
+        return $ids;
+    }
     if (!is_array($value) || !isset($value['image'])) return $value;
     $id = tts_seed_image($value['image']);
     if ($id && !empty($value['alt']) && !get_post_meta($id, '_wp_attachment_image_alt', true)) {
@@ -72,22 +93,24 @@ function tts_seed_value($value) {
  * ссылка на его ключ. У повторяющихся полей — количество строк и плоские
  * ключи вида имя_0_подполе.
  */
-function tts_block_data(array $fields): array {
+function tts_block_data(array $fields, string $prefix = ''): array {
     $data = array();
     foreach ($fields as $name => $value) {
+        $key = $prefix ? $prefix . '_' . $name : $name;
+
+        // Повторяющееся поле: количество строк плюс плоские ключи по строкам.
+        // Вложенность любая — у таблицы сравнения ячейки лежат внутри строки.
         if (is_array($value) && array_is_list($value) && $value && is_array($value[0])) {
-            $data[$name] = count($value);
-            $data['_' . $name] = 'field_' . $name;
+            $data[$key] = count($value);
+            $data['_' . $key] = 'field_' . $name;
             foreach ($value as $i => $row) {
-                foreach ($row as $sub => $sub_value) {
-                    $data[$name . '_' . $i . '_' . $sub] = tts_seed_value($sub_value);
-                    $data['_' . $name . '_' . $i . '_' . $sub] = 'field_' . $sub;
-                }
+                $data = array_merge($data, tts_block_data($row, $key . '_' . $i));
             }
             continue;
         }
-        $data[$name] = tts_seed_value($value);
-        $data['_' . $name] = 'field_' . $name;
+
+        $data[$key] = tts_seed_value($value);
+        $data['_' . $key] = 'field_' . $name;
     }
     return $data;
 }

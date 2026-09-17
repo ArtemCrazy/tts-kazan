@@ -26,6 +26,9 @@ $done_title = (string) get_field( 'tts_form_done_title' ) ?: 'Заявка от�
 $done_text  = (string) get_field( 'tts_form_done_text' );
 $again      = (string) get_field( 'tts_form_again' ) ?: 'Заполнить ещё раз';
 $source     = (string) get_field( 'tts_form_source' ) ?: 'general';
+$second     = (string) get_field( 'tts_form_second_label' );
+$seconds    = tts_rows( get_field( 'tts_form_second_options' ) );
+$picked     = (bool) get_field( 'tts_form_picked' );
 
 if ( ! is_admin() ) {
 	list( $url, $ver ) = tts_asset( 'js/form.js' );
@@ -81,6 +84,27 @@ if ( ! is_admin() ) {
 				</label>
 				<?php endif; ?>
 
+				<?php if ( $picked ) : ?>
+				<?php // Сюда каталог подставляет выбранную модель (п. 8.3 ТЗ) ?>
+				<label class="field">
+					<span class="field__label">Выбранное оборудование</span>
+					<input class="field__input" id="leadPicked" name="model" type="text" value="Подбор по задаче" readonly>
+				</label>
+				<?php endif; ?>
+
+				<?php if ( $second && $seconds ) : ?>
+				<label class="field">
+					<span class="field__label"><?php echo esc_html( $second ); ?></span>
+					<select class="field__select" name="urgency">
+						<?php foreach ( $seconds as $item ) : ?>
+						<option value="<?php echo esc_attr( (string) ( $item['tts_form_second_option'] ?? '' ) ); ?>">
+							<?php echo esc_html( (string) ( $item['tts_form_second_option'] ?? '' ) ); ?>
+						</option>
+						<?php endforeach; ?>
+					</select>
+				</label>
+				<?php endif; ?>
+
 				<label class="field">
 					<span class="field__label">Ваше имя</span>
 					<input class="field__input" id="leadName" name="name" type="text" autocomplete="name" placeholder="Имя Фамилия" required>
@@ -103,6 +127,12 @@ if ( ! is_admin() ) {
 					<span class="consent__text">Я согласен на <a class="consent__link" href="<?php echo esc_url( tts_url( 'personal' ) ); ?>">обработку персональных данных</a></span>
 					<span class="field__error" data-error></span>
 				</label>
+
+				<?php if ( $picked ) : ?>
+				<?php // Служебные поля каталога: направление и применённые фильтры ?>
+				<input type="hidden" id="leadDirection" name="direction" value="">
+				<input type="hidden" id="leadFilters" name="filters" value="">
+				<?php endif; ?>
 
 				<?php // Поле-ловушка для роботов: людям оно не видно и не нужно. ?>
 				<div class="visually-hidden" aria-hidden="true">

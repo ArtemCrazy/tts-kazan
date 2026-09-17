@@ -47,8 +47,31 @@ if ( $limit > 0 ) {
 	$args['posts_per_page'] = $limit;
 }
 
-$items    = tts_items( 'equipment', $args );
+// Редактор может выбрать конкретные модели — тогда направление не при чём:
+// на странице ВПИ, например, показывают три основные комплектации из семи.
+$chosen = array_map( 'intval', (array) get_field( 'tts_models_chosen' ) );
+$chosen = array_filter( $chosen );
+
+if ( $chosen ) {
+	$items = get_posts(
+		array(
+			'post_type'      => 'equipment',
+			'post__in'       => $chosen,
+			'orderby'        => 'post__in',
+			'posts_per_page' => -1,
+		)
+	);
+} else {
+	$items = tts_items( 'equipment', $args );
+}
 $statuses = tts_equipment_status_labels();
+
+// Кнопка «Подобрать» подставляет модель в форму заявки — скрипт нужен
+// только на страницах, где этот блок стоит (п. 15.1 ТЗ).
+if ( ! is_admin() ) {
+	list( $pick_url, $pick_ver ) = tts_asset( 'js/model-pick.js' );
+	wp_enqueue_script( 'tts-model-pick', $pick_url, array(), $pick_ver, array( 'strategy' => 'defer' ) );
+}
 ?>
 <section <?php echo tts_block_attrs( $block, 'page-section ' . $tone, 'models' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<div class="shell">

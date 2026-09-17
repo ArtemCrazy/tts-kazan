@@ -65,6 +65,7 @@ def blocks():
                 'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
                 'tts_form_again': 'Выбрать другое оборудование',
                 'tts_form_source': 'catalog',
+                'tts_form_picked': 1,
             },
         },
     ]

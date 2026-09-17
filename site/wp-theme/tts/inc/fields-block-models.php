@@ -52,6 +52,19 @@ function tts_block_fields_models(): void {
 					'new_lines' => '',
 				),
 				array(
+					'key'           => 'field_tts_models_chosen',
+					'label'         => 'Только эти модели',
+					'name'          => 'tts_models_chosen',
+					'type'          => 'post_object',
+					'instructions'  => 'Если выбрать модели, показываются только они и в этом порядке. '
+						. 'Пусто — берутся все модели направления.',
+					'post_type'     => array( 'equipment' ),
+					'return_format' => 'id',
+					'multiple'      => 1,
+					'allow_null'    => 1,
+					'ui'            => 1,
+				),
+				array(
 					'key'           => 'field_tts_models_direction',
 					'label'         => 'Направление',
 					'name'          => 'tts_models_direction',

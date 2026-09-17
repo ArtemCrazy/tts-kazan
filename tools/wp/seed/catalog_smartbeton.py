@@ -88,7 +88,7 @@ def blocks():
                                    'климат, площадку и требуемую степень автоматизации.',
                 # Слаг термина таксономии direction. Блок ждёт ID термина —
                 # слаг в него превращает seed-blocks.py.
-                'tts_models_direction': 'smartbeton',
+                'tts_models_direction': {'term': 'smartbeton'},
                 'tts_models_limit': 4,
                 'tts_models_grid': '',
                 'tts_models_tone': 'muted',
@@ -300,6 +300,7 @@ def blocks():
                 'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
                 'tts_form_again': 'Отправить ещё одну заявку',
                 'tts_form_source': 'catalog',
+                'tts_form_picked': 1,
             },
         },
     ]

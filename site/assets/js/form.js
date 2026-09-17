@@ -110,6 +110,8 @@
       comment: form.elements.comment ? form.elements.comment.value.trim() : '',
       direction: form.elements.direction ? form.elements.direction.value : '',
       model: form.elements.model ? form.elements.model.value : '',
+      urgency: form.elements.urgency ? form.elements.urgency.value : '',
+      filters: form.elements.filters ? form.elements.filters.value : '',
       source: form.getAttribute('data-source') || '',
       page: location.href,
       utm: utm,

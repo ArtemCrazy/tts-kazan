@@ -105,6 +105,40 @@ function tts_block_fields_form(): void {
 					),
 				),
 				array(
+					'key'          => 'field_tts_form_second_label',
+					'label'        => 'Подпись второго списка',
+					'name'         => 'tts_form_second_label',
+					'type'         => 'text',
+					'instructions' => 'Например, «Срочность» или «Категория». Пусто — второго списка не будет.',
+				),
+				array(
+					'key'          => 'field_tts_form_second_options',
+					'label'        => 'Варианты второго списка',
+					'name'         => 'tts_form_second_options',
+					'type'         => 'repeater',
+					'button_label' => 'Добавить вариант',
+					'layout'       => 'table',
+					'sub_fields'   => array(
+						array(
+							'key'      => 'field_tts_form_second_option',
+							'label'    => 'Вариант',
+							'name'     => 'tts_form_second_option',
+							'type'     => 'text',
+							'required' => 1,
+						),
+					),
+				),
+				array(
+					'key'           => 'field_tts_form_picked',
+					'label'         => 'Поле «Выбранное оборудование»',
+					'name'          => 'tts_form_picked',
+					'type'          => 'true_false',
+					'instructions'  => 'Нужно на страницах с каталогом: кнопка «Получить КП» подставляет '
+						. 'в это поле выбранную модель, а фильтры уходят в заявку служебно.',
+					'ui'            => 1,
+					'default_value' => 0,
+				),
+				array(
 					'key'   => 'field_tts_form_comment_label',
 					'label' => 'Подпись поля комментария',
 					'name'  => 'tts_form_comment_label',

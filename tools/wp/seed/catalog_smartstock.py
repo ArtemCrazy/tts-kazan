@@ -55,7 +55,7 @@ def blocks():
                 'tts_models_lead': 'Полезная ёмкость, число силосов, марки цемента и схема '
                                    'отгрузки уточняются при проектировании. Каждый вариант '
                                    'адаптируется к логистике и ограничениям площадки.',
-                'tts_models_direction': 'smartstock',
+                'tts_models_direction': {'term': 'smartstock'},
                 'tts_models_limit': 0,
                 'tts_models_grid': '',
                 'tts_models_tone': 'light',
@@ -233,6 +233,7 @@ def blocks():
                 'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
                 'tts_form_again': 'Отправить ещё одну заявку',
                 'tts_form_source': 'catalog',
+                'tts_form_picked': 1,
             },
         },
     ]

@@ -152,6 +152,13 @@ def blocks():
                 'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
                 'tts_form_again': 'Отправить ещё одну заявку',
                 'tts_form_source': 'service',
+                # Второй список страницы сервиса — срочность обращения
+                'tts_form_second_label': 'Срочность',
+                'tts_form_second_options': [
+                    {'tts_form_second_option': 'Плановое обращение'},
+                    {'tts_form_second_option': 'Оборудование остановлено'},
+                    {'tts_form_second_option': 'Работает с отклонениями'},
+                ],
             },
         },
     ]

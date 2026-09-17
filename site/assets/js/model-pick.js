@@ -2,9 +2,12 @@
 // прокручивает к ней и отправляет quote_click (п.13 ТЗ).
 // Один файл на все страницы направлений — разметка карточки везде одна.
 (function () {
+  // На статических страницах модель выбирается в списке формы, в WordPress —
+  // подставляется в поле «Выбранное оборудование». Работает и то, и другое.
   var select = document.getElementById('leadModel');
+  var picked = document.getElementById('leadPicked');
   var contact = document.getElementById('contact');
-  if (!select || !contact) return;
+  if ((!select && !picked) || !contact) return;
 
   document.addEventListener('click', function (event) {
     var link = event.target.closest('[data-model]');
@@ -13,11 +16,19 @@
 
     var model = link.getAttribute('data-model');
     var found = false;
-    for (var i = 0; i < select.options.length; i++) {
-      if (select.options[i].value === model) {
-        select.selectedIndex = i;
-        found = true;
-        break;
+
+    if (picked) {
+      picked.value = model;
+      found = true;
+    }
+
+    if (select) {
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === model) {
+          select.selectedIndex = i;
+          found = true;
+          break;
+        }
       }
     }
 
