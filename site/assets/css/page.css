@@ -772,6 +772,126 @@
   font-size: var(--fs-small);
 }
 
+/* ============ Блоки редактора внутри документа ============ */
+
+/* Юридические страницы в WordPress редактируются обычными блоками Gutenberg,
+   поэтому их разметка приходит без наших классов — оформляем по тегам. */
+.doc > h2,
+.doc > .wp-block-heading:not(h3) {
+  margin-top: var(--s-7);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+  line-height: 1.25;
+}
+
+.doc > h3 {
+  margin-top: var(--s-6);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.doc > h2:first-child,
+.doc > h3:first-child { margin-top: 0; }
+
+.doc > p {
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  line-height: 1.62;
+}
+
+.doc > p strong,
+.doc > ul strong { color: var(--c-text); font-weight: 600; }
+
+.doc > ul {
+  display: grid;
+  gap: var(--s-3);
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+.doc > ul > li {
+  position: relative;
+  padding-left: var(--s-5);
+}
+
+.doc > ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 9px;
+  background: var(--c-emerald);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+.doc .wp-block-table { margin: var(--s-5) 0 0; }
+
+.doc .wp-block-table table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+}
+
+.doc .wp-block-table th,
+.doc .wp-block-table td {
+  padding: var(--s-3) var(--s-4) var(--s-3) 0;
+  border-bottom: 1px solid var(--c-rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.doc .wp-block-table th {
+  color: var(--c-text-faint);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  /* Горизонтальный скролл обрезает текст, поэтому строки складываем
+     в карточки. Подписи ячеек добавляет тема из шапки таблицы. */
+  .doc .wp-block-table table,
+  .doc .wp-block-table tbody,
+  .doc .wp-block-table tr,
+  .doc .wp-block-table td { display: block; }
+
+  .doc .wp-block-table thead { display: none; }
+
+  .doc .wp-block-table tr {
+    padding: var(--s-4) 0;
+    border-bottom: 1px solid var(--c-rule);
+  }
+
+  .doc .wp-block-table td {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .doc .wp-block-table td + td { margin-top: var(--s-3); }
+
+  .doc .wp-block-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: var(--s-1);
+    color: var(--c-text-faint);
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+}
+
 /* ============ Плашка-предупреждение ============ */
 
 /* Заметная рамка: страница не должна выглядеть готовым документом,

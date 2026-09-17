@@ -12,6 +12,12 @@ defined( 'ABSPATH' ) || exit;
 
 require_once get_theme_file_path( 'inc/urls.php' );
 require_once get_theme_file_path( 'inc/parts.php' );
+require_once get_theme_file_path( 'inc/cpt.php' );
+
+// Поля появляются только вместе с плагином Secure Custom Fields.
+if ( file_exists( get_theme_file_path( 'inc/fields.php' ) ) ) {
+	require_once get_theme_file_path( 'inc/fields.php' );
+}
 
 /** Возможности темы. */
 function tts_setup(): void {

@@ -100,3 +100,40 @@ def fetch(url, data=None):
 def say(text):
     sys.stdout.reconfigure(encoding='utf-8')
     print(text, flush=True)
+
+
+class Admin:
+    """Вход в админку под администратором — для проверок после правок.
+
+    Пароль читаем из creds и никуда не печатаем.
+    """
+
+    def __init__(self):
+        import http.cookiejar
+        import urllib.parse
+        import urllib.request
+
+        env = read_env('card-199-cms.env')
+        self.base = SITE_URL
+        jar = http.cookiejar.CookieJar()
+        # Печеньку хостинга кладём в тот же контейнер: если задать её отдельным
+        # заголовком, она затрёт печеньки входа WordPress — уже наступали.
+        jar.set_cookie(http.cookiejar.Cookie(
+            0, 'beget', 'begetok', None, False, 'korovai.crazytest.ru', False, False,
+            '/', True, False, None, False, None, None, {}))
+        self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+        self.opener.addheaders = [('User-Agent', 'tts-check')]
+        data = urllib.parse.urlencode({
+            'log': env['CMS_USER'],
+            'pwd': env['CMS_PASSWORD'],
+            'rememberme': 'forever',
+            'redirect_to': f'{SITE_URL}/wp-admin/',
+            'testcookie': '1',
+        }).encode()
+        # Первый запрос ставит тестовую печеньку, без неё WordPress не пускает.
+        self.opener.open(f'{SITE_URL}/wp-login.php', timeout=60).read()
+        page = self.opener.open(f'{SITE_URL}/wp-login.php', data, timeout=60).read().decode('utf-8', 'replace')
+        self.logged_in = 'adminmenu' in page or 'wp-admin-bar' in page
+
+    def get(self, path):
+        return self.opener.open(self.base + path, timeout=90).read().decode('utf-8', 'replace')
