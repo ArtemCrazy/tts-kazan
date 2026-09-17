@@ -132,7 +132,10 @@ function tts_equipment_columns( array $columns ): array {
 add_filter( 'manage_equipment_posts_columns', 'tts_equipment_columns' );
 
 function tts_equipment_column( string $column, int $post_id ): void {
-	$statuses = array( 'stock' => 'В наличии', 'order' => 'Под заказ', 'request' => 'По запросу' );
+	// Подписи статусов берём из самого поля (inc/fields.php): второй список
+	// здесь уже один раз разъехался с полем и колонка была пустой.
+	$field    = function_exists( 'acf_get_field' ) ? acf_get_field( 'tts_equipment_status' ) : null;
+	$statuses = $field['choices'] ?? array();
 	if ( 'tts_equipment_code' === $column || 'tts_equipment_capacity' === $column ) {
 		echo esc_html( (string) get_post_meta( $post_id, $column, true ) );
 	} elseif ( 'tts_equipment_status' === $column ) {
