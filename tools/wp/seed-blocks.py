@@ -80,6 +80,13 @@ function tts_seed_value($value) {
         }
         return $ids;
     }
+    // Ссылка внутри сайта: в наполнении пишем '/catalog/', а сайт может
+    // жить в подпапке — превращаем в полный адрес через home_url().
+    if (is_array($value) && isset($value['url'])) {
+        $url = (string) $value['url'];
+        if ($url !== '' && $url[0] === '/') $value['url'] = home_url($url);
+        return $value;
+    }
     if (!is_array($value) || !isset($value['image'])) return $value;
     $id = tts_seed_image($value['image']);
     if ($id && !empty($value['alt']) && !get_post_meta($id, '_wp_attachment_image_alt', true)) {
