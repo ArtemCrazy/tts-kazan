@@ -622,6 +622,39 @@ function tts_fields_settings(): void {
 					),
 				),
 				array(
+					'key'   => 'field_tts_settings_tab_leads',
+					'label' => 'Заявки',
+					'name'  => '',
+					'type'  => 'tab',
+				),
+				array(
+					'key'          => 'field_tts_settings_lead_email',
+					'label'        => 'Куда отправлять заявки',
+					'name'         => 'tts_settings_lead_email',
+					'type'         => 'text',
+					'instructions' => 'Один адрес или несколько через запятую. Пока поле пустое, '
+						. 'письма не отправляются, но заявки сохраняются в разделе «Заявки».',
+				),
+				array(
+					'key'          => 'field_tts_settings_lead_subject',
+					'label'        => 'Тема письма',
+					'name'         => 'tts_settings_lead_subject',
+					'type'         => 'text',
+					'instructions' => 'Если не заполнить — «Заявка с сайта ТТС Инжиниринг».',
+				),
+				array(
+					'key'           => 'field_tts_settings_lead_days',
+					'label'         => 'Сколько дней хранить заявки',
+					'name'          => 'tts_settings_lead_days',
+					'type'          => 'number',
+					'instructions'  => 'Старые заявки удаляются автоматически: персональные данные '
+						. 'не должны лежать в админке дольше согласованного срока. '
+						. '0 — не удалять (тогда чистить вручную).',
+					'default_value' => 90,
+					'min'           => 0,
+					'max'           => 3650,
+				),
+				array(
 					'key'       => 'field_tts_settings_tab_buttons',
 					'label'     => 'Кнопки',
 					'name'      => '',

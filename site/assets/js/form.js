@@ -1,11 +1,16 @@
-// Форма заявки. Проверка на стороне браузера — обязательная часть по п.11.2 ТЗ;
-// серверная появится вместе с WordPress, сейчас отправки никуда не происходит.
+// Форма заявки. Проверка в браузере — по п.11.2 ТЗ, серверная проверка живёт
+// в теме WordPress (inc/lead.php). Если у формы нет адреса отправки
+// (статическая версия сайта), показываем подтверждение без отправки.
 (function () {
   var form = document.getElementById('leadForm');
   if (!form) return;
 
   var done = document.getElementById('leadDone');
   var again = document.getElementById('leadAgain');
+  var endpoint = form.getAttribute('data-endpoint');
+  var button = form.querySelector('.form__submit');
+  var formError = form.querySelector('[data-error-form]');
+  var opened = Date.now();
 
   var messages = {
     name: 'Укажите имя',
@@ -73,8 +78,68 @@
     });
   });
 
+  // Рекламные метки и gclid: сохраняем на время визита и прикладываем к заявке
+  // (п. 13 ТЗ). Личных данных в этом хранилище нет, только параметры ссылки.
+  var MARKS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid'];
+
+  function marks() {
+    var found = {};
+    try {
+      var saved = JSON.parse(sessionStorage.getItem('ttsMarks') || '{}');
+      MARKS.forEach(function (key) { if (saved[key]) found[key] = saved[key]; });
+    } catch (error) { /* хранилище недоступно — работаем без него */ }
+
+    var query = new URLSearchParams(location.search);
+    MARKS.forEach(function (key) {
+      var value = query.get(key);
+      if (value) found[key] = value;
+    });
+
+    try { sessionStorage.setItem('ttsMarks', JSON.stringify(found)); } catch (error) { /* не страшно */ }
+    return found;
+  }
+
+  function payload() {
+    var found = marks();
+    var utm = MARKS.filter(function (key) { return key !== 'gclid' && found[key]; })
+      .map(function (key) { return key + '=' + found[key]; }).join('&');
+
+    return {
+      name: form.elements.name.value.trim(),
+      phone: form.elements.phone.value.trim(),
+      comment: form.elements.comment ? form.elements.comment.value.trim() : '',
+      direction: form.elements.direction ? form.elements.direction.value : '',
+      model: form.elements.model ? form.elements.model.value : '',
+      source: form.getAttribute('data-source') || '',
+      page: location.href,
+      utm: utm,
+      gclid: found.gclid || '',
+      consent: Boolean(form.elements.consent && form.elements.consent.checked),
+      company: form.elements.company ? form.elements.company.value : '',
+      spent: Math.round((Date.now() - opened) / 1000)
+    };
+  }
+
+  function showDone() {
+    form.hidden = true;
+    done.hidden = false;
+    done.focus && done.focus();
+  }
+
+  function eventData() {
+    return {
+      form_id: form.id,
+      form_type: form.getAttribute('data-source') || '',
+      direction: form.elements.direction ? form.elements.direction.value : '',
+      model: form.elements.model ? form.elements.model.value : ''
+    };
+  }
+
+  var sending = false;
+
   form.addEventListener('submit', function (event) {
     event.preventDefault();
+    if (sending) return; // защита от второго клика по кнопке
 
     var ok = true;
     var first = null;
@@ -90,15 +155,46 @@
       return;
     }
 
-    track('form_submit_success', {
-      form_id: form.id,
-      direction: form.elements.direction ? form.elements.direction.value : '',
-      model: form.elements.model ? form.elements.model.value : ''
-    });
+    if (formError) formError.textContent = '';
 
-    form.hidden = true;
-    done.hidden = false;
-    done.focus && done.focus();
+    // Статическая версия: отправлять некуда, просто подтверждаем.
+    if (!endpoint) {
+      track('form_submit_success', eventData());
+      showDone();
+      return;
+    }
+
+    sending = true;
+    if (button) button.disabled = true;
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload())
+    }).then(function (response) {
+      return response.json().then(function (data) { return { status: response.status, data: data }; });
+    }).then(function (result) {
+      if (result.data && result.data.ok) {
+        // Событие успеха только после подтверждения сервером (п. 13 ТЗ).
+        track('form_submit_success', eventData());
+        showDone();
+        return;
+      }
+
+      var errors = (result.data && result.data.errors) || {};
+      Object.keys(errors).forEach(function (name) {
+        var control = form.elements[name];
+        if (control) showError(control, errors[name]);
+      });
+      if (errors.form && formError) formError.textContent = errors.form;
+      track('form_submit_error', eventData());
+    }).catch(function () {
+      if (formError) formError.textContent = 'Не удалось отправить. Попробуйте ещё раз или позвоните нам.';
+      track('form_submit_error', eventData());
+    }).finally(function () {
+      sending = false;
+      if (button) button.disabled = false;
+    });
   });
 
   if (again) {
@@ -108,6 +204,8 @@
       done.hidden = true;
       form.hidden = false;
       started = false;
+      opened = Date.now();
+      if (formError) formError.textContent = '';
       form.elements.name.focus();
     });
   }

@@ -149,6 +149,16 @@
     }
   };
 
+  // Настройки из WordPress: блок квиза печатает их рядом с секцией в JSON.
+  // Если их нет — работает статическая версия с данными выше.
+  var EXTERNAL = (function () {
+    var node = document.getElementById('tts-quiz-config');
+    if (!node) return null;
+    try { return JSON.parse(node.textContent); } catch (error) { return null; }
+  })();
+
+  if (EXTERNAL && EXTERNAL.directions) DIRECTIONS = EXTERNAL.directions;
+
   var direction = document.getElementById('quizDirection');
   var capacity = document.getElementById('quizCapacity');
   var stage = document.getElementById('quizStage');
@@ -189,9 +199,16 @@
   function buildCard(item, index, key) {
     var card = element('article', 'model');
 
-    var art = RENDER[item.name];
+    // В статической версии рендер описан ключом и подставляется через CSS,
+    // а в WordPress приходит готовый адрес картинки из медиатеки.
+    var art = item.image || RENDER[item.name];
     var plate = element('div', 'model__plate' + (art ? ' model__plate--photo' : ' on-dark'));
-    if (art) plate.dataset.render = art;
+    var isAddress = art && (/^(https?:)?\/\//.test(art) || art.charAt(0) === '/');
+    if (isAddress) {
+      plate.style.backgroundImage = 'url("' + art + '")';
+    } else if (art) {
+      plate.dataset.render = art;
+    }
     plate.append(
       element('span', 'model__badge' + (index ? ' model__badge--alt' : ''),
         index ? 'С запасом производительности' : 'Основная рекомендация'),
@@ -208,12 +225,12 @@
 
     var ready = Boolean(CATALOG_ROOT && BUILT[key]);
     var more = element('a', 'btn btn--ghost', 'Подробнее');
-    more.href = ready ? CATALOG_ROOT + CATALOG_SLUG[key] : CATALOG_PAGE[key];
-    if (!ready) more.setAttribute('data-stage', '');
+    more.href = item.page || (ready ? CATALOG_ROOT + CATALOG_SLUG[key] : CATALOG_PAGE[key]);
+    if (!item.page && !ready) more.setAttribute('data-stage', '');
 
     var quote = element('a', 'btn btn--solid', 'Получить КП');
-    quote.href = '/#contact';
-    quote.setAttribute('data-stage', '');
+    quote.href = item.quote || '/#contact';
+    if (!item.quote) quote.setAttribute('data-stage', '');
     quote.addEventListener('click', function () {
       track('quote_click', { direction: DIRECTIONS[key].label, model: item.name });
     });

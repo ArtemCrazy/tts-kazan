@@ -14,9 +14,15 @@ require_once get_theme_file_path( 'inc/urls.php' );
 require_once get_theme_file_path( 'inc/parts.php' );
 require_once get_theme_file_path( 'inc/cpt.php' );
 
+require_once get_theme_file_path( 'inc/blocks.php' );
+require_once get_theme_file_path( 'inc/quiz.php' );
+require_once get_theme_file_path( 'inc/lead.php' );
+
 // Поля появляются только вместе с плагином Secure Custom Fields.
-if ( file_exists( get_theme_file_path( 'inc/fields.php' ) ) ) {
-	require_once get_theme_file_path( 'inc/fields.php' );
+// Файлы полей блоков подключаем все: каждый блок описывает свои поля сам.
+require_once get_theme_file_path( 'inc/fields.php' );
+foreach ( (array) glob( get_theme_file_path( 'inc/fields-block*.php' ) ) as $part ) {
+	require_once $part;
 }
 
 /** Возможности темы. */
