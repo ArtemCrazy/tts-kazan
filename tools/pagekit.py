@@ -30,7 +30,6 @@ SITE = {
 }
 
 # Ничего не осталось: все разделы, на которые ведут ссылки, собраны.
-# Заглушкой остаётся только внешний квиз Marquiz — ждём ссылку от заказчика.
 STAGED = {}
 
 DIRECTIONS = [
@@ -247,12 +246,6 @@ def chrome_bottom(ctx, scripts):
   </div>
 </footer>
 
-<a class="quiz-cta" href="/marquiz/" aria-label="Получить расчёт проекта" data-stage data-marquiz>
-  <svg class="quiz-cta__icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
-    <path d="M3 4h14M3 10h14M3 16h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path>
-  </svg>
-  <span class="quiz-cta__label">Получить расчёт проекта</span>
-</a>
 
 <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
 
@@ -395,7 +388,9 @@ def matrix(headers, rows, note=None):
     body = '\n'.join(
         '            <tr>\n              <th scope="row">%s</th>\n%s\n            </tr>' % (
             e(row[0]),
-            '\n'.join(f'              <td>{e(c)}</td>' for c in row[1:]))
+            # data-label — подпись ячейки на мобильном, где шапка таблицы скрыта
+            '\n'.join(f'              <td data-label="{e(h)}">{e(c)}</td>'
+                      for h, c in zip(headers[1:], row[1:])))
         for row in rows)
     tail = f'\n      <p class="matrix__note">{e(note)}</p>' if note else ''
     return f'''      <div class="matrix__wrap">
