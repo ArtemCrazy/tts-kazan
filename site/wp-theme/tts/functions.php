@@ -108,6 +108,20 @@ add_action( 'wp_head', 'tts_preload_fonts', 2 );
  * Разметка страниц построена на своих классах, и стандартные стили блочной
  * темы ей только мешают. Оставляем те, что нужны содержимому редактора.
  */
+function tts_trim_default_scripts(): void {
+	// Скрипт замены эмодзи на картинки сайту не нужен, а весит он заметно
+	// (п. 15.1 ТЗ: не подключать библиотеки, которые не используются).
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
+	// RSS-лента и oEmbed на корпоративном сайте без блога тоже не нужны
+	remove_action( 'wp_head', 'feed_links_extra', 3 );
+	remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+	remove_action( 'wp_head', 'wp_generator' );
+}
+add_action( 'init', 'tts_trim_default_scripts' );
+
 function tts_trim_default_styles(): void {
 	wp_dequeue_style( 'wp-block-library-theme' );
 	wp_dequeue_style( 'classic-theme-styles' );

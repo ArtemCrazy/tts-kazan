@@ -66,6 +66,22 @@ if ( $chosen ) {
 }
 $statuses = tts_equipment_status_labels();
 
+/*
+ * Подпись первого показателя в статике своя на каждой странице направления
+ * (site/4/catalog/<направление>/index.html): у бетонных заводов «фактическая
+ * производительность», у ВПИ «бетонной смеси», у терминалов «полезная
+ * вместимость». Отдельного поля под неё нет — берём по назначению модели,
+ * значения которого фиксированы списком в inc/fields.php.
+ */
+$spec_labels        = array(
+	'dry-mix'        => 'производительность',
+	'concrete'       => 'фактическая производительность',
+	'vpi'            => 'бетонной смеси',
+	'cement-storage' => 'полезная вместимость',
+	'pneumo'         => 'производительность',
+);
+$spec_label_default = 'производительность';
+
 // Кнопка «Подобрать» подставляет модель в форму заявки — скрипт нужен
 // только на страницах, где этот блок стоит (п. 15.1 ТЗ).
 if ( ! is_admin() ) {
@@ -81,14 +97,37 @@ if ( ! is_admin() ) {
 		<div class="<?php echo esc_attr( trim( 'models ' . $grid ) ); ?>">
 			<?php
 			foreach ( $items as $item ) :
-				$name     = (string) get_the_title( $item );
-				$code     = (string) get_field( 'tts_equipment_code', $item->ID );
-				$status   = (string) get_field( 'tts_equipment_status', $item->ID );
-				$summary  = (string) get_field( 'tts_equipment_summary', $item->ID );
+				$name   = (string) get_the_title( $item );
+				$code   = (string) get_field( 'tts_equipment_code', $item->ID );
+				$status = (string) get_field( 'tts_equipment_status', $item->ID );
+				$photo  = (int) get_field( 'tts_equipment_photo', $item->ID );
+				$render = $photo ? (string) wp_get_attachment_image_url( $photo, 'large' ) : '';
+
+				// На странице направления у карточки свои тексты: название
+				// комплектации и описание состава. Пусто — берём то, что
+				// показывает общий каталог.
+				$heading = (string) get_field( 'tts_equipment_title_long', $item->ID );
+				$heading = $heading ?: $name;
+				$text    = (string) get_field( 'tts_equipment_summary_long', $item->ID );
+				$text    = $text ?: (string) get_field( 'tts_equipment_summary', $item->ID );
+
+				// Два показателя вместо одного: первый — производительность
+				// модели, второй задаётся в записи.
+				$specs    = array();
 				$capacity = (string) get_field( 'tts_equipment_capacity', $item->ID );
-				$features = tts_rows( get_field( 'tts_equipment_features', $item->ID ) );
-				$photo    = (int) get_field( 'tts_equipment_photo', $item->ID );
-				$render   = $photo ? (string) wp_get_attachment_image_url( $photo, 'large' ) : '';
+				$purpose  = (string) get_field( 'tts_equipment_purpose', $item->ID );
+				if ( $capacity ) {
+					$specs[] = array( $capacity, $spec_labels[ $purpose ] ?? $spec_label_default );
+				}
+				$spec2_value = (string) get_field( 'tts_equipment_spec2_value', $item->ID );
+				$spec2_label = (string) get_field( 'tts_equipment_spec2_label', $item->ID );
+				if ( $spec2_value || $spec2_label ) {
+					$specs[] = array( $spec2_value, $spec2_label );
+				}
+
+				// Подпись кнопки: своя у модели («Подобрать Т10») или общая из блока.
+				$button = (string) get_field( 'tts_equipment_cta', $item->ID );
+				$button = $button ?: $cta;
 				?>
 			<article class="model">
 				<?php if ( $render ) : ?>
@@ -104,44 +143,47 @@ if ( ! is_admin() ) {
 
 				<div class="model__top">
 					<?php if ( $status ) : ?>
-					<span class="model__tag"><?php echo esc_html( $statuses[ $status ] ?? $status ); ?></span>
+					<?php
+					// На странице направления у карточки свой ярлык («Стартовая линия»),
+					// и только если его не задали — показываем статус позиции.
+					$tag = (string) get_field( 'tts_equipment_tag', $item->ID );
+					$tag = $tag ?: ( $statuses[ $status ] ?? $status );
+					?>
+					<span class="model__tag"><?php echo esc_html( $tag ); ?></span>
 					<?php endif; ?>
 					<?php if ( $code ) : ?>
 					<span class="model__code"><?php echo esc_html( $code ); ?></span>
 					<?php endif; ?>
 				</div>
 
-				<h3 class="model__title"><?php echo esc_html( $name ); ?></h3>
+				<h3 class="model__title"><?php echo esc_html( $heading ); ?></h3>
 
-				<?php if ( $summary ) : ?>
-				<p class="model__text"><?php echo esc_html( $summary ); ?></p>
+				<?php if ( $text ) : ?>
+				<p class="model__text"><?php echo esc_html( $text ); ?></p>
 				<?php endif; ?>
 
-				<?php if ( $features ) : ?>
-				<ul class="points">
-					<?php foreach ( $features as $feature ) : ?>
-						<?php $text = (string) ( $feature['tts_equipment_feature'] ?? '' ); ?>
-						<?php if ( $text ) : ?>
-					<li class="point"><p class="point__title"><?php echo esc_html( $text ); ?></p></li>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				</ul>
-				<?php endif; ?>
-
-				<?php if ( $capacity ) : ?>
+				<?php // Особенностей в карточке страницы направления нет — они в модальном окне каталога. ?>
+				<?php if ( $specs ) : ?>
 				<div class="model__specs">
+					<?php foreach ( $specs as $spec ) : ?>
 					<div>
-						<strong class="model__value"><?php echo esc_html( $capacity ); ?></strong>
-						<?php // Подпись показателя одна на весь сайт — та же, что в карточке общего каталога. ?>
-						<span class="model__label">Производительность / вместимость</span>
+						<strong class="model__value"><?php echo esc_html( $spec[0] ); ?></strong>
+						<span class="model__label"><?php echo esc_html( $spec[1] ); ?></span>
 					</div>
+					<?php endforeach; ?>
 				</div>
 				<?php endif; ?>
 
-				<?php if ( $cta ) : ?>
+				<?php if ( $button ) : ?>
 				<?php // data-model подставляет модель в форму заявки (assets/js/model-pick.js). ?>
-				<a class="btn btn--solid model__link" href="#contact" data-model="<?php echo esc_attr( $name ); ?>">
-					<?php echo esc_html( $cta ); ?>
+				<?php
+				// В заявку уходит полное название комплектации, если оно задано:
+				// инженер должен видеть модель вместе с прессом.
+				$lead_name = (string) get_field( 'tts_equipment_lead_name', $item->ID );
+				$lead_name = $lead_name ?: $heading;
+				?>
+				<a class="btn btn--solid model__link" href="#contact" data-model="<?php echo esc_attr( $lead_name ); ?>">
+					<?php echo esc_html( $button ); ?>
 					<?php echo tts_arrow(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				</a>
 				<?php endif; ?>

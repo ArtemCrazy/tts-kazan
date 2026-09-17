@@ -124,38 +124,34 @@ def blocks():
             },
         },
         {
-            'block': 'figures',
+            # Тёмная секция #specs в статике — двухколоночный .split
+            # (site/4/catalog/pkn/index.html): слева цифры готовности к монтажу,
+            # справа исходные параметры для подбора. Переносим одним блоком split.
+            'block': 'split',
             'anchor': 'specs',
             'fields': {
-                'tts_figures_kicker': 'Готовность к монтажу',
-                'tts_figures_title': 'Поставка в собранном виде',
-                'tts_figures_lead': 'Насос комплектуется шкафом управления с уже заданными '
-                                    'настройками. На площадке остаётся установить оборудование, '
-                                    'подключить коммуникации и выполнить пусконаладку.',
-                'tts_figures_tone': 'dark',
-                'tts_figures_items': [
-                    {'tts_figures_item_value': '2 года',
-                     'tts_figures_item_label': 'гарантия на оборудование'},
-                    {'tts_figures_item_value': 'в сборе',
-                     'tts_figures_item_label': 'со шкафом управления'},
+                'tts_split_kicker': 'Готовность к монтажу',
+                'tts_split_title': 'Поставка в собранном виде',
+                'tts_split_lead': 'Насос комплектуется шкафом управления с уже заданными '
+                                  'настройками. На площадке остаётся установить оборудование, '
+                                  'подключить коммуникации и выполнить пусконаладку.',
+                'tts_split_figures': [
+                    {'tts_split_figure_value': '2 года',
+                     'tts_split_figure_label': 'гарантия на оборудование'},
+                    {'tts_split_figure_value': 'в сборе',
+                     'tts_split_figure_label': 'со шкафом управления'},
                 ],
-            },
-        },
-        {
-            'block': 'points',
-            'fields': {
-                'tts_points_kicker': 'Общие характеристики',
-                'tts_points_title': 'Исходные параметры для подбора',
-                'tts_points_tone': 'dark',
-                'tts_points_items': [
-                    {'tts_points_item_title': 'Производительность',
-                     'tts_points_item_text': '10–60 т/ч, в зависимости от модели.'},
-                    {'tts_points_item_title': 'Дальность и высота подачи',
-                     'tts_points_item_text': 'До 250 м по трассе и до 30 м по высоте.'},
-                    {'tts_points_item_title': 'Разгонный участок',
-                     'tts_points_item_text': 'Сокращённая длина — 4 метра.'},
-                    {'tts_points_item_title': 'Электропитание и воздух',
-                     'tts_points_item_text': '380 В / 50 Гц; сжатый воздух 0,6 МПа, 5–12 м³/мин.'},
+                'tts_split_points_kicker': 'Общие характеристики',
+                'tts_split_points_title': 'Исходные параметры для подбора',
+                'tts_split_points': [
+                    {'tts_split_point_title': 'Производительность',
+                     'tts_split_point_text': '10–60 т/ч, в зависимости от модели.'},
+                    {'tts_split_point_title': 'Дальность и высота подачи',
+                     'tts_split_point_text': 'До 250 м по трассе и до 30 м по высоте.'},
+                    {'tts_split_point_title': 'Разгонный участок',
+                     'tts_split_point_text': 'Сокращённая длина — 4 метра.'},
+                    {'tts_split_point_title': 'Электропитание и воздух',
+                     'tts_split_point_text': '380 В / 50 Гц; сжатый воздух 0,6 МПа, 5–12 м³/мин.'},
                 ],
             },
         },

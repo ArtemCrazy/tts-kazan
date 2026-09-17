@@ -163,53 +163,43 @@ def blocks():
             },
         },
         {
-            # Тёмная секция #asu в статике — двухколоночный .split: слева цифры,
-            # справа список возможностей АСУ. Блока-«разворота» в теме нет,
-            # поэтому колонки переносим двумя тёмными секциями подряд:
-            # figures (левая колонка) и points (правая). Тексты — как в статике,
-            # разница только в раскладке.
-            'block': 'figures',
+            # Тёмная секция #asu в статике — двухколоночный .split
+            # (site/4/catalog/smartbeton/index.html): слева цифры по АСУ,
+            # справа список возможностей. Переносим одним блоком split.
+            'block': 'split',
             'anchor': 'asu',
             'fields': {
-                'tts_figures_kicker': 'Собственная АСУ ТП',
-                'tts_figures_title': 'SmartMix делает производство предсказуемым',
-                'tts_figures_lead': 'Система хранит рецептуры, контролирует точность дозирования, '
-                                    'ведёт учёт материалов и формирует отчёты по каждому замесу.',
-                'tts_figures_tone': 'dark',
-                'tts_figures_items': [
-                    {'tts_figures_item_value': '700+',
-                     'tts_figures_item_label': 'систем работают в России и СНГ'},
-                    {'tts_figures_item_value': '100+',
-                     'tts_figures_item_label': 'функций управления в одном интерфейсе'},
-                    {'tts_figures_item_value': '1',
-                     'tts_figures_item_label': 'оператор на весь бетонный завод'},
-                    {'tts_figures_item_value': '24/7',
-                     'tts_figures_item_label': 'техническая поддержка разработчика'},
+                'tts_split_kicker': 'Собственная АСУ ТП',
+                'tts_split_title': 'SmartMix делает производство предсказуемым',
+                'tts_split_lead': 'Система хранит рецептуры, контролирует точность дозирования, '
+                                  'ведёт учёт материалов и формирует отчёты по каждому замесу.',
+                'tts_split_figures': [
+                    {'tts_split_figure_value': '700+',
+                     'tts_split_figure_label': 'систем работают в России и СНГ'},
+                    {'tts_split_figure_value': '100+',
+                     'tts_split_figure_label': 'функций управления в одном интерфейсе'},
+                    {'tts_split_figure_value': '1',
+                     'tts_split_figure_label': 'оператор на весь бетонный завод'},
+                    {'tts_split_figure_value': '24/7',
+                     'tts_split_figure_label': 'техническая поддержка разработчика'},
                 ],
-            },
-        },
-        {
-            # Правая колонка той же тёмной секции #asu.
-            'block': 'points',
-            'fields': {
-                'tts_points_kicker': 'Контроль и прозрачность',
-                'tts_points_title': 'Каждый замес — под контролем',
-                'tts_points_tone': 'dark',
-                'tts_points_items': [
-                    {'tts_points_item_title': 'Рецептуры и точность дозирования',
-                     'tts_points_item_text': 'Хранение настроек и автоматический контроль '
+                'tts_split_points_kicker': 'Контроль и прозрачность',
+                'tts_split_points_title': 'Каждый замес — под контролем',
+                'tts_split_points': [
+                    {'tts_split_point_title': 'Рецептуры и точность дозирования',
+                     'tts_split_point_text': 'Хранение настроек и автоматический контроль '
                                              'выполнения рецептуры во время производства.'},
-                    {'tts_points_item_title': 'Учёт материалов и отчёты',
-                     'tts_points_item_text': 'Фиксация расхода компонентов и формирование отчёта '
+                    {'tts_split_point_title': 'Учёт материалов и отчёты',
+                     'tts_split_point_text': 'Фиксация расхода компонентов и формирование отчёта '
                                              'по каждому произведённому замесу.'},
-                    {'tts_points_item_title': 'Интеграция с 1С и ERP',
-                     'tts_points_item_text': 'Обмен производственными данными с учётными '
+                    {'tts_split_point_title': 'Интеграция с 1С и ERP',
+                     'tts_split_point_text': 'Обмен производственными данными с учётными '
                                              'системами предприятия.'},
-                    {'tts_points_item_title': 'Защита рецептов и отчёты в Telegram',
-                     'tts_points_item_text': 'Разграничение доступа к производственным данным и '
+                    {'tts_split_point_title': 'Защита рецептов и отчёты в Telegram',
+                     'tts_split_point_text': 'Разграничение доступа к производственным данным и '
                                              'оперативное получение ключевых отчётов.'},
-                    {'tts_points_item_title': 'Режим «Тренажёр»',
-                     'tts_points_item_text': 'Обучение операторов работе с интерфейсом и '
+                    {'tts_split_point_title': 'Режим «Тренажёр»',
+                     'tts_split_point_text': 'Обучение операторов работе с интерфейсом и '
                                              'производственными сценариями без риска для '
                                              'действующего процесса.'},
                 ],

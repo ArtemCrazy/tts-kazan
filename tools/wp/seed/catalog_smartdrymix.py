@@ -126,46 +126,36 @@ def blocks():
             },
         },
         {
-            # Тёмная секция #asu в статике — двухколоночный .split: слева цифры,
-            # справа список возможностей АСУ. Блока-«разворота» в теме нет,
-            # поэтому колонки переносим двумя тёмными секциями подряд:
-            # figures (левая колонка) и points (правая). Тексты — как в статике,
-            # разница только в раскладке.
-            'block': 'figures',
+            # Тёмная секция #asu в статике — двухколоночный .split
+            # (site/4/catalog/smartdrymix/index.html): слева цифры по АСУ,
+            # справа контур управления и учёта. Переносим одним блоком split.
+            'block': 'split',
             'anchor': 'asu',
             'fields': {
-                'tts_figures_kicker': 'АСУ ТП собственной разработки',
-                'tts_figures_title': 'SmartDryMix управляет всей линией',
-                'tts_figures_lead': 'Заявленные показатели зависят от исходного состояния '
-                                    'производства, состава линии и режима эксплуатации.',
-                'tts_figures_tone': 'dark',
-                'tts_figures_items': [
-                    {'tts_figures_item_value': '+30%',
-                     'tts_figures_item_label': 'производительность завода'},
-                    {'tts_figures_item_value': '−20%',
-                     'tts_figures_item_label': 'издержки производства'},
+                'tts_split_kicker': 'АСУ ТП собственной разработки',
+                'tts_split_title': 'SmartDryMix управляет всей линией',
+                'tts_split_lead': 'Заявленные показатели зависят от исходного состояния '
+                                  'производства, состава линии и режима эксплуатации.',
+                'tts_split_figures': [
+                    {'tts_split_figure_value': '+30%',
+                     'tts_split_figure_label': 'производительность завода'},
+                    {'tts_split_figure_value': '−20%',
+                     'tts_split_figure_label': 'издержки производства'},
                 ],
-            },
-        },
-        {
-            # Правая колонка той же тёмной секции #asu.
-            'block': 'points',
-            'fields': {
-                'tts_points_kicker': 'Автоматизация',
-                'tts_points_title': 'Один контур управления и учёта',
-                'tts_points_tone': 'dark',
-                'tts_points_items': [
-                    {'tts_points_item_title': 'Управление линией',
-                     'tts_points_item_text': 'Дозирование, смешивание и фасовка работают в едином '
+                'tts_split_points_kicker': 'Автоматизация',
+                'tts_split_points_title': 'Один контур управления и учёта',
+                'tts_split_points': [
+                    {'tts_split_point_title': 'Управление линией',
+                     'tts_split_point_text': 'Дозирование, смешивание и фасовка работают в едином '
                                              'производственном контуре.'},
-                    {'tts_points_item_title': 'Учёт и интеграция',
-                     'tts_points_item_text': 'Расчёт остатков сырья и обмен данными с 1С и '
+                    {'tts_split_point_title': 'Учёт и интеграция',
+                     'tts_split_point_text': 'Расчёт остатков сырья и обмен данными с 1С и '
                                              'ERP-системами заказчика.'},
-                    {'tts_points_item_title': 'Обучение операторов',
-                     'tts_points_item_text': 'Режим «Тренажёр» позволяет отрабатывать действия '
+                    {'tts_split_point_title': 'Обучение операторов',
+                     'tts_split_point_text': 'Режим «Тренажёр» позволяет отрабатывать действия '
                                              'без остановки производства.'},
-                    {'tts_points_item_title': 'Техническая поддержка 24/7',
-                     'tts_points_item_text': 'Сопровождение собственной АСУ ТП специалистами '
+                    {'tts_split_point_title': 'Техническая поддержка 24/7',
+                     'tts_split_point_text': 'Сопровождение собственной АСУ ТП специалистами '
                                              'разработчика.'},
                 ],
             },

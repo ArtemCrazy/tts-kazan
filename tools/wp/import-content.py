@@ -1,8 +1,9 @@
 """Перенос контента статической версии в WordPress.
 
 Что уезжает: направления, 23 позиции каталога с рендерами, матрица подбора
-для квиза, проекты, вопросы и ответы, услуги сервиса. Источник — файлы
-статической версии (см. catalog_static.py и content_static.py), поэтому
+для квиза, проекты, вопросы и ответы, услуги сервиса, а также тексты
+комплектаций со страниц направлений. Источник — файлы статической версии
+(см. catalog_static.py, content_static.py и models_static.py), поэтому
 тексты совпадают с сайтом дословно.
 
 Скрипт можно запускать повторно: записи ищутся по коду или заголовку и
@@ -24,6 +25,11 @@ try:
     import content_static
 except ImportError:  # модуль появляется отдельно — без него переносим только каталог
     content_static = None
+
+try:
+    import models_static
+except ImportError:  # без него карточки направлений останутся с текстами каталога
+    models_static = None
 
 RUNNER = r'''<?php
 // Одноразовый перенос контента. Удаляется сразу после работы.
@@ -114,6 +120,15 @@ foreach ($plan['equipment'] as $item) {
     update_field('tts_equipment_status', $item['status'], $id);
     update_field('tts_equipment_summary', $item['summary'], $id);
     update_field('tts_equipment_capacity', $item['capacity'], $id);
+    // Тексты карточки на странице направления: комплектация называется иначе,
+    // описание своё, показателей два, подпись кнопки своя.
+    update_field('tts_equipment_title_long', $item['title_long'], $id);
+    update_field('tts_equipment_summary_long', $item['summary_long'], $id);
+    update_field('tts_equipment_spec2_value', $item['spec2_value'], $id);
+    update_field('tts_equipment_spec2_label', $item['spec2_label'], $id);
+    update_field('tts_equipment_cta', $item['cta'], $id);
+    update_field('tts_equipment_tag', $item['tag'], $id);
+    update_field('tts_equipment_lead_name', $item['lead_name'], $id);
     update_field('tts_equipment_purpose', $item['purpose'], $id);
     update_field('tts_equipment_scale', $item['scale'], $id);
     update_field('tts_equipment_features', array_map(
@@ -226,9 +241,20 @@ def plan():
     # Все страницы направлений лежат внутри каталога (п. 4.1 ТЗ)
     pages = {slug: f'catalog/{slug}' for slug, _ in DIRECTIONS.values()}
 
+    # Карточки со страниц направлений: ключ — направление и код модели.
+    # Код уникален только внутри направления, поэтому ищем по паре.
+    cards = models_static.by_code() if models_static else {}
+
     items = catalog()
     equipment = []
     for index, item in enumerate(items):
+        # Позиция каталога может не попасть ни на одну страницу направления
+        # (на ВПИ показывают три комплектации из семи) — тогда длинных
+        # текстов у неё просто нет.
+        card = cards.get((item['direction'], item['code']), {})
+        specs = card.get('specs') or []
+        spec2 = specs[1] if len(specs) > 1 else ('', '')
+
         equipment.append({
             'name': item['name'],
             'code': item['code'],
@@ -241,6 +267,13 @@ def plan():
             'direction': item['direction'],
             'page': pages.get(item['direction'], ''),
             'image': image_for(item),
+            'title_long': card.get('title', ''),
+            'summary_long': card.get('text', ''),
+            'spec2_value': spec2[0],
+            'spec2_label': spec2[1],
+            'cta': card.get('cta', ''),
+            'tag': card.get('tag', ''),
+            'lead_name': card.get('value', ''),
             'order': (index + 1) * 10,
         })
 
@@ -295,6 +328,12 @@ def main():
     say(f"к переносу: направлений {len(data['directions'])}, моделей {len(data['equipment'])}, "
         f"строк матрицы {len(data['quiz'])}, проектов {len(data['projects'])}, "
         f"вопросов {len(data['faq'])}, услуг {len(data['services'])}")
+
+    matched = [item for item in data['equipment'] if item['title_long']]
+    say(f'из них с текстами комплектаций со страниц направлений: {len(matched)}')
+    rest = [item['name'] for item in data['equipment'] if not item['title_long']]
+    if rest:
+        say('только в общем каталоге: ' + ', '.join(rest))
 
     payload = 'import-' + secrets.token_hex(4) + '.json'
     token = secrets.token_hex(8)
