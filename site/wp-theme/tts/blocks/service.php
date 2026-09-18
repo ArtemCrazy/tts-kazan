@@ -41,7 +41,7 @@ $cards  = tts_rows( get_field( 'tts_service_block_cards' ) );
 				$link    = (array) ( $card['tts_service_block_card_link'] ?? array() );
 				$request = (array) ( $card['tts_service_block_card_request'] ?? array() );
 				// Пункты редактор пишет по одному в строке.
-				$points  = array_filter( array_map( 'trim', (array) preg_split( '/\R+/', (string) ( $card['tts_service_block_card_points'] ?? '' ) ) ) );
+				$points  = array_filter( array_map( 'trim', (array) preg_split( '/\R+/u', (string) ( $card['tts_service_block_card_points'] ?? '' ) ) ) );
 				// Кнопка ведёт на страницу раздела, поэтому без адреса её не показываем.
 				$has_link = ! empty( $link['title'] ) && ! empty( $link['url'] );
 				?>

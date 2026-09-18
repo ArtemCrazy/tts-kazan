@@ -20,7 +20,7 @@ def blocks():
                                  'товарного бетона, ЖБИ, ВПИ и строительства «под ключ».',
                 'tts_hero_primary': {'title': 'Перейти в каталог', 'url': '/catalog/', 'target': ''},
                 'tts_hero_secondary': {'title': 'Выбрать оборудование', 'url': '#quiz', 'target': ''},
-                'tts_hero_photo': {'image': 'img/hero-plant-tts.png',
+                'tts_hero_photo': {'image': 'img/hero-plant-tts.webp',
                                     'alt': 'Бетонный завод ТТС: силосы цемента, смесительный узел, конвейер и склад заполнителей'},
                 'tts_hero_tag': 'Проектирование и поставка под ключ',
                 'tts_hero_proofs': [
@@ -119,7 +119,7 @@ def blocks():
                 ],
                 'tts_feature_cta': {'title': 'Смотреть линии QUNFENG + ТТС',
                                     'url': '/catalog/vpi/', 'target': ''},
-                'tts_feature_shot': {'image': 'img/vpi-press.png',
+                'tts_feature_shot': {'image': 'img/vpi-press.webp',
                                     'alt': 'Вибропресс QUNFENG с пультом управления, гидростанцией и участком подачи поддонов'},
                 'tts_feature_caption': 'единая линия ВПИ',
                 'tts_feature_partner': {'image': 'img/qunfeng-logo.png'},
@@ -141,7 +141,7 @@ def blocks():
                 ],
                 'tts_feature_cta': {'title': 'Подобрать бетонный завод',
                                     'url': '/catalog/smartbeton/', 'target': ''},
-                'tts_feature_shot': {'image': 'img/beton-plant.png',
+                'tts_feature_shot': {'image': 'img/beton-plant.webp',
                                     'alt': 'Бетонный завод SmartBeton: четыре силоса цемента, смесительный узел, конвейер, склад заполнителей и автобетоносмеситель'},
                 'tts_feature_caption': 'SmartBeton 60 / 90 / 120 / 135',
                 # Вторая секция подряд — зеркальная раскладка, как в статике
@@ -240,7 +240,7 @@ def blocks():
             'block': 'pkn',
             'anchor': 'pkn',
             'fields': {
-                'tts_pkn_photo': {'image': 'img/pkn-pump.jpg',
+                'tts_pkn_photo': {'image': 'img/pkn-pump.webp',
                                     'alt': 'Пневмокамерный насос: приёмная воронка, смотровой люк, выпускной патрубок и запорная арматура'},
                 'tts_pkn_caption': 'Дополнительное оборудование',
                 'tts_pkn_kicker': 'Пневмотранспорт',

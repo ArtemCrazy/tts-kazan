@@ -55,6 +55,7 @@ $proofs    = tts_rows( get_field( 'tts_hero_proofs' ) );
 				'img/hero-plant-tts.png',
 				'hero__plant',
 				'Бетонный завод ТТС: силосы цемента, смесительный узел, конвейер и склад заполнителей',
+				true,
 				true
 			);
 			?>

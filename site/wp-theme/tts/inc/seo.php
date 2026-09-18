@@ -143,3 +143,12 @@ function tts_schema_output(): void {
 	);
 }
 add_action( 'wp_footer', 'tts_schema_output', 20 );
+
+/*
+ * Своя разметка Rank Math нам не подходит: он объявляет страницы статьями
+ * (Article), подставляет автором служебный логин (Person) и добавляет
+ * организацию без подтверждённых реквизитов. По п. 14 ТЗ разметка — только
+ * по реальным данным, поэтому выводим свою (выше), а его отключаем.
+ * Заголовки, описания, canonical и Open Graph Rank Math выводит по-прежнему.
+ */
+add_filter( 'rank_math/json_ld', '__return_empty_array', 99 );

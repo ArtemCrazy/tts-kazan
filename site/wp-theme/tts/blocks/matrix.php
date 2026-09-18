@@ -37,6 +37,12 @@ $tones = array(
 );
 $tone  = (string) get_field( 'tts_matrix_tone' );
 $tone  = $tones[ $tone ] ?? $tones['light'];
+
+// В статике на страницах ВПИ и ПКН таблица стоит внутри секции с карточками,
+// а не отдельной секцией: отступы между ними — как между элементами одной секции.
+if ( get_field( 'tts_matrix_continue' ) ) {
+	$tone .= ' page-section--continue';
+}
 ?>
 <section <?php echo tts_block_attrs( $block, 'page-section ' . $tone, 'compare' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<div class="shell">

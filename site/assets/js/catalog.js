@@ -275,7 +275,8 @@
     scale.value = 'all';
     setCategory('all');
     renderAndTrack();
-    search.focus();
+    // На телефоне фокус в поиске открыл бы клавиатуру после простого сброса
+    if (!window.matchMedia('(pointer: coarse)').matches) search.focus();
   }
 
   function find(id) {
@@ -329,8 +330,13 @@
       cta_source: source
     });
     document.getElementById('contact').scrollIntoView({ block: 'start' });
-    var name = document.getElementById('leadName');
-    if (name) name.focus({ preventScroll: true });
+    // Фокус ставим на саму форму, а не на поле «Ваше имя»: на телефоне
+    // фокус в поле сразу открывает клавиатуру, а человек ещё только смотрит.
+    var leadForm = document.getElementById('leadForm');
+    if (leadForm) {
+      leadForm.setAttribute('tabindex', '-1');
+      leadForm.focus({ preventScroll: true });
+    }
   }
 
   grid.addEventListener('click', function (event) {

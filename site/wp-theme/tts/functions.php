@@ -20,6 +20,7 @@ require_once get_theme_file_path( 'inc/lead.php' );
 require_once get_theme_file_path( 'inc/catalog.php' );
 require_once get_theme_file_path( 'inc/analytics.php' );
 require_once get_theme_file_path( 'inc/seo.php' );
+require_once get_theme_file_path( 'inc/typograph.php' );
 
 // Поля появляются только вместе с плагином Secure Custom Fields.
 // Файлы полей блоков подключаем все: каждый блок описывает свои поля сам.
@@ -51,12 +52,48 @@ function tts_asset( string $path ): array {
 	);
 }
 
+/**
+ * Нужны ли странице стили внутренних страниц (page.css).
+ *
+ * В статической версии главная подключает только style.css, а page.css — только
+ * внутренние страницы. Это важно: в page.css свои правила для .model и карточек,
+ * и на главной они ломают карточки квиза. Поэтому повторяем статику: на главной
+ * page.css нет, пока на ней не стоит блок, которому он действительно нужен.
+ */
+function tts_needs_page_css(): bool {
+	if ( ! is_front_page() ) {
+		return true;
+	}
+	$post = get_queried_object();
+	if ( ! $post instanceof WP_Post ) {
+		return false;
+	}
+	$inner = array( 'page-head', 'cards', 'steps', 'points', 'figures', 'band', 'matrix', 'models', 'split', 'catalog' );
+	foreach ( $inner as $name ) {
+		if ( has_block( 'acf/tts-' . $name, $post ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
 /** Стили и скрипты страницы. */
 function tts_assets(): void {
-	$base = array( 'fonts/montserrat.css', 'fonts/actay.css', 'css/style.css', 'css/page.css' );
+	$base = array( 'fonts/montserrat.css', 'fonts/actay.css', 'css/style.css' );
+	if ( tts_needs_page_css() ) {
+		$base[] = 'css/page.css';
+	}
 	foreach ( $base as $i => $path ) {
 		list( $url, $ver ) = tts_asset( $path );
 		wp_enqueue_style( 'tts-base-' . $i, $url, array(), $ver );
+	}
+
+	// Стили каталога — в шапке, как в статике: иначе они приходят в конце
+	// страницы и карточки на мгновение показываются без оформления.
+	$post = get_queried_object();
+	if ( $post instanceof WP_Post && has_block( 'acf/tts-catalog', $post ) ) {
+		list( $url, $ver ) = tts_asset( 'css/catalog.css' );
+		wp_enqueue_style( 'tts-catalog', $url, array(), $ver );
 	}
 
 	list( $url, $ver ) = tts_asset( 'js/app.js' );
@@ -121,6 +158,15 @@ function tts_trim_default_scripts(): void {
 	remove_action( 'wp_head', 'wp_generator' );
 }
 add_action( 'init', 'tts_trim_default_scripts' );
+
+/*
+ * С версии 6.7 WordPress ставит ленивым картинкам sizes="auto" и добавляет
+ * стиль, который до загрузки резервирует под них место 3000×1500 px. В нашей
+ * вёрстке размеры картинок заданы стилями, как в статической версии, и этот
+ * резерв раздувал блоки (например, фото насоса на главной), а потом страница
+ * прыгала при загрузке. Выключаем — как в статике.
+ */
+add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
 
 function tts_trim_default_styles(): void {
 	wp_dequeue_style( 'wp-block-library-theme' );

@@ -55,6 +55,16 @@ function tts_block_fields_matrix(): void {
 					'return_format' => 'value',
 				),
 				array(
+					'key'           => 'field_tts_matrix_continue',
+					'label'         => 'Продолжение предыдущей секции',
+					'name'          => 'tts_matrix_continue',
+					'type'          => 'true_false',
+					'instructions'  => 'Таблица встаёт сразу под карточками предыдущей секции, без своих отступов — '
+						. 'как на страницах ВПИ и ПКН. Фон выберите тот же, что у предыдущей секции.',
+					'ui'            => 1,
+					'default_value' => 0,
+				),
+				array(
 					'key'          => 'field_tts_matrix_columns',
 					'label'        => 'Столбцы',
 					'name'         => 'tts_matrix_columns',

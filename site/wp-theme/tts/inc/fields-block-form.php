@@ -81,6 +81,28 @@ function tts_block_fields_form(): void {
 					'new_lines' => '',
 				),
 				array(
+					'key'          => 'field_tts_form_models_label',
+					'label'        => 'Подпись списка моделей',
+					'name'         => 'tts_form_models_label',
+					'type'         => 'text',
+					'instructions' => 'Например, «Модель», «Конфигурация», «Вместимость». Пусто — списка моделей в форме нет.',
+				),
+				array(
+					'key'           => 'field_tts_form_models_direction',
+					'label'         => 'Модели какого направления',
+					'name'          => 'tts_form_models_direction',
+					'type'          => 'taxonomy',
+					'taxonomy'      => 'direction',
+					'field_type'    => 'select',
+					'return_format' => 'id',
+					'add_term'      => 0,
+					'save_terms'    => 0,
+					'load_terms'    => 0,
+					'allow_null'    => 1,
+					'instructions'  => 'В список попадут модели направления с заполненным «Названием для заявки». '
+						. 'Кнопка «Подобрать» в карточке выбирает модель в этом списке.',
+				),
+				array(
 					'key'   => 'field_tts_form_direction_label',
 					'label' => 'Подпись поля выбора',
 					'name'  => 'tts_form_direction_label',

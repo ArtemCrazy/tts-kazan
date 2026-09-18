@@ -26,7 +26,7 @@ $button  = (array) get_field( 'tts_pkn_button' );
 				<?php
 				// В статической версии здесь <picture> с webp: в WordPress
 				// варианты размеров и форматов подставляет сама медиатека.
-				tts_image( $photo, 'img/pkn-pump.jpg', 'pkn__shot' );
+				tts_image( $photo, 'img/pkn-pump.webp', 'pkn__shot', '', false, true );
 				?>
 				<?php if ( $caption ) : ?>
 				<p class="pkn__caption"><?php echo esc_html( $caption ); ?></p>

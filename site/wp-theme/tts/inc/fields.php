@@ -81,9 +81,12 @@ function tts_fields_equipment(): void {
 					'instructions'  => 'Подпись на карточке: готовая конфигурация, типовая модель или пример.',
 					'required'      => 1,
 					'choices'       => array(
-						'ready'   => 'Готовая конфигурация',
-						'typical' => 'Типовая модель',
-						'example' => 'Пример конфигурации',
+						'ready'     => 'Готовая конфигурация',
+						'typical'   => 'Типовая модель',
+						'example'   => 'Пример конфигурации',
+						'project'   => 'Проектная конфигурация',
+						'modified'  => 'Модифицированный',
+						'transport' => 'Пневмотранспорт',
 					),
 					'default_value' => 'example',
 					'allow_null'    => 0,
@@ -153,9 +156,9 @@ function tts_fields_equipment(): void {
 					'instructions'  => 'По этому полю работает фильтр в общем каталоге и подбор в квизе на главной.',
 					'required'      => 1,
 					'choices'       => array(
-						'dry-mix'        => 'Сухие смеси',
+						'dry-mix'        => 'Сухие строительные смеси',
 						'concrete'       => 'Товарный бетон и дороги',
-						'vpi'            => 'ВПИ',
+						'vpi'            => 'Вибропрессованные изделия',
 						'cement-storage' => 'Хранение цемента',
 						'pneumo'         => 'Пневмотранспорт',
 					),
@@ -254,6 +257,13 @@ function tts_fields_direction(): void {
 			'key'                   => 'group_tts_direction',
 			'title'                 => 'Данные направления',
 			'fields'                => array(
+				array(
+					'key'          => 'field_tts_direction_tab',
+					'label'        => 'Подпись в табах каталога',
+					'name'         => 'tts_direction_tab',
+					'type'         => 'text',
+					'instructions' => 'Короткое название для таба в общем каталоге, например «ПКН». Если пусто, берётся название направления.',
+				),
 				array(
 					'key'          => 'field_tts_direction_summary',
 					'label'        => 'Описание для карточки',

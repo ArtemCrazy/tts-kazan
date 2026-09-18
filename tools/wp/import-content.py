@@ -13,6 +13,7 @@
 """
 
 import json
+import re
 import os
 import secrets
 import sys
@@ -105,6 +106,9 @@ foreach ($plan['directions'] as $dir) {
     $page = get_page_by_path($dir['page']);
     if ($page && function_exists('update_field')) {
         update_field('tts_direction_page', $page->ID, 'direction_' . $term->term_id);
+    }
+    if (function_exists('update_field')) {
+        update_field('tts_direction_tab', $dir['tab'], 'direction_' . $term->term_id);
     }
 }
 $report[] = 'направлений: ' . count($terms);
@@ -229,7 +233,9 @@ def image_for(item):
     """Рендер модели: в вёрстке лежит имя без расширения."""
     if not item.get('img'):
         return ''
-    for ext in ('.png', '.jpg', '.webp'):
+    # webp — первым: именно его браузер показывает в статической версии
+    # (через <picture> и image-set), а у pkn-pump.jpg даже другой кадр.
+    for ext in ('.webp', '.png', '.jpg'):
         if os.path.exists(os.path.join(
                 os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
                 'site', 'assets', 'img', item['img'] + ext)):
@@ -238,6 +244,11 @@ def image_for(item):
 
 
 def plan():
+    # Подписи табов общего каталога — как в статической версии
+    catalog_html = open(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                                     'site', '4', 'catalog', 'index.html'), encoding='utf-8').read()
+    tabs = dict(re.findall(r'data-category="([a-z]+)"[^>]*>([^<]+)</button>', catalog_html))
+
     # Все страницы направлений лежат внутри каталога (п. 4.1 ТЗ)
     pages = {slug: f'catalog/{slug}' for slug, _ in DIRECTIONS.values()}
 
@@ -266,7 +277,9 @@ def plan():
             'features': item.get('features', []),
             'direction': item['direction'],
             'page': pages.get(item['direction'], ''),
-            'image': image_for(item),
+            # Своего рендера у позиции каталога может не быть (ПКН, SmartStock 3000),
+            # а на странице направления у той же модели он есть — берём оттуда.
+            'image': image_for(item) or image_for({'img': card.get('img', '')}),
             'title_long': card.get('title', ''),
             'summary_long': card.get('text', ''),
             'spec2_value': spec2[0],
@@ -287,7 +300,7 @@ def plan():
                 'task': project['task'],
                 'solution': project['solution'],
                 'figures': project['figures'],
-                'image': f"img/project-{project['photo']}.jpg",
+                'image': f"img/project-{project['photo']}.webp",
                 'alt': project.get('alt', ''),
                 'order': (index + 1) * 10,
             })
@@ -312,8 +325,8 @@ def plan():
 
     return {
         'directions': [
-            {'slug': slug, 'name': name, 'page': pages[slug]}
-            for slug, name in DIRECTIONS.values()
+            {'slug': slug, 'name': name, 'page': pages[slug], 'tab': tabs.get(key, name)}
+            for key, (slug, name) in DIRECTIONS.items()
         ],
         'equipment': equipment,
         'quiz': quiz_matrix(),

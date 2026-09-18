@@ -149,7 +149,10 @@ foreach ($plan['pages'] as $page) {
 
     $done = wp_update_post(array(
         'ID'           => $post->ID,
-        'post_content' => implode("\n\n", $markup),
+        // wp_update_post снимает обратные слэши, а в данных блока они значимы:
+        // без wp_slash переносы строк превращались в букву «n», и пункты
+        // списков слипались в одну строку (так сломался блок «Сервис»).
+        'post_content' => wp_slash(implode("\n\n", $markup)),
     ), true);
     if (is_wp_error($done)) { echo $page['path'], ': ошибка — ', $done->get_error_message(), "\n"; continue; }
     update_post_meta($post->ID, 'tts_seeded', '1');

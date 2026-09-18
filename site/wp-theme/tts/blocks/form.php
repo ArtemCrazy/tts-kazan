@@ -30,6 +30,21 @@ $second     = (string) get_field( 'tts_form_second_label' );
 $seconds    = tts_rows( get_field( 'tts_form_second_options' ) );
 $picked     = (bool) get_field( 'tts_form_picked' );
 
+// Список моделей направления: в статике это первое поле формы на странице
+// направления, и кнопка «Подобрать» в карточке выбирает в нём модель.
+$models_label = (string) get_field( 'tts_form_models_label' );
+$models       = array();
+$models_term  = get_field( 'tts_form_models_direction' );
+$models_term  = is_array( $models_term ) ? (int) reset( $models_term ) : (int) $models_term;
+if ( $models_label && $models_term ) {
+	foreach ( tts_items( 'equipment', array( 'tax_query' => array( array( 'taxonomy' => 'direction', 'terms' => $models_term ) ) ) ) as $item ) {
+		$lead_name = (string) get_field( 'tts_equipment_lead_name', $item->ID );
+		if ( $lead_name ) {
+			$models[] = $lead_name;
+		}
+	}
+}
+
 if ( ! is_admin() ) {
 	list( $url, $ver ) = tts_asset( 'js/form.js' );
 	wp_enqueue_script( 'tts-form', $url, array(), $ver, array( 'strategy' => 'defer' ) );
@@ -69,6 +84,18 @@ if ( ! is_admin() ) {
 				<?php endif; ?>
 				<?php if ( $note ) : ?>
 				<p class="form__note"><?php echo esc_html( $note ); ?></p>
+				<?php endif; ?>
+
+				<?php if ( $models ) : ?>
+				<label class="field">
+					<span class="field__label"><?php echo esc_html( $models_label ); ?></span>
+					<select class="field__select" id="leadModel" name="model">
+						<option value="Требуется подобрать" selected>Требуется подобрать</option>
+						<?php foreach ( $models as $model ) : ?>
+						<option value="<?php echo esc_attr( $model ); ?>"><?php echo esc_html( $model ); ?></option>
+						<?php endforeach; ?>
+					</select>
+				</label>
 				<?php endif; ?>
 
 				<?php if ( $directions ) : ?>

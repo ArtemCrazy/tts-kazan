@@ -26,13 +26,27 @@ function tts_catalog_config(): array {
 	$statuses = tts_field_choices( 'tts_equipment_status' );
 	$items    = array();
 	$labels   = array();
+	$tabs     = array();
 	$pages    = array();
 
-	foreach ( get_terms( array( 'taxonomy' => 'direction', 'hide_empty' => false ) ) as $term ) {
+	foreach ( get_terms(
+		array(
+			'taxonomy'   => 'direction',
+			'hide_empty' => false,
+			// Порядок табов — как в статике (ЗССС, бетон, ВПИ, терминалы, ПКН),
+			// а это порядок создания направлений. По алфавиту он был бы другим.
+			'orderby'    => 'term_id',
+			'order'      => 'ASC',
+		)
+	) as $term ) {
 		if ( ! $term instanceof WP_Term ) {
 			continue;
 		}
 		$labels[ $term->slug ] = $term->name;
+		// В табах название бывает короче, чем на карточке: «ПКН» вместо
+		// «Пневмокамерные насосы» — иначе таб не влезает и ряд переносится.
+		$tab                  = (string) get_field( 'tts_direction_tab', 'direction_' . $term->term_id );
+		$tabs[ $term->slug ]  = $tab ?: $term->name;
 		$page                  = get_field( 'tts_direction_page', 'direction_' . $term->term_id );
 		$pages[ $term->slug ]  = array(
 			'href'  => $page ? (string) get_permalink( (int) $page ) : tts_url( 'catalog' ),
@@ -71,5 +85,5 @@ function tts_catalog_config(): array {
 		);
 	}
 
-	return array( 'items' => $items, 'labels' => $labels, 'pages' => $pages );
+	return array( 'items' => $items, 'labels' => $labels, 'tabs' => $tabs, 'pages' => $pages );
 }

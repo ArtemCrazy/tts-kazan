@@ -93,6 +93,15 @@ function tts_block_fields_cards(): void {
 							'instructions' => 'Короткая подпись над заголовком: «Вариант 01», «CO-NELE». Необязательно.',
 						),
 						array(
+							'key'           => 'field_tts_cards_item_full',
+							'label'         => 'Во всю ширину',
+							'name'          => 'tts_cards_item_full',
+							'type'          => 'true_false',
+							'instructions'  => 'Карточка встаёт отдельной строкой над остальными.',
+							'ui'            => 1,
+							'default_value' => 0,
+						),
+						array(
 							'key'      => 'field_tts_cards_item_title',
 							'label'    => 'Заголовок',
 							'name'     => 'tts_cards_item_title',

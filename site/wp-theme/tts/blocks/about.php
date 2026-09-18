@@ -18,7 +18,7 @@ $stats  = tts_rows( get_field( 'tts_about_stats' ) );
 
 // Абзацы редактор разделяет переводом строки: каждому нужен свой класс,
 // поэтому текст разбираем сами, а не отдаём одним куском.
-$paragraphs = array_filter( array_map( 'trim', (array) preg_split( '/\R+/', $text ) ) );
+$paragraphs = array_filter( array_map( 'trim', (array) preg_split( '/\R+/u', $text ) ) );
 ?>
 <section <?php echo tts_block_attrs( $block, 'about on-light', 'company' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<div class="shell about__grid">

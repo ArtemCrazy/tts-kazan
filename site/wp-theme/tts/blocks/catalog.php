@@ -41,7 +41,7 @@ if ( ! is_admin() ) {
 
 		<div class="tabs" role="group" aria-label="Категории оборудования">
 			<button class="tab" type="button" data-category="all" aria-pressed="true"><?php echo esc_html( $all ); ?></button>
-			<?php foreach ( $config['labels'] as $slug => $label ) : ?>
+			<?php foreach ( $config['tabs'] as $slug => $label ) : ?>
 			<button class="tab" type="button" data-category="<?php echo esc_attr( $slug ); ?>" aria-pressed="false"><?php echo esc_html( $label ); ?></button>
 			<?php endforeach; ?>
 		</div>

@@ -195,6 +195,8 @@ def blocks():
             'block': 'matrix',
             'fields': {
                 'tts_matrix_tone': 'muted',
+                # В статике таблица стоит внутри предыдущей секции с карточками
+                'tts_matrix_continue': 1,
                 'tts_matrix_columns': [
                     {'tts_matrix_column': 'Параметр'},
                     {'tts_matrix_column': 'Значение'},
@@ -270,7 +272,9 @@ def blocks():
                 'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
                 'tts_form_again': 'Отправить ещё одну заявку',
                 'tts_form_source': 'catalog',
-                'tts_form_picked': 1,
+                # Первое поле формы — список моделей направления, как в статике
+                'tts_form_models_label': 'Модель',
+                'tts_form_models_direction': {'term': 'pkn'},
             },
         },
     ]

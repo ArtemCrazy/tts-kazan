@@ -151,7 +151,17 @@ function tts_button( string $label, string $url, string $style = 'solid', string
  * Картинка из поля с запасным вариантом из assets темы.
  * Размеры выводим всегда: без них страница «прыгает» при загрузке (CLS).
  */
-function tts_image( $attachment, string $fallback = '', string $class = '', string $alt = '', bool $eager = false ): void {
+function tts_image( $attachment, string $fallback = '', string $class = '', string $alt = '', bool $eager = false, bool $picture = false, bool $lazy = true ): void {
+	// В статике крупные снимки обёрнуты в <picture>, и в сетке панели обёртка
+	// даёт другой размер, чем голая картинка. Где так было — повторяем.
+	if ( $picture ) {
+		// Картинки в <picture> в статике грузятся сразу, без loading="lazy":
+		// ленивая картинка в обёртке нулевой ширины может не загрузиться вовсе.
+		echo '<picture>';
+		tts_image( $attachment, $fallback, $class, $alt, $eager, false, false );
+		echo '</picture>';
+		return;
+	}
 	if ( $attachment ) {
 		echo wp_get_attachment_image( // phpcs:ignore WordPress.Security.EscapeOutput
 			(int) $attachment,
@@ -161,7 +171,8 @@ function tts_image( $attachment, string $fallback = '', string $class = '', stri
 				'class'         => $class,
 				// Картинку первого экрана грузим сразу: это она определяет
 				// скорость показа страницы (LCP в п. 15.1 ТЗ).
-				'loading'       => $eager ? 'eager' : 'lazy',
+				'loading'       => ( $eager || ! $lazy ) ? 'eager' : 'lazy',
+				// Высокий приоритет — только у картинки первого экрана
 				'fetchpriority' => $eager ? 'high' : 'auto',
 				'alt'     => $alt ?: trim( (string) get_post_meta( (int) $attachment, '_wp_attachment_image_alt', true ) ),
 			)
@@ -176,6 +187,6 @@ function tts_image( $attachment, string $fallback = '', string $class = '', stri
 		esc_attr( $class ),
 		esc_url( tts_asset( $fallback )[0] ),
 		esc_attr( $alt ),
-		$eager ? 'eager' : 'lazy'
+		( $eager || ! $lazy ) ? 'eager' : 'lazy'
 	);
 }

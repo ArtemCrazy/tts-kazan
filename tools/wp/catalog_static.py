@@ -41,6 +41,9 @@ STATUS = {
     'Готовая конфигурация': 'ready',
     'Типовая модель': 'typical',
     'Пример конфигурации': 'example',
+    'Проектная конфигурация': 'project',
+    'Модифицированный': 'modified',
+    'Пневмотранспорт': 'transport',
 }
 
 # Тип объекта в квизе -> значение поля в матрице рекомендаций
@@ -109,7 +112,11 @@ def catalog():
     items = js_value(text[start:end])
     for item in items:
         item['purpose_field'] = PURPOSE[item['purpose']]
-        item['status_field'] = STATUS.get(item['status'], 'typical')
+        # Неизвестный статус — ошибка переноса: молча подставлять другой нельзя,
+        # так уже потерялись «Проектная конфигурация» и «Пневмотранспорт».
+        if item['status'] not in STATUS:
+            raise ValueError('неизвестный статус «%s» у %s' % (item['status'], item['name']))
+        item['status_field'] = STATUS[item['status']]
         item['direction'] = DIRECTIONS[item['cat']][0]
     return items
 

@@ -32,7 +32,7 @@ $stage = static function () use ( $shot, $caption, $partner ) {
 	<div class="feature__stage">
 		<?php if ( $shot ) : ?>
 		<div class="feature__panel">
-			<?php tts_image( $shot, '', 'feature__shot' ); ?>
+			<?php tts_image( $shot, '', 'feature__shot', '', false, true ); ?>
 		</div>
 		<?php endif; ?>
 

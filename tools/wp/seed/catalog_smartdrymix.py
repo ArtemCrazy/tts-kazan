@@ -235,7 +235,9 @@ def blocks():
                 'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
                 'tts_form_again': 'Отправить ещё одну заявку',
                 'tts_form_source': 'catalog',
-                'tts_form_picked': 1,
+                # Первое поле формы — список моделей направления, как в статике
+                'tts_form_models_label': 'Конфигурация',
+                'tts_form_models_direction': {'term': 'smartdrymix'},
             },
         },
     ]

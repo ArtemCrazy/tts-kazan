@@ -45,7 +45,12 @@
     });
 
     contact.scrollIntoView({ block: 'start' });
-    var name = document.getElementById('leadName');
-    if (name) name.focus({ preventScroll: true });
+    // Фокус ставим на саму форму, а не на поле «Ваше имя»: на телефоне
+    // фокус в поле сразу открывает клавиатуру, а человек ещё только смотрит.
+    var leadForm = document.getElementById('leadForm');
+    if (leadForm) {
+      leadForm.setAttribute('tabindex', '-1');
+      leadForm.focus({ preventScroll: true });
+    }
   });
 })();

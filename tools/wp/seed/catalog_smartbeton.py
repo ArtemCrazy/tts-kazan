@@ -98,8 +98,7 @@ def blocks():
         {
             # #technology — смеситель и два варианта подачи заполнителей.
             # В статике карточка CO-NELE идёт во всю ширину (.card--full),
-            # а варианты — по две в ряд. Поля «во всю ширину» у блока карточек
-            # нет, поэтому все три карточки идут одной сеткой по две в ряд.
+            # а варианты — по две в ряд.
             'block': 'cards',
             'anchor': 'technology',
             'fields': {
@@ -111,7 +110,10 @@ def blocks():
                 'tts_cards_grid': 'two',
                 'tts_cards_tone': 'light',
                 'tts_cards_items': [
-                    {'tts_cards_item_tag': 'CO-NELE',
+                    {
+                        # В статике смеситель — отдельной строкой над вариантами подачи
+                        'tts_cards_item_full': 1,
+                     'tts_cards_item_tag': 'CO-NELE',
                      'tts_cards_item_title': 'Двухвальный смеситель',
                      'tts_cards_item_text': 'Интенсивное и равномерное перемешивание компонентов '
                                             'для повторяемого результата от замеса к замесу. '
@@ -290,7 +292,15 @@ def blocks():
                 'tts_form_done_text': 'Мы получили обращение и свяжемся с вами в рабочее время.',
                 'tts_form_again': 'Отправить ещё одну заявку',
                 'tts_form_source': 'catalog',
-                'tts_form_picked': 1,
+                # Первое поле формы — список моделей направления, как в статике
+                'tts_form_models_label': 'Модель',
+                'tts_form_models_direction': {'term': 'smartbeton'},
+                'tts_form_second_label': 'Подача заполнителей',
+                'tts_form_second_options': [
+                    {'tts_form_second_option': 'Требуется подобрать'},
+                    {'tts_form_second_option': 'Ленточный конвейер'},
+                    {'tts_form_second_option': 'Скиповой подъёмник'},
+                ],
             },
         },
     ]
