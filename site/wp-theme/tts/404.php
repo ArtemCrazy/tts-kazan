@@ -1,7 +1,8 @@
 <?php
 /**
  * Страница «не найдено» (п. 4 ТЗ, системные страницы).
- * Разметка совпадает со статической версией сайта.
+ * Разметка совпадает со статической версией сайта. Список разделов —
+ * пункты выпадающих меню шапки, чтобы не вести его в двух местах.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,24 +34,15 @@ get_header();
 		</div>
 
 		<div class="cards cards--4">
-			<?php foreach ( tts_directions() as $direction ) : ?>
-			<a class="card card--link" <?php echo tts_link( $direction[0] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<h3 class="card__title"><?php echo esc_html( $direction[1] ); ?></h3>
-				<p class="card__text"><?php echo esc_html( $direction[2] ); ?></p>
+			<?php foreach ( tts_menu_sections() as $item ) : ?>
+			<?php $note = tts_menu_note( $item ); ?>
+			<a class="card card--link" <?php echo tts_menu_attrs( $item ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+				<h3 class="card__title"><?php echo esc_html( $item->title ); ?></h3>
+				<?php if ( $note ) : ?>
+				<p class="card__text"><?php echo esc_html( $note ); ?></p>
+				<?php endif; ?>
 			</a>
 			<?php endforeach; ?>
-			<a class="card card--link" <?php echo tts_link( 'catalog' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<h3 class="card__title">Весь каталог</h3>
-				<p class="card__text">23 позиции с поиском и фильтрами</p>
-			</a>
-			<a class="card card--link" <?php echo tts_link( 'service' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<h3 class="card__title">Инженерный сервис</h3>
-				<p class="card__text">Аудит, монтаж, пусконаладка и поддержка</p>
-			</a>
-			<a class="card card--link" <?php echo tts_link( 'parts' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<h3 class="card__title">Запасные части</h3>
-				<p class="card__text">Комплектующие и автоматика</p>
-			</a>
 		</div>
 	</div>
 </section>

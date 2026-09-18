@@ -43,8 +43,7 @@ function tts_schema_organization(): ?array {
 	$phone = tts_setting( 'tts_settings_phone' );
 	$email = tts_setting( 'tts_settings_email' );
 	$address = tts_setting( 'tts_settings_address' );
-	$legal = tts_setting( 'tts_settings_legal' );
-	if ( ! $phone && ! $email && ! $address && ! $legal ) {
+	if ( ! $phone && ! $email && ! $address ) {
 		return null; // реквизиты ещё не переданы — разметку не выдумываем
 	}
 
@@ -54,10 +53,7 @@ function tts_schema_organization(): ?array {
 		'url'   => home_url( '/' ),
 	);
 
-	$logo = get_field( 'tts_settings_logo', 'option' );
-	if ( $logo ) {
-		$data['logo'] = wp_get_attachment_image_url( (int) $logo, 'full' );
-	}
+	$data['logo'] = tts_logo( 'dark' )[0];
 	if ( $phone ) {
 		$data['telephone'] = $phone;
 	}
@@ -66,9 +62,6 @@ function tts_schema_organization(): ?array {
 	}
 	if ( $address ) {
 		$data['address'] = array( '@type' => 'PostalAddress', 'streetAddress' => $address );
-	}
-	if ( $legal ) {
-		$data['description'] = $legal;
 	}
 
 	$socials = array();

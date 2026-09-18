@@ -19,7 +19,7 @@ if (($_GET['token'] ?? '') !== '%(token)s') { http_response_code(403); exit('н�
 require __DIR__ . '/wp-load.php';
 
 foreach (array('equipment' => 'оборудование', 'project' => 'проекты',
-               'faq' => 'вопросы', 'service_item' => 'услуги') as $type => $title) {
+               'faq' => 'вопросы') as $type => $title) {
     $posts = get_posts(array('post_type' => $type, 'numberposts' => -1,
                              'orderby' => 'menu_order', 'order' => 'ASC'));
     echo strtoupper($title), ': ', count($posts), "\n";

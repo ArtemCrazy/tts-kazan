@@ -1,7 +1,14 @@
 <?php
 /**
- * Разделы админки: Оборудование, Проекты, Вопросы и ответы, Услуги сервиса
- * и таксономия Направления (п. 12.2 ТЗ).
+ * Разделы админки: Оборудование, Проекты, Вопросы и ответы и таксономия
+ * Направления (п. 12.2 ТЗ).
+ *
+ * Отдельного раздела «Услуги» нет: страница «Инженерный сервис» собрана из
+ * блоков (карточки услуг, этапы, преимущества, форма), и услуги правятся прямо
+ * на ней. Раздел с теми же полями дублировал бы страницу и ни на что не влиял.
+ *
+ * Описание, обложка и SEO направления — на его странице каталога: направление
+ * связано с ней полем «Страница каталога».
  *
  * Сущности заводим в теме, а не плагином: они описывают контент именно этого
  * сайта и без темы смысла не имеют. Поля к ним — в inc/fields.php.
@@ -70,7 +77,7 @@ function tts_register_content(): void {
 		)
 	);
 
-	// Вопросы и услуги показываются внутри страниц, отдельных адресов им не нужно.
+	// Вопросы показываются внутри страниц, отдельных адресов им не нужно.
 	register_post_type(
 		'faq',
 		tts_post_type_base() + array(
@@ -82,16 +89,6 @@ function tts_register_content(): void {
 		)
 	);
 
-	register_post_type(
-		'service_item',
-		tts_post_type_base() + array(
-			'labels'             => tts_labels( 'Услуга', 'Услуги сервиса', 'Новая услуга' ),
-			'menu_icon'          => 'dashicons-admin-tools',
-			'menu_position'      => 23,
-			'publicly_queryable' => false,
-			'exclude_from_search' => true,
-		)
-	);
 
 	register_taxonomy(
 		'direction',
@@ -152,7 +149,7 @@ function tts_order_admin_lists( WP_Query $query ): void {
 	if ( ! is_admin() || ! $query->is_main_query() ) {
 		return;
 	}
-	$types = array( 'equipment', 'project', 'faq', 'service_item' );
+	$types = array( 'equipment', 'project', 'faq' );
 	if ( in_array( $query->get( 'post_type' ), $types, true ) && ! $query->get( 'orderby' ) ) {
 		$query->set( 'orderby', 'menu_order title' );
 		$query->set( 'order', 'ASC' );

@@ -207,7 +207,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Обсудим проект',
-                'tts_form_title': 'Получите конфигурацию SmartDryMix',
+                'tts_form_title': 'Получите конфигурацию\nSmartDryMix',
                 'tts_form_lead': 'Инженер уточнит виды смесей, производительность, сырьё, '
                                  'требуемую фасовку и данные площадки, затем подготовит состав '
                                  'линии для проекта в Казахстане.',
@@ -223,7 +223,7 @@ def blocks():
                     {'tts_form_direction': 'Гипсовые смеси'},
                     {'tts_form_direction': 'Цементно-песчаные смеси'},
                     {'tts_form_direction': 'Гипсовые и цементно-песчаные'},
-                    {'tts_form_direction': 'Требуется консультация'},
+                    {'tts_form_direction': 'Требуется консультация', 'tts_form_direction_default': True},
                 ],
                 'tts_form_comment_label': 'Комментарий',
                 'tts_form_comment_hint': 'Продукт, производительность, сырьё, площадка',

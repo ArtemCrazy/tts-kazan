@@ -248,7 +248,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Обсудим проект',
-                'tts_form_title': 'Получите конфигурацию QUNFENG + ТТС под ваш продукт',
+                'tts_form_title': 'Получите конфигурацию\nQUNFENG + ТТС под ваш продукт',
                 'tts_form_lead': 'Инженер уточнит планируемые изделия, требуемую '
                                  'производительность, данные площадки и логистику, затем '
                                  'предложит состав линии и следующий этап проекта.',
@@ -265,7 +265,7 @@ def blocks():
                     {'tts_form_direction': 'Брусчатка'},
                     {'tts_form_direction': 'Бордюрный камень'},
                     {'tts_form_direction': 'Стеновые блоки'},
-                    {'tts_form_direction': 'Несколько видов изделий'},
+                    {'tts_form_direction': 'Несколько видов изделий', 'tts_form_direction_default': True},
                 ],
                 'tts_form_comment_label': 'Комментарий',
                 'tts_form_comment_hint': 'Производительность, площадка, сроки запуска',

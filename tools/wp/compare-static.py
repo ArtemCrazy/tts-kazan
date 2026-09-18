@@ -157,9 +157,28 @@ def snapshot(page_uri, width, out, action=''):
     return img
 
 
+def exact_diff(a, b):
+    """Сколько пикселей заметно отличается, если страницы одной высоты; None — если высота разная.
+
+    Полосы со сдвигом ловят разъехавшиеся блоки, но порог в LIMIT % пропускает
+    мелочь: другой выбранный вариант в форме, перенос строки в заголовке, чужую
+    подпись в верхней строке. Точный подсчёт такие вещи видит, а при нуле
+    отличий снимает ложные срабатывания полос.
+    """
+    if a.size != b.size:
+        return None
+    mask = ImageChops.difference(a, b).convert('L').point(lambda v: 255 if v > 40 else 0)
+    return sum(mask.histogram()[255:]), mask.getbbox()
+
+
 def compare_images(a, b, name, width, folder):
     """Полосы, которые не нашли себе пары даже со сдвигом."""
+    exact = exact_diff(a, b)
+    if exact and exact[0] == 0:
+        return []
     bad = []
+    if exact:
+        bad.append(('точно', '%d px в области %s' % exact))
     h = min(a.size[1], b.size[1])
     for top in range(0, h - BAND, BAND):
         strip = a.crop((0, top, width, top + BAND))
@@ -239,7 +258,7 @@ def main():
                 if bad:
                     problems += len(bad)
                     say('  %d px%s: расходится %s' % (width, label, ', '.join(
-                        ('y=%s (%s%%)' % (top, pct)) if top != 'высота' else ('высота %s' % pct)
+                        ('y=%s (%s%%)' % (top, pct)) if top not in ('высота', 'точно') else ('%s %s' % (top, pct))
                         for top, pct in bad[:10])))
                 else:
                     say('  %d px%s: вид совпадает' % (width, label))

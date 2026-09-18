@@ -148,6 +148,12 @@ def quiz_matrix():
                 'recommendation': block['recommend'][value]['text'],
                 'primary': cards[0]['name'] if cards else block['recommend'][value]['title'],
                 'alt': cards[1]['name'] if len(cards) > 1 else '',
+                # В статике у карточки квиза свой короткий текст, и он зависит от
+                # строки: одна модель описана по-разному как основная и как альтернатива.
+                'primary_text': cards[0]['text'] if cards else '',
+                'primary_capacity': cards[0]['capacity'] if cards else '',
+                'alt_text': cards[1]['text'] if len(cards) > 1 else '',
+                'alt_capacity': cards[1]['capacity'] if len(cards) > 1 else '',
             })
     return rows
 

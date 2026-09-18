@@ -6,7 +6,7 @@
  * вместе с темой и одинаковы на staging и на продакшене. Заводить те же поля
  * руками в админке не нужно — они появятся сами.
  *
- * Типы записей (equipment, project, faq, service_item) и таксономия direction
+ * Типы записей (equipment, project, faq) и таксономия direction
  * регистрируются отдельно, здесь мы только навешиваем на них поля.
  */
 
@@ -27,7 +27,7 @@ function tts_register_fields(): void {
 	tts_fields_direction();
 	tts_fields_project();
 	tts_fields_faq();
-	tts_fields_service_item();
+	tts_fields_page();
 	tts_fields_settings();
 }
 add_action( 'acf/include_fields', 'tts_register_fields' );
@@ -265,30 +265,11 @@ function tts_fields_direction(): void {
 					'instructions' => 'Короткое название для таба в общем каталоге, например «ПКН». Если пусто, берётся название направления.',
 				),
 				array(
-					'key'          => 'field_tts_direction_summary',
-					'label'        => 'Описание для карточки',
-					'name'         => 'tts_direction_summary',
-					'type'         => 'textarea',
-					'instructions' => 'Текст в плитке направления на главной и в каталоге. Одно-два предложения.',
-					'rows'         => 3,
-					'new_lines'    => '',
-				),
-				array(
-					'key'           => 'field_tts_direction_cover',
-					'label'         => 'Обложка',
-					'name'          => 'tts_direction_cover',
-					'type'          => 'image',
-					'instructions'  => 'Горизонтальное фото для плитки направления, минимум 1200 px по ширине.',
-					'return_format' => 'id',
-					'preview_size'  => 'medium',
-					'library'       => 'all',
-				),
-				array(
 					'key'           => 'field_tts_direction_page',
 					'label'         => 'Страница каталога',
 					'name'          => 'tts_direction_page',
 					'type'          => 'post_object',
-					'instructions'  => 'Куда ведёт плитка направления.',
+					'instructions'  => 'Страница направления: на неё ведут ссылки из общего каталога. Описание, картинки и SEO направления редактируются на самой этой странице.',
 					'post_type'     => array( 'page' ),
 					'return_format' => 'id',
 					'allow_null'    => 1,
@@ -328,23 +309,6 @@ function tts_fields_project(): void {
 					'type'         => 'text',
 					'instructions' => 'Например: Астана. Показывается подписью на карточке проекта.',
 					'required'     => 1,
-				),
-				array(
-					'key'          => 'field_tts_project_object',
-					'label'        => 'Тип объекта',
-					'name'         => 'tts_project_object',
-					'type'         => 'text',
-					'instructions' => 'Необязательно. Например: завод сухих смесей 20 т/ч.',
-					'required'     => 0,
-				),
-				array(
-					'key'          => 'field_tts_project_summary',
-					'label'        => 'Краткое описание',
-					'name'         => 'tts_project_summary',
-					'type'         => 'textarea',
-					'instructions' => 'Что сделали на объекте — два-три предложения.',
-					'rows'         => 3,
-					'new_lines'    => '',
 				),
 				array(
 					'key'          => 'field_tts_project_task',
@@ -400,20 +364,6 @@ function tts_fields_project(): void {
 					'return_format' => 'id',
 					'preview_size'  => 'medium',
 					'library'       => 'all',
-				),
-				array(
-					'key'          => 'field_tts_project_button_label',
-					'label'        => 'Текст кнопки',
-					'name'         => 'tts_project_button_label',
-					'type'         => 'text',
-					'instructions' => 'Необязательно. Если текст и ссылка пустые, кнопка на карточке не показывается.',
-				),
-				array(
-					'key'          => 'field_tts_project_button_url',
-					'label'        => 'Ссылка кнопки',
-					'name'         => 'tts_project_button_url',
-					'type'         => 'url',
-					'instructions' => 'Необязательно. Полный адрес вида https://…',
 				),
 			),
 			'location'              => array(
@@ -502,78 +452,19 @@ function tts_fields_faq(): void {
 	);
 }
 
-/** Услуги сервиса. */
-function tts_fields_service_item(): void {
+/** Страница: то, что меняется в шапке от страницы к странице. */
+function tts_fields_page(): void {
 	acf_add_local_field_group(
 		array(
-			'key'                   => 'group_tts_service_item',
-			'title'                 => 'Данные услуги',
+			'key'                   => 'group_tts_page',
+			'title'                 => 'Шапка страницы',
 			'fields'                => array(
 				array(
-					'key'          => 'field_tts_service_summary',
-					'label'        => 'Краткое описание',
-					'name'         => 'tts_service_summary',
-					'type'         => 'textarea',
-					'instructions' => 'Одно-два предложения для карточки услуги.',
-					'rows'         => 3,
-					'new_lines'    => '',
-				),
-				array(
-					'key'          => 'field_tts_service_steps',
-					'label'        => 'Этапы',
-					'name'         => 'tts_service_steps',
-					'type'         => 'repeater',
-					'instructions' => 'Как проходит работа, по порядку. Нумерация на сайте считается сама, в заголовке цифру писать не нужно.',
-					'layout'       => 'row',
-					'button_label' => 'Добавить этап',
-					'sub_fields'   => array(
-						array(
-							'key'      => 'field_tts_service_step_title',
-							'label'    => 'Заголовок этапа',
-							'name'     => 'tts_service_step_title',
-							'type'     => 'text',
-							'required' => 1,
-						),
-						array(
-							'key'       => 'field_tts_service_step_text',
-							'label'     => 'Описание этапа',
-							'name'      => 'tts_service_step_text',
-							'type'      => 'textarea',
-							'rows'      => 3,
-							'new_lines' => '',
-						),
-					),
-				),
-				array(
-					'key'          => 'field_tts_service_benefits',
-					'label'        => 'Преимущества',
-					'name'         => 'tts_service_benefits',
-					'type'         => 'repeater',
-					'instructions' => 'Короткие пункты списка, по одному в строке.',
-					'layout'       => 'table',
-					'button_label' => 'Добавить преимущество',
-					'sub_fields'   => array(
-						array(
-							'key'   => 'field_tts_service_benefit',
-							'label' => 'Преимущество',
-							'name'  => 'tts_service_benefit',
-							'type'  => 'text',
-						),
-					),
-				),
-				array(
-					'key'          => 'field_tts_service_button_label',
-					'label'        => 'Текст кнопки',
-					'name'         => 'tts_service_button_label',
+					'key'          => 'field_tts_page_topline',
+					'label'        => 'Верхняя строка, справа',
+					'name'         => 'tts_page_topline',
 					'type'         => 'text',
-					'instructions' => 'Например: «Оставить заявку». Если пусто, подставится общий текст из настроек сайта.',
-				),
-				array(
-					'key'          => 'field_tts_service_form_anchor',
-					'label'        => 'Якорь формы на странице',
-					'name'         => 'tts_service_form_anchor',
-					'type'         => 'text',
-					'instructions' => 'Куда кнопка прокручивает страницу: #contact. Со знаком решётки, без адреса сайта.',
+					'instructions' => 'Своя подпись для этой страницы в самой верхней полосе сайта. Если пусто — общий текст из «Настроек сайта → Шапка».',
 				),
 			),
 			'location'              => array(
@@ -581,12 +472,12 @@ function tts_fields_service_item(): void {
 					array(
 						'param'    => 'post_type',
 						'operator' => '==',
-						'value'    => 'service_item',
+						'value'    => 'page',
 					),
 				),
 			),
 			'menu_order'            => 0,
-			'position'              => 'normal',
+			'position'              => 'side',
 			'style'                 => 'default',
 			'label_placement'       => 'top',
 			'instruction_placement' => 'label',
@@ -595,13 +486,163 @@ function tts_fields_service_item(): void {
 	);
 }
 
-/** Общие настройки сайта: контакты, тексты кнопок, аналитика, матрица квиза. */
+/** Общие настройки сайта: шапка, подвал, контакты, заявки, аналитика, матрица квиза. */
 function tts_fields_settings(): void {
 	acf_add_local_field_group(
 		array(
 			'key'                   => 'group_tts_settings',
 			'title'                 => 'Настройки сайта',
 			'fields'                => array(
+				array(
+					'key'       => 'field_tts_settings_tab_header',
+					'label'     => 'Шапка',
+					'name'      => '',
+					'type'      => 'tab',
+					'placement' => 'top',
+				),
+				array(
+					'key'       => 'field_tts_settings_header_menu_note',
+					'label'     => 'Пункты меню',
+					'name'      => '',
+					'type'      => 'message',
+					'message'   => 'Пункты меню шапки и выпадающие списки редактируются в разделе <a href="nav-menus.php">Внешний вид → Меню</a>, меню «Шапка сайта».',
+					'new_lines' => 'wpautop',
+				),
+				array(
+					'key'           => 'field_tts_settings_logo_light',
+					'label'         => 'Логотип для тёмного фона',
+					'name'          => 'tts_settings_logo_light',
+					'type'          => 'image',
+					'instructions'  => 'Светлый вариант: в шапке на первом экране и в подвале. PNG или WebP с прозрачным фоном. Если не загружен, показывается логотип темы.',
+					'return_format' => 'id',
+					'preview_size'  => 'medium',
+					'library'       => 'all',
+				),
+				array(
+					'key'           => 'field_tts_settings_logo_dark',
+					'label'         => 'Логотип для светлого фона',
+					'name'          => 'tts_settings_logo_dark',
+					'type'          => 'image',
+					'instructions'  => 'Тёмный вариант: в шапке, когда страница прокручена. Если не загружен, показывается логотип темы.',
+					'return_format' => 'id',
+					'preview_size'  => 'medium',
+					'library'       => 'all',
+				),
+				array(
+					'key'          => 'field_tts_settings_brand_name',
+					'label'        => 'Название рядом с логотипом',
+					'name'         => 'tts_settings_brand_name',
+					'type'         => 'text',
+					'instructions' => 'Например: «ТТС Инжиниринг».',
+				),
+				array(
+					'key'          => 'field_tts_settings_brand_region',
+					'label'        => 'Подпись под названием',
+					'name'         => 'tts_settings_brand_region',
+					'type'         => 'text',
+					'instructions' => 'Например: «Казахстан».',
+				),
+				array(
+					'key'          => 'field_tts_settings_topline_left',
+					'label'        => 'Верхняя строка, слева',
+					'name'         => 'tts_settings_topline_left',
+					'type'         => 'text',
+					'instructions' => 'Короткое позиционирование в самой верхней полосе сайта.',
+				),
+				array(
+					'key'          => 'field_tts_settings_topline_right',
+					'label'        => 'Верхняя строка, справа',
+					'name'         => 'tts_settings_topline_right',
+					'type'         => 'text',
+					'instructions' => 'Общий текст для всех страниц. У страницы может быть своя подпись — поле «Верхняя строка, справа» справа в редакторе страницы. На телефоне не показывается.',
+				),
+				array(
+					'key'          => 'field_tts_settings_header_button',
+					'label'        => 'Текст кнопки в шапке',
+					'name'         => 'tts_settings_header_button',
+					'type'         => 'text',
+					'instructions' => 'Кнопка ведёт к форме заявки: на этой же странице, а если формы на странице нет — на главной.',
+				),
+				array(
+					'key'       => 'field_tts_settings_tab_footer',
+					'label'     => 'Подвал',
+					'name'      => '',
+					'type'      => 'tab',
+					'placement' => 'top',
+				),
+				array(
+					'key'       => 'field_tts_settings_footer_menu_note',
+					'label'     => 'Ссылки в колонках',
+					'name'      => '',
+					'type'      => 'message',
+					'message'   => 'Ссылки в трёх колонках подвала редактируются в разделе <a href="nav-menus.php">Внешний вид → Меню</a>: меню «Подвал: первая колонка», «вторая» и «третья». Заголовок колонки — название меню.',
+					'new_lines' => 'wpautop',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_about',
+					'label'        => 'Описание под логотипом',
+					'name'         => 'tts_settings_footer_about',
+					'type'         => 'textarea',
+					'instructions' => 'Одно предложение о компании.',
+					'rows'         => 2,
+					'new_lines'    => '',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_legal',
+					'label'        => 'Реквизиты',
+					'name'         => 'tts_settings_footer_legal',
+					'type'         => 'text',
+					'instructions' => 'Строка под документами, например БИН. Публикуем только подтверждённые данные (п. 5.2 ТЗ).',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_catalog_title',
+					'label'        => 'Плашка каталога: заголовок',
+					'name'         => 'tts_settings_footer_catalog_title',
+					'type'         => 'text',
+					'instructions' => 'Полоса со ссылкой на общий каталог над копирайтом. Если заголовок и текст кнопки пустые, плашка не показывается.',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_catalog_note',
+					'label'        => 'Плашка каталога: подпись',
+					'name'         => 'tts_settings_footer_catalog_note',
+					'type'         => 'text',
+					'instructions' => 'Например: «23 конфигурации в пяти направлениях — с поиском и фильтрами».',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_catalog_button',
+					'label'        => 'Плашка каталога: текст кнопки',
+					'name'         => 'tts_settings_footer_catalog_button',
+					'type'         => 'text',
+					'instructions' => 'Кнопка ведёт в общий каталог.',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_home_title',
+					'label'        => 'Плашка на странице каталога: заголовок',
+					'name'         => 'tts_settings_footer_home_title',
+					'type'         => 'text',
+					'instructions' => 'На самой странице общего каталога вместо плашки «Весь каталог» — ссылка на главную.',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_home_note',
+					'label'        => 'Плашка на странице каталога: подпись',
+					'name'         => 'tts_settings_footer_home_note',
+					'type'         => 'text',
+					'instructions' => 'Например: «Подбор оборудования за две минуты, направления и проекты в Казахстане».',
+				),
+				array(
+					'key'          => 'field_tts_settings_footer_home_button',
+					'label'        => 'Плашка на странице каталога: текст кнопки',
+					'name'         => 'tts_settings_footer_home_button',
+					'type'         => 'text',
+					'instructions' => 'Кнопка ведёт на главную.',
+				),
+				array(
+					'key'          => 'field_tts_settings_copyright',
+					'label'        => 'Копирайт',
+					'name'         => 'tts_settings_copyright',
+					'type'         => 'text',
+					'instructions' => 'Текст после знака © и текущего года — год меняется сам.',
+				),
 				array(
 					'key'       => 'field_tts_settings_tab_contacts',
 					'label'     => 'Контакты',
@@ -610,14 +651,12 @@ function tts_fields_settings(): void {
 					'placement' => 'top',
 				),
 				array(
-					'key'           => 'field_tts_settings_logo',
-					'label'         => 'Логотип',
-					'name'          => 'tts_settings_logo',
-					'type'          => 'image',
-					'instructions'  => 'Файл для шапки сайта: SVG или PNG с прозрачным фоном.',
-					'return_format' => 'id',
-					'preview_size'  => 'medium',
-					'library'       => 'all',
+					'key'       => 'field_tts_settings_contacts_note',
+					'label'     => 'Где видны контакты',
+					'name'      => '',
+					'type'      => 'message',
+					'message'   => 'Заполненные поля появляются в подвале под описанием компании и в разметке для поисковиков. Пустые поля на сайте не показываются — пока заказчик не подтвердил контакты, их можно не заполнять.',
+					'new_lines' => 'wpautop',
 				),
 				array(
 					'key'          => 'field_tts_settings_phone',
@@ -625,15 +664,13 @@ function tts_fields_settings(): void {
 					'name'         => 'tts_settings_phone',
 					'type'         => 'text',
 					'instructions' => 'В том виде, в каком показываем на сайте: +7 700 000 00 00. Ссылку для звонка сайт соберёт сам.',
-					'required'     => 1,
 				),
 				array(
 					'key'          => 'field_tts_settings_email',
 					'label'        => 'E-mail',
 					'name'         => 'tts_settings_email',
 					'type'         => 'email',
-					'instructions' => 'Адрес для связи, который показывается в шапке и подвале.',
-					'required'     => 1,
+					'instructions' => 'Адрес для связи. Куда приходят заявки — во вкладке «Заявки».',
 				),
 				array(
 					'key'          => 'field_tts_settings_address',
@@ -650,19 +687,11 @@ function tts_fields_settings(): void {
 					'instructions' => 'Например: пн–пт, 9:00–18:00.',
 				),
 				array(
-					'key'          => 'field_tts_settings_legal',
-					'label'        => 'Реквизиты',
-					'name'         => 'tts_settings_legal',
-					'type'         => 'textarea',
-					'instructions' => 'Наименование компании, БИН, юридический адрес. Каждый пункт с новой строки — они попадут в подвал.',
-					'rows'         => 4,
-				),
-				array(
 					'key'          => 'field_tts_settings_socials',
 					'label'        => 'Соцсети и мессенджеры',
 					'name'         => 'tts_settings_socials',
 					'type'         => 'repeater',
-					'instructions' => 'Ссылки в подвале. Пустых строк не оставляйте.',
+					'instructions' => 'Ссылки в подвале, например WhatsApp или Instagram. Открываются в новой вкладке.',
 					'layout'       => 'table',
 					'button_label' => 'Добавить ссылку',
 					'sub_fields'   => array(
@@ -681,35 +710,6 @@ function tts_fields_settings(): void {
 							'required' => 1,
 						),
 					),
-				),
-				array(
-					'key'          => 'field_tts_settings_topline_left',
-					'label'        => 'Верхняя строка, слева',
-					'name'         => 'tts_settings_topline_left',
-					'type'         => 'text',
-					'instructions' => 'Короткое позиционирование в самой верхней полосе сайта.',
-				),
-				array(
-					'key'          => 'field_tts_settings_topline_right',
-					'label'        => 'Верхняя строка, справа',
-					'name'         => 'tts_settings_topline_right',
-					'type'         => 'text',
-					'instructions' => 'География работ или режим работы.',
-				),
-				array(
-					'key'          => 'field_tts_settings_footer_about',
-					'label'        => 'Описание в подвале',
-					'name'         => 'tts_settings_footer_about',
-					'type'         => 'textarea',
-					'rows'         => 2,
-					'new_lines'    => '',
-				),
-				array(
-					'key'          => 'field_tts_settings_footer_legal',
-					'label'        => 'Реквизиты в подвале',
-					'name'         => 'tts_settings_footer_legal',
-					'type'         => 'text',
-					'instructions' => 'Например, БИН. Публикуем только подтверждённые данные (п. 5.2 ТЗ).',
 				),
 				array(
 					'key'   => 'field_tts_settings_tab_leads',
@@ -745,37 +745,6 @@ function tts_fields_settings(): void {
 					'max'           => 3650,
 				),
 				array(
-					'key'       => 'field_tts_settings_tab_buttons',
-					'label'     => 'Кнопки',
-					'name'      => '',
-					'type'      => 'tab',
-					'placement' => 'top',
-				),
-				array(
-					'key'          => 'field_tts_settings_header_button',
-					'label'        => 'Текст главной кнопки в шапке',
-					'name'         => 'tts_settings_header_button',
-					'type'         => 'text',
-					'instructions' => 'Например: «Подобрать оборудование».',
-					'required'     => 1,
-				),
-				array(
-					'key'          => 'field_tts_settings_form_button',
-					'label'        => 'Текст кнопки отправки формы',
-					'name'         => 'tts_settings_form_button',
-					'type'         => 'text',
-					'instructions' => 'Одинаковый для всех форм сайта. Например: «Отправить заявку».',
-					'required'     => 1,
-				),
-				array(
-					'key'          => 'field_tts_settings_form_success',
-					'label'        => 'Текст подтверждения после отправки',
-					'name'         => 'tts_settings_form_success',
-					'type'         => 'text',
-					'instructions' => 'Что человек видит вместо формы после отправки. Например: «Спасибо, мы свяжемся с вами в течение рабочего дня».',
-					'required'     => 1,
-				),
-				array(
 					'key'       => 'field_tts_settings_tab_analytics',
 					'label'     => 'Аналитика',
 					'name'      => '',
@@ -787,21 +756,7 @@ function tts_fields_settings(): void {
 					'label'        => 'ID Google Tag Manager',
 					'name'         => 'tts_settings_gtm_id',
 					'type'         => 'text',
-					'instructions' => 'Вид GTM-XXXXXXX. Пока поле пустое, код на сайт не подключается.',
-				),
-				array(
-					'key'          => 'field_tts_settings_ga4_id',
-					'label'        => 'ID Google Analytics 4',
-					'name'         => 'tts_settings_ga4_id',
-					'type'         => 'text',
-					'instructions' => 'Вид G-XXXXXXXXXX. Пока поле пустое, код на сайт не подключается.',
-				),
-				array(
-					'key'          => 'field_tts_settings_ads_id',
-					'label'        => 'ID Google Ads',
-					'name'         => 'tts_settings_ads_id',
-					'type'         => 'text',
-					'instructions' => 'Вид AW-XXXXXXXXX. Пока поле пустое, код на сайт не подключается.',
+					'instructions' => 'Вид GTM-XXXXXXX. GA4 и Google Ads подключаются внутри контейнера GTM (п. 13 ТЗ), отдельные поля для них не нужны. Пока поле пустое, код на сайт не подключается.',
 				),
 				array(
 					'key'          => 'field_tts_settings_metrika_id',
@@ -879,6 +834,20 @@ function tts_fields_settings(): void {
 							'ui'            => 1,
 						),
 						array(
+							'key'          => 'field_tts_settings_quiz_primary_text',
+							'label'        => 'Текст карточки основной модели',
+							'name'         => 'tts_settings_quiz_primary_text',
+							'type'         => 'text',
+							'instructions' => 'Необязательно. Короткое описание в карточке результата. Если пусто — «Краткое описание» модели из каталога.',
+						),
+						array(
+							'key'          => 'field_tts_settings_quiz_primary_capacity',
+							'label'        => 'Производительность в карточке основной модели',
+							'name'         => 'tts_settings_quiz_primary_capacity',
+							'type'         => 'text',
+							'instructions' => 'Необязательно. Если пусто — из каталога.',
+						),
+						array(
 							'key'           => 'field_tts_settings_quiz_alt',
 							'label'         => 'Альтернативная модель',
 							'name'          => 'tts_settings_quiz_alt',
@@ -889,6 +858,20 @@ function tts_fields_settings(): void {
 							'allow_null'    => 1,
 							'multiple'      => 0,
 							'ui'            => 1,
+						),
+						array(
+							'key'          => 'field_tts_settings_quiz_alt_text',
+							'label'        => 'Текст карточки альтернативы',
+							'name'         => 'tts_settings_quiz_alt_text',
+							'type'         => 'text',
+							'instructions' => 'Необязательно. Если пусто — «Краткое описание» модели из каталога.',
+						),
+						array(
+							'key'          => 'field_tts_settings_quiz_alt_capacity',
+							'label'        => 'Производительность в карточке альтернативы',
+							'name'         => 'tts_settings_quiz_alt_capacity',
+							'type'         => 'text',
+							'instructions' => 'Необязательно. Если пусто — из каталога.',
 						),
 					),
 				),

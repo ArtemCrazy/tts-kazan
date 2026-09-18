@@ -57,7 +57,8 @@ if ( ! is_admin() ) {
 			<p class="kicker"><?php echo esc_html( $kicker ); ?></p>
 			<?php endif; ?>
 			<?php if ( $title ) : ?>
-			<h2 class="contact__title"><?php echo esc_html( $title ); ?></h2>
+			<?php // Перенос строки в заголовке — только на широком экране, как в статике (br-wide). ?>
+			<h2 class="contact__title"><?php echo implode( '<br class="br-wide"> ', array_map( 'esc_html', preg_split( '/\R+/u', trim( $title ) ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></h2>
 			<?php endif; ?>
 			<?php if ( $lead ) : ?>
 			<p class="contact__lead"><?php echo esc_html( $lead ); ?></p>
@@ -103,9 +104,7 @@ if ( ! is_admin() ) {
 					<span class="field__label"><?php echo esc_html( (string) get_field( 'tts_form_direction_label' ) ?: 'Направление' ); ?></span>
 					<select class="field__select" name="direction">
 						<?php foreach ( $directions as $item ) : ?>
-						<option value="<?php echo esc_attr( (string) ( $item['tts_form_direction'] ?? '' ) ); ?>">
-							<?php echo esc_html( (string) ( $item['tts_form_direction'] ?? '' ) ); ?>
-						</option>
+						<option value="<?php echo esc_attr( (string) ( $item['tts_form_direction'] ?? '' ) ); ?>"<?php selected( ! empty( $item['tts_form_direction_default'] ) ); ?>><?php echo esc_html( (string) ( $item['tts_form_direction'] ?? '' ) ); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</label>
@@ -115,7 +114,7 @@ if ( ! is_admin() ) {
 				<?php // Сюда каталог подставляет выбранную модель (п. 8.3 ТЗ) ?>
 				<label class="field">
 					<span class="field__label">Выбранное оборудование</span>
-					<input class="field__input" id="leadPicked" name="model" type="text" value="Подбор по задаче" readonly>
+					<input class="field__input" id="leadPicked" name="model" type="text" placeholder="Подбор по задаче" readonly>
 				</label>
 				<?php endif; ?>
 
@@ -124,9 +123,7 @@ if ( ! is_admin() ) {
 					<span class="field__label"><?php echo esc_html( $second ); ?></span>
 					<select class="field__select" name="urgency">
 						<?php foreach ( $seconds as $item ) : ?>
-						<option value="<?php echo esc_attr( (string) ( $item['tts_form_second_option'] ?? '' ) ); ?>">
-							<?php echo esc_html( (string) ( $item['tts_form_second_option'] ?? '' ) ); ?>
-						</option>
+						<option value="<?php echo esc_attr( (string) ( $item['tts_form_second_option'] ?? '' ) ); ?>"<?php selected( ! empty( $item['tts_form_second_option_default'] ) ); ?>><?php echo esc_html( (string) ( $item['tts_form_second_option'] ?? '' ) ); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</label>

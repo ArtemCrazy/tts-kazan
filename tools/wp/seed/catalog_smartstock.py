@@ -203,7 +203,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Обсудим проект',
-                'tts_form_title': 'Получите схему SmartStock',
+                'tts_form_title': 'Получите схему\nSmartStock',
                 'tts_form_lead': 'Инженер уточнит вместимость, число марок цемента, вид '
                                  'транспорта, расстояние до силосов и ограничения площадки, '
                                  'затем предложит схему терминала.',
@@ -216,7 +216,7 @@ def blocks():
                 'tts_form_note': 'Перезвоним в рабочее время и уточним задачу.',
                 'tts_form_direction_label': 'Схема подачи',
                 'tts_form_directions': [
-                    {'tts_form_direction': 'Требуется подобрать'},
+                    {'tts_form_direction': 'Требуется подобрать', 'tts_form_direction_default': True},
                     {'tts_form_direction': 'Механическая: шнек и нория'},
                     {'tts_form_direction': 'Пневматическая: 2 × ПКН'},
                 ],

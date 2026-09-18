@@ -52,17 +52,6 @@ function tts_link( string $key ): string {
 	return $out;
 }
 
-/** Направления каталога для меню и подвала. Позже возьмём из раздела «Направления». */
-function tts_directions(): array {
-	return array(
-		array( 'smartdrymix', 'Заводы сухих смесей', 'SmartDryMix 5–50+ т/ч' ),
-		array( 'smartbeton', 'Бетонные заводы', 'Товарный бетон, ЖБИ и дороги' ),
-		array( 'vpi', 'Заводы ВПИ', 'Готовые линии QUNFENG + ТТС' ),
-		array( 'smartstock', 'Цементные терминалы', 'SmartStock 1000–5000 тонн' ),
-		array( 'pkn', 'Пневмокамерные насосы', 'ПКН 10–60 т/ч, подача до 250 м' ),
-	);
-}
-
 /** Стрелка в кнопках — та же, что в статической вёрстке. */
 function tts_arrow(): string {
 	return '<svg class="btn__arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" '

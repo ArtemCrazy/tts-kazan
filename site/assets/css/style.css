@@ -2408,6 +2408,23 @@ section[id] { scroll-margin-top: calc(var(--masthead-h) + var(--s-4)); }
   line-height: 1.6;
 }
 
+/* контакты под описанием — появляются, когда заполнены в настройках сайта */
+.footer__contacts {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  font-size: var(--fs-small);
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.footer__contacts a { color: var(--c-text); transition: color 0.18s var(--ease); }
+
+.footer__contacts a:hover { color: var(--c-text-muted); }
+
+.footer__socials { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); }
+
 .footer__col { display: grid; gap: var(--s-3); align-content: start; }
 
 .footer__heading {

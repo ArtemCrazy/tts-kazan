@@ -1,7 +1,7 @@
 """Перенос контента статической версии в WordPress.
 
 Что уезжает: направления, 23 позиции каталога с рендерами, матрица подбора
-для квиза, проекты, вопросы и ответы, услуги сервиса, а также тексты
+для квиза, проекты, вопросы и ответы, а также тексты
 комплектаций со страниц направлений. Источник — файлы статической версии
 (см. catalog_static.py, content_static.py и models_static.py), поэтому
 тексты совпадают с сайтом дословно.
@@ -153,14 +153,26 @@ foreach ($plan['equipment'] as $item) {
 $report[] = 'моделей: ' . count($models);
 
 // ---------------------------------------------------------------- матрица подбора
+// Текст и производительность карточки пишем, только если они отличаются от
+// каталога: иначе поле пустое, и правка модели в каталоге сама дойдёт до квиза.
+function tts_quiz_override($model, string $field, string $value): string {
+    if (!$model || $value === '') return '';
+    return trim((string) get_field($field, $model)) === trim($value) ? '' : $value;
+}
 $matrix = array();
 foreach ($plan['quiz'] as $row) {
+    $primary = $models[$row['primary']] ?? '';
+    $alt     = $row['alt'] ? ($models[$row['alt']] ?? '') : '';
     $matrix[] = array(
-        'tts_settings_quiz_object'   => $row['object'],
-        'tts_settings_quiz_capacity' => $row['answer'],
-        'tts_settings_quiz_text'     => $row['recommendation'],
-        'tts_settings_quiz_primary'  => $models[$row['primary']] ?? '',
-        'tts_settings_quiz_alt'      => $row['alt'] ? ($models[$row['alt']] ?? '') : '',
+        'tts_settings_quiz_object'           => $row['object'],
+        'tts_settings_quiz_capacity'         => $row['answer'],
+        'tts_settings_quiz_text'             => $row['recommendation'],
+        'tts_settings_quiz_primary'          => $primary,
+        'tts_settings_quiz_primary_text'     => tts_quiz_override($primary, 'tts_equipment_summary', $row['primary_text']),
+        'tts_settings_quiz_primary_capacity' => tts_quiz_override($primary, 'tts_equipment_capacity', $row['primary_capacity']),
+        'tts_settings_quiz_alt'              => $alt,
+        'tts_settings_quiz_alt_text'         => tts_quiz_override($alt, 'tts_equipment_summary', $row['alt_text']),
+        'tts_settings_quiz_alt_capacity'     => tts_quiz_override($alt, 'tts_equipment_capacity', $row['alt_capacity']),
     );
 }
 if ($matrix) update_field('tts_settings_quiz_matrix', $matrix, 'option');
@@ -171,7 +183,6 @@ foreach ($plan['projects'] as $project) {
     $id = tts_upsert('project', $project['title'], $project['order']);
     if (!$id) continue;
     update_field('tts_project_city', $project['city'], $id);
-    update_field('tts_project_summary', $project['summary'], $id);
     update_field('tts_project_task', $project['task'], $id);
     update_field('tts_project_solution', $project['solution'], $id);
     update_field('tts_project_figures', array_map(
@@ -200,29 +211,6 @@ foreach ($plan['faq'] as $faq) {
     update_field('tts_faq_visible', true, $id);
 }
 $report[] = 'вопросов: ' . count($plan['faq']);
-
-// ---------------------------------------------------------------- услуги сервиса
-foreach ($plan['services'] as $service) {
-    $id = tts_upsert('service_item', $service['title'], $service['order']);
-    if (!$id) continue;
-    update_field('tts_service_summary', $service['summary'], $id);
-    if (!empty($service['steps'])) {
-        update_field('tts_service_steps', array_map(
-            static fn($pair) => array(
-                'tts_service_step_title' => $pair[0],
-                'tts_service_step_text'  => $pair[1],
-            ),
-            $service['steps']
-        ), $id);
-    }
-    if (!empty($service['benefits'])) {
-        update_field('tts_service_benefits', array_map(
-            static fn($text) => array('tts_service_benefit' => $text),
-            $service['benefits']
-        ), $id);
-    }
-}
-$report[] = 'услуг: ' . count($plan['services']);
 
 echo implode("\n", $report), "\n";
 echo 'функция полей доступна: ', (function_exists('update_field') ? 'да' : 'НЕТ — поля не заполнились'), "\n";
@@ -290,13 +278,12 @@ def plan():
             'order': (index + 1) * 10,
         })
 
-    projects, faq, services = [], [], []
+    projects, faq = [], []
     if content_static:
         for index, project in enumerate(content_static.projects()):
             projects.append({
                 'title': project['title'],
                 'city': project['city'],
-                'summary': project.get('summary', ''),
                 'task': project['task'],
                 'solution': project['solution'],
                 'figures': project['figures'],
@@ -306,20 +293,12 @@ def plan():
             })
         for index, item in enumerate(content_static.faq()):
             answer = item['answer']
-            services_html = '\n'.join(f'<p>{part}</p>' for part in answer) \
+            answer_html = '\n'.join(f'<p>{part}</p>' for part in answer) \
                 if isinstance(answer, list) else f'<p>{answer}</p>'
             faq.append({
                 'question': item['question'],
-                'answer': services_html,
+                'answer': answer_html,
                 'places': ['home'],
-                'order': (index + 1) * 10,
-            })
-        for index, item in enumerate(content_static.service_items()):
-            services.append({
-                'title': item['title'],
-                'summary': item.get('text', ''),
-                'steps': item.get('steps', []),
-                'benefits': item.get('benefits', []),
                 'order': (index + 1) * 10,
             })
 
@@ -332,7 +311,6 @@ def plan():
         'quiz': quiz_matrix(),
         'projects': projects,
         'faq': faq,
-        'services': services,
     }
 
 
@@ -340,7 +318,7 @@ def main():
     data = plan()
     say(f"к переносу: направлений {len(data['directions'])}, моделей {len(data['equipment'])}, "
         f"строк матрицы {len(data['quiz'])}, проектов {len(data['projects'])}, "
-        f"вопросов {len(data['faq'])}, услуг {len(data['services'])}")
+        f"вопросов {len(data['faq'])}")
 
     matched = [item for item in data['equipment'] if item['title_long']]
     say(f'из них с текстами комплектаций со страниц направлений: {len(matched)}')

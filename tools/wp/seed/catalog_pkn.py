@@ -245,7 +245,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Обсудим задачу',
-                'tts_form_title': 'Подберём ПКН и проверим трассу подачи',
+                'tts_form_title': 'Подберём ПКН\nи проверим трассу подачи',
                 'tts_form_lead': 'Инженер уточнит материал, требуемую производительность, длину '
                                  'и высоту трассы, а также имеющуюся компрессорную систему, '
                                  'затем предложит модель и схему подачи.',
@@ -258,7 +258,7 @@ def blocks():
                 'tts_form_note': 'Перезвоним в рабочее время и уточним задачу.',
                 'tts_form_direction_label': 'Отрасль',
                 'tts_form_directions': [
-                    {'tts_form_direction': 'Строительная промышленность'},
+                    {'tts_form_direction': 'Строительная промышленность', 'tts_form_direction_default': True},
                     {'tts_form_direction': 'Пищевая промышленность'},
                     {'tts_form_direction': 'Химическая промышленность'},
                     {'tts_form_direction': 'Другое'},

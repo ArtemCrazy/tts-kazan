@@ -264,7 +264,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Обсудим проект',
-                'tts_form_title': 'Получите комплектацию SmartBeton под вашу задачу',
+                'tts_form_title': 'Получите комплектацию\nSmartBeton под вашу задачу',
                 'tts_form_lead': 'Инженер уточнит назначение завода, требуемую производительность, '
                                  'рецептуры, способ подачи заполнителей и данные площадки, затем '
                                  'подготовит исходную конфигурацию.',
@@ -277,7 +277,7 @@ def blocks():
                 'tts_form_note': 'Перезвоним в рабочее время и уточним задачу.',
                 'tts_form_direction_label': 'Назначение завода',
                 'tts_form_directions': [
-                    {'tts_form_direction': 'Товарный бетон'},
+                    {'tts_form_direction': 'Товарный бетон', 'tts_form_direction_default': True},
                     {'tts_form_direction': 'Производство ЖБИ'},
                     {'tts_form_direction': 'Строительство дорог'},
                     {'tts_form_direction': 'Несколько направлений'},

@@ -123,7 +123,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Заявка в сервис',
-                'tts_form_title': 'Опишите оборудование и задачу',
+                'tts_form_title': 'Опишите оборудование\nи задачу',
                 'tts_form_lead': 'Инженер уточнит симптомы, параметры линии и срочность, '
                                  'после чего предложит следующий шаг.',
                 'tts_form_office': 'Филиал ТТС Инжиниринг в Казахстане',
@@ -141,7 +141,7 @@ def blocks():
                     {'tts_form_direction': 'Цементный терминал SmartStock'},
                     {'tts_form_direction': 'Пневмокамерный насос'},
                     {'tts_form_direction': 'Автоматизация и АСУ ТП'},
-                    {'tts_form_direction': 'Требуется уточнить'},
+                    {'tts_form_direction': 'Требуется уточнить', 'tts_form_direction_default': True},
                 ],
                 'tts_form_comment_label': 'Оборудование и задача',
                 'tts_form_comment_hint': 'Симптомы, сообщения АСУ, что уже проверяли',
@@ -155,7 +155,7 @@ def blocks():
                 # Второй список страницы сервиса — срочность обращения
                 'tts_form_second_label': 'Срочность',
                 'tts_form_second_options': [
-                    {'tts_form_second_option': 'Плановое обращение'},
+                    {'tts_form_second_option': 'Плановое обращение', 'tts_form_second_option_default': True},
                     {'tts_form_second_option': 'Оборудование остановлено'},
                     {'tts_form_second_option': 'Работает с отклонениями'},
                 ],

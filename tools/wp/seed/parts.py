@@ -154,7 +154,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Запрос на подбор',
-                'tts_form_title': 'Отправьте данные оборудования или детали',
+                'tts_form_title': 'Отправьте данные\nоборудования или детали',
                 'tts_form_lead': 'Технический специалист уточнит исполнение, проверит '
                                  'совместимость и предложит следующий шаг.',
                 'tts_form_office': 'Филиал ТТС Инжиниринг в Казахстане',
@@ -166,7 +166,7 @@ def blocks():
                 'tts_form_note': 'Укажите контакты и всё, что известно о детали.',
                 'tts_form_direction_label': 'Категория',
                 'tts_form_directions': [
-                    {'tts_form_direction': 'Требуется уточнить'},
+                    {'tts_form_direction': 'Требуется уточнить', 'tts_form_direction_default': True},
                     {'tts_form_direction': 'Смесители и рабочие органы'},
                     {'tts_form_direction': 'Шнеки и транспортёры'},
                     {'tts_form_direction': 'Затворы и клапаны'},

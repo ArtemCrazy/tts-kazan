@@ -44,9 +44,10 @@ def blocks():
                 'tts_quiz_label_object': 'Тип объекта',
                 'tts_quiz_label_capacity': 'Производительность / хранение',
                 'tts_quiz_label_stage': 'Стадия проекта',
+                'tts_quiz_default_object': 'concrete',  # в статике открыт «Бетонный завод»
                 'tts_quiz_stages': [
                     {'tts_quiz_stage': 'Формируем идею'},
-                    {'tts_quiz_stage': 'Выбираем технологию'},
+                    {'tts_quiz_stage': 'Выбираем технологию', 'tts_quiz_stage_default': True},
                     {'tts_quiz_stage': 'Есть площадка и ТЗ'},
                 ],
                 'tts_quiz_submit': 'Показать решение',
@@ -285,7 +286,7 @@ def blocks():
             'anchor': 'contact',
             'fields': {
                 'tts_form_kicker': 'Обсудим проект',
-                'tts_form_title': 'Получите расчёт оборудования под вашу задачу',
+                'tts_form_title': 'Получите расчёт\nоборудования под\nвашу задачу',
                 'tts_form_lead': 'Инженер уточнит продукт, производительность и исходные данные '
                                  'площадки, затем предложит состав оборудования и следующий этап проекта.',
                 'tts_form_office': 'Филиал ТТС Инжиниринг в Казахстане',
@@ -298,7 +299,7 @@ def blocks():
                 'tts_form_direction_label': 'Направление',
                 'tts_form_directions': [
                     {'tts_form_direction': 'Заводы сухих смесей'},
-                    {'tts_form_direction': 'Бетонные заводы'},
+                    {'tts_form_direction': 'Бетонные заводы', 'tts_form_direction_default': True},
                     {'tts_form_direction': 'Заводы ВПИ'},
                     {'tts_form_direction': 'Цементные терминалы'},
                     {'tts_form_direction': 'Инженерный сервис'},

@@ -55,7 +55,7 @@ if ( ! is_admin() ) {
 				<span class="field__label"><?php echo esc_html( $labels['object'] ); ?></span>
 				<select class="field__select" id="quizDirection">
 					<?php foreach ( $config['directions'] as $key => $direction ) : ?>
-					<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $direction['label'] ); ?></option>
+					<option value="<?php echo esc_attr( $key ); ?>"<?php selected( (string) get_field( 'tts_quiz_default_object' ), $key ); ?>><?php echo esc_html( $direction['label'] ); ?></option>
 					<?php endforeach; ?>
 				</select>
 			</label>
@@ -69,7 +69,7 @@ if ( ! is_admin() ) {
 				<span class="field__label"><?php echo esc_html( $labels['stage'] ); ?></span>
 				<select class="field__select" id="quizStage">
 					<?php foreach ( $stages as $stage ) : ?>
-					<option><?php echo esc_html( (string) ( $stage['tts_quiz_stage'] ?? '' ) ); ?></option>
+					<option<?php selected( ! empty( $stage['tts_quiz_stage_default'] ) ); ?>><?php echo esc_html( (string) ( $stage['tts_quiz_stage'] ?? '' ) ); ?></option>
 					<?php endforeach; ?>
 				</select>
 			</label>

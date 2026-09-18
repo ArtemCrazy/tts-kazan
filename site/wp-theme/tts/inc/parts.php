@@ -102,3 +102,81 @@ function tts_page_lead( ?WP_Post $post = null ): string {
 	$lead = get_post_meta( $post->ID, 'tts_lead', true );
 	return $lead ?: get_the_excerpt( $post );
 }
+
+/**
+ * Логотип из «Настроек сайта → Шапка». Если файл не загружен — логотип темы.
+ * Вариантов два: светлый для тёмного фона и тёмный для светлого.
+ *
+ * @return array{0:string,1:int,2:int} адрес, ширина, высота
+ */
+function tts_logo( string $variant ): array {
+	$field = 'light' === $variant ? 'tts_settings_logo_light' : 'tts_settings_logo_dark';
+	$id    = function_exists( 'get_field' ) ? (int) get_field( $field, 'option' ) : 0;
+	if ( $id ) {
+		$image = wp_get_attachment_image_src( $id, 'full' );
+		if ( $image ) {
+			return array( (string) $image[0], (int) $image[1], (int) $image[2] );
+		}
+	}
+	$file = 'light' === $variant ? 'img/tts-logo-light.png' : 'img/tts-logo.png';
+	return array( tts_asset( $file )[0], 1148, 426 );
+}
+
+/**
+ * Куда ведёт кнопка в шапке: к форме на этой же странице, а если формы
+ * на странице нет — к форме на главной. Так же сделано в статической версии.
+ */
+function tts_contact_url(): string {
+	$post = get_queried_object();
+	if ( $post instanceof WP_Post && has_block( 'acf/tts-form', $post ) ) {
+		return '#contact';
+	}
+	return tts_url( 'home' ) . '#contact';
+}
+
+/**
+ * Контакты в подвале — только заполненные в «Настройках сайта → Контакты».
+ * Пока заказчик их не подтвердил, поля пустые и блока на сайте нет.
+ */
+function tts_footer_contacts(): void {
+	$phone   = tts_setting( 'tts_settings_phone' );
+	$email   = tts_setting( 'tts_settings_email' );
+	$address = tts_setting( 'tts_settings_address' );
+	$hours   = tts_setting( 'tts_settings_hours' );
+	$socials = array();
+	if ( function_exists( 'get_field' ) ) {
+		foreach ( tts_rows( get_field( 'tts_settings_socials', 'option' ) ) as $row ) {
+			$title = trim( (string) ( $row['tts_settings_social_title'] ?? '' ) );
+			$url   = trim( (string) ( $row['tts_settings_social_url'] ?? '' ) );
+			if ( $title && $url ) {
+				$socials[] = array( $title, $url );
+			}
+		}
+	}
+	if ( ! $phone && ! $email && ! $address && ! $hours && ! $socials ) {
+		return;
+	}
+	?>
+	<address class="footer__contacts">
+		<?php if ( $phone ) : ?>
+		<a href="tel:<?php echo esc_attr( preg_replace( '/[^\d+]/', '', $phone ) ); ?>"><?php echo esc_html( $phone ); ?></a>
+		<?php endif; ?>
+		<?php if ( $email ) : ?>
+		<a href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><?php echo esc_html( antispambot( $email ) ); ?></a>
+		<?php endif; ?>
+		<?php if ( $address ) : ?>
+		<span><?php echo esc_html( $address ); ?></span>
+		<?php endif; ?>
+		<?php if ( $hours ) : ?>
+		<span><?php echo esc_html( $hours ); ?></span>
+		<?php endif; ?>
+		<?php if ( $socials ) : ?>
+		<span class="footer__socials">
+			<?php foreach ( $socials as list( $title, $url ) ) : ?>
+			<a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $title ); ?></a>
+			<?php endforeach; ?>
+		</span>
+		<?php endif; ?>
+	</address>
+	<?php
+}

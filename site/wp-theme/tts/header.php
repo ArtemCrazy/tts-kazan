@@ -2,6 +2,9 @@
 /**
  * Шапка сайта: верхняя строка, логотип, меню с выпадающими списками,
  * кнопка целевого действия и кнопка мобильного меню (п. 5.1 ТЗ).
+ *
+ * Пункты меню — «Внешний вид → Меню», область «Шапка сайта» (inc/menus.php).
+ * Логотип, верхняя строка и текст кнопки — «Настройки сайта → Шапка».
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,8 +27,12 @@ defined( 'ABSPATH' ) || exit;
 		<?php
 		$left  = tts_setting( 'tts_settings_topline_left' )
 			?: 'Инжиниринг для строительной индустрии Казахстана с 2006 года';
-		$right = tts_setting( 'tts_settings_topline_right' )
-			?: 'Алматы · проектирование, поставка, монтаж и сервис';
+		// Правая подпись бывает своя у страницы (поле «Верхняя строка, справа»).
+		$page  = get_queried_object();
+		$own   = $page instanceof WP_Post && function_exists( 'get_field' )
+			? trim( (string) get_field( 'tts_page_topline', $page->ID ) ) : '';
+		$right = $own ?: ( tts_setting( 'tts_settings_topline_right' )
+			?: 'Поставка, монтаж и сервис по Казахстану' );
 		?>
 		<span class="topline__item"><?php echo esc_html( $left ); ?></span>
 		<span class="topline__item topline__item--muted"><?php echo esc_html( $right ); ?></span>
@@ -35,62 +42,24 @@ defined( 'ABSPATH' ) || exit;
 <header class="masthead">
 	<div class="shell masthead__inner">
 		<a class="brand" href="<?php echo esc_url( tts_url( 'home' ) ); ?>">
-			<img class="brand__logo brand__logo--knockout" src="<?php echo esc_url( tts_asset( 'img/tts-logo-light.png' )[0] ); ?>" width="1148" height="426" alt="ТТС Инжиниринг">
-			<img class="brand__logo brand__logo--ink" src="<?php echo esc_url( tts_asset( 'img/tts-logo.png' )[0] ); ?>" width="1148" height="426" alt="" aria-hidden="true">
+			<?php
+			list( $knockout, $kw, $kh ) = tts_logo( 'light' );
+			list( $ink, $iw, $ih )      = tts_logo( 'dark' );
+			$brand                      = tts_setting( 'tts_settings_brand_name' ) ?: 'ТТС Инжиниринг';
+			?>
+			<img class="brand__logo brand__logo--knockout" src="<?php echo esc_url( $knockout ); ?>" width="<?php echo (int) $kw; ?>" height="<?php echo (int) $kh; ?>" alt="<?php echo esc_attr( $brand ); ?>">
+			<img class="brand__logo brand__logo--ink" src="<?php echo esc_url( $ink ); ?>" width="<?php echo (int) $iw; ?>" height="<?php echo (int) $ih; ?>" alt="" aria-hidden="true">
 			<span class="brand__text">
-				<span class="brand__name">ТТС Инжиниринг</span>
-				<span class="brand__region">Казахстан</span>
+				<span class="brand__name"><?php echo esc_html( $brand ); ?></span>
+				<span class="brand__region"><?php echo esc_html( tts_setting( 'tts_settings_brand_region' ) ?: 'Казахстан' ); ?></span>
 			</span>
 		</a>
 
 		<nav class="nav" id="nav" aria-label="Основная навигация">
-			<a class="nav__link" href="<?php echo esc_url( tts_url( 'home' ) . '#catalog' ); ?>">Оборудование</a>
-
-			<div class="nav__group">
-				<button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="menu-catalog">
-					Каталог
-					<svg class="nav__chevron" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
-						<path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"></path>
-					</svg>
-				</button>
-				<div class="dropdown" id="menu-catalog" hidden>
-					<?php foreach ( tts_directions() as $direction ) : ?>
-					<a class="dropdown__link" <?php echo tts_link( $direction[0] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-						<span class="dropdown__title"><?php echo esc_html( $direction[1] ); ?></span>
-						<span class="dropdown__note"><?php echo esc_html( $direction[2] ); ?></span>
-					</a>
-					<?php endforeach; ?>
-					<a class="dropdown__link dropdown__link--all" <?php echo tts_link( 'catalog' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-						<span class="dropdown__title">Весь каталог</span>
-						<span class="dropdown__note">23 позиции, поиск и фильтры</span>
-					</a>
-				</div>
-			</div>
-
-			<div class="nav__group">
-				<button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="menu-service">
-					Сервис
-					<svg class="nav__chevron" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
-						<path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"></path>
-					</svg>
-				</button>
-				<div class="dropdown dropdown--narrow" id="menu-service" hidden>
-					<a class="dropdown__link" <?php echo tts_link( 'service' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-						<span class="dropdown__title">Инженерный сервис</span>
-						<span class="dropdown__note">Диагностика, запуск и поддержка 24/7</span>
-					</a>
-					<a class="dropdown__link" <?php echo tts_link( 'parts' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-						<span class="dropdown__title">Запасные части</span>
-						<span class="dropdown__note">Подбор комплектующих и автоматики</span>
-					</a>
-				</div>
-			</div>
-
-			<a class="nav__link" href="<?php echo esc_url( tts_url( 'home' ) . '#company' ); ?>">О компании</a>
-			<a class="nav__link" href="<?php echo esc_url( tts_url( 'home' ) . '#projects' ); ?>">Проекты</a>
+			<?php tts_header_menu(); ?>
 		</nav>
 
-		<a class="btn btn--solid btn--sm masthead__cta" href="<?php echo esc_url( tts_url( 'home' ) . '#contact' ); ?>">Получить расчёт</a>
+		<a class="btn btn--solid btn--sm masthead__cta" href="<?php echo esc_url( tts_contact_url() ); ?>"><?php echo esc_html( tts_setting( 'tts_settings_header_button' ) ?: 'Получить расчёт' ); ?></a>
 
 		<button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть меню">
 			<span class="burger__bar"></span>

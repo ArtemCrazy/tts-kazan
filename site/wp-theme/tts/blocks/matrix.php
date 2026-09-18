@@ -52,7 +52,7 @@ if ( get_field( 'tts_matrix_continue' ) ) {
 		<div class="matrix__wrap">
 			<table class="matrix">
 				<?php // Подпись для экранных читалок: видимый заголовок секции — это h2 выше. ?>
-				<caption class="visually-hidden"><?php echo esc_html( $title ?: 'Сравнение конфигураций' ); ?></caption>
+				<caption class="visually-hidden">Сравнение конфигураций</caption>
 				<thead>
 					<tr>
 						<?php foreach ( $heads as $head ) : ?>
