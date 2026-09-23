@@ -84,6 +84,8 @@ function tts_lead_details(): void {
 				'page'      => 'Страница',
 				'utm'       => 'Рекламные метки',
 				'gclid'     => 'gclid',
+				'consent_at'  => 'Согласие дано',
+				'consent_doc' => 'Текст согласия',
 			);
 			echo '<table class="widefat striped">';
 			foreach ( $labels as $key => $label ) {
@@ -212,6 +214,16 @@ function tts_handle_lead( WP_REST_Request $request ) {
 			update_post_meta( $id, 'tts_lead_' . $key, sanitize_textarea_field( $value ) );
 		}
 	}
+
+	// Фиксируем согласие: когда дано и на какую редакцию текста. Без этого
+	// подтвердить согласие субъекта нечем (аудит перед запуском, forms.consent-log).
+	update_post_meta( $id, 'tts_lead_consent_at', current_time( 'mysql' ) );
+	$page = get_page_by_path( 'personal-data' );
+	update_post_meta(
+		$id,
+		'tts_lead_consent_doc',
+		$page ? get_permalink( $page ) . ' (редакция от ' . get_the_modified_date( 'd.m.Y', $page ) . ')' : 'согласие на обработку персональных данных'
+	);
 
 	tts_send_lead_mail( (int) $id, $fields );
 

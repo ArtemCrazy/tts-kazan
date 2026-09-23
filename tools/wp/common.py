@@ -22,6 +22,11 @@ SITE_SUBDIR = 'wp'
 BASE_URL = 'http://korovai.crazytest.ru/tts-kazan.ru'
 SITE_URL = f'{BASE_URL}/{SITE_SUBDIR}'
 
+# Проверки умеют смотреть и на боевой сайт: TTS_SITE_URL=https://tts-engineering.kz
+# перед запуском сверки или аудита. Заливка темы и сеялки этим не управляются —
+# у боевого сервера свои скрипты (prod-php.py, deploy-theme-prod.py).
+SITE_URL = os.environ.get('TTS_SITE_URL', SITE_URL).rstrip('/')
+
 
 def read_env(name):
     path = os.path.join(CREDS_DIR, name)

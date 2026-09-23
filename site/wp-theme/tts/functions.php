@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 require_once get_theme_file_path( 'inc/urls.php' );
 require_once get_theme_file_path( 'inc/parts.php' );
 require_once get_theme_file_path( 'inc/menus.php' );
+require_once get_theme_file_path( 'inc/security.php' );
 require_once get_theme_file_path( 'inc/cpt.php' );
 
 require_once get_theme_file_path( 'inc/blocks.php' );
