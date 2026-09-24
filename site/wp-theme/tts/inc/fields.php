@@ -726,6 +726,13 @@ function tts_fields_settings(): void {
 						. 'письма не отправляются, но заявки сохраняются в разделе «Заявки».',
 				),
 				array(
+					'key'          => 'field_tts_settings_mail_from',
+					'label'        => 'Ящик, с которого сайт отправляет письма',
+					'name'         => 'tts_settings_mail_from',
+					'type'         => 'text',
+					'instructions' => 'Адрес на домене сайта, например info@tts-engineering.kz. С чужого домена письма попадают в спам.',
+				),
+				array(
 					'key'          => 'field_tts_settings_lead_subject',
 					'label'        => 'Тема письма',
 					'name'         => 'tts_settings_lead_subject',

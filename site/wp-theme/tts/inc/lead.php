@@ -230,6 +230,24 @@ function tts_handle_lead( WP_REST_Request $request ) {
 	return new WP_REST_Response( array( 'ok' => true ), 200 );
 }
 
+/**
+ * Отправитель писем сайта.
+ *
+ * По умолчанию WordPress пишет от wordpress@домен — такие письма чаще
+ * попадают в спам, а ответить на них некуда. Берём ящик сайта: он на том же
+ * сервере, поэтому проходит по SPF и подписывается DKIM хостинга.
+ */
+function tts_mail_from(): string {
+	$box = tts_setting( 'tts_settings_mail_from' );
+	return $box ?: 'info@' . wp_parse_url( home_url(), PHP_URL_HOST );
+}
+add_filter( 'wp_mail_from', 'tts_mail_from' );
+
+function tts_mail_from_name(): string {
+	return tts_setting( 'tts_settings_brand_name' ) ?: get_bloginfo( 'name' );
+}
+add_filter( 'wp_mail_from_name', 'tts_mail_from_name' );
+
 /** Письмо о заявке получателю из настроек. */
 function tts_send_lead_mail( int $id, array $fields ): void {
 	$to = function_exists( 'get_field' ) ? (string) get_field( 'tts_settings_lead_email', 'option' ) : '';
