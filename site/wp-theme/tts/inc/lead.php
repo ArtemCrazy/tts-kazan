@@ -278,7 +278,8 @@ function tts_send_lead_mail( int $id, array $fields ): void {
 		}
 	}
 	$lines[] = '';
-	$lines[] = 'Заявка в админке: ' . get_edit_post_link( $id, '' );
+	// get_edit_post_link() вне админки возвращает пустоту, поэтому собираем адрес сами.
+	$lines[] = 'Заявка в админке: ' . admin_url( 'post.php?post=' . $id . '&action=edit' );
 
 	$subject = (string) get_field( 'tts_settings_lead_subject', 'option' )
 		?: 'Заявка с сайта ТТС Инжиниринг';
