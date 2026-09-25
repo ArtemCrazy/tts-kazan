@@ -55,6 +55,20 @@ function tts_drop_xmlrpc_links(): void {
 }
 add_action( 'init', 'tts_drop_xmlrpc_links' );
 
+/**
+ * RSS-ленты: блога на сайте нет, ленты пустые и только плодят лишние адреса
+ * для поисковиков. Любой запрос ленты уводим на главную.
+ */
+function tts_disable_feeds(): void {
+	wp_safe_redirect( home_url( '/' ), 301 );
+	exit;
+}
+foreach ( array( 'do_feed', 'do_feed_rdf', 'do_feed_rss', 'do_feed_rss2', 'do_feed_atom',
+	'do_feed_rss2_comments', 'do_feed_atom_comments' ) as $tts_feed_hook ) {
+	add_action( $tts_feed_hook, 'tts_disable_feeds', 1 );
+}
+remove_action( 'wp_head', 'feed_links', 2 );
+
 /** Версию WordPress в разметке не показываем. */
 add_filter( 'the_generator', '__return_empty_string' );
 
