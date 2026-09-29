@@ -58,6 +58,14 @@
     var data = { event: event, page_url: location.href, page_title: document.title };
     for (var key in payload) data[key] = payload[key];
     window.dataLayer.push(data);
+
+    // Цель в Яндекс Метрике: заявка отправлена. Страницы «Спасибо» на сайте нет,
+    // поэтому цель по адресу не сработает — в кабинете Метрики её заводят как
+    // JavaScript-событие с идентификатором lead_submit. Номер счётчика появляется
+    // только после согласия на cookie (inc/analytics.php), без согласия цели нет.
+    if (event === 'form_submit_success' && window.ym && window.ttsMetrikaId) {
+      window.ym(window.ttsMetrikaId, 'reachGoal', 'lead_submit', { form: data.form_type || '' });
+    }
   }
 
   // form_start по п.13 ТЗ — один раз за визит, на первом осмысленном вводе

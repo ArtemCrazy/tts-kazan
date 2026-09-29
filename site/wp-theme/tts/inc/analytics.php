@@ -100,6 +100,7 @@ function tts_analytics(): void {
 				// аналитика подключается только после согласия в cookie-баннере.
 				window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
 				window.ym.l = 1 * new Date();
+				window.ttsMetrikaId = settings.metrika; // для целей из форм (assets/js/form.js)
 				script('https://mc.yandex.ru/metrika/tag.js?id=' + settings.metrika);
 				window.ym(settings.metrika, 'init', {
 					ssr: true,
