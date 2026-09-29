@@ -95,10 +95,22 @@ function tts_analytics(): void {
 			}
 
 			if (settings.metrika) {
-				script('https://mc.yandex.ru/metrika/tag.js');
+				// Параметры — как в коде счётчика из кабинета Метрики (29.09.2026).
+				// Сам код не вставляем как есть: он грузит счётчик сразу, а у нас
+				// аналитика подключается только после согласия в cookie-баннере.
 				window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
-				window.ym.l = Date.now();
-				window.ym(settings.metrika, 'init', { webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true });
+				window.ym.l = 1 * new Date();
+				script('https://mc.yandex.ru/metrika/tag.js?id=' + settings.metrika);
+				window.ym(settings.metrika, 'init', {
+					ssr: true,
+					webvisor: true,
+					clickmap: true,
+					ecommerce: 'dataLayer',
+					referrer: document.referrer,
+					url: location.href,
+					accurateTrackBounce: true,
+					trackLinks: true
+				});
 			}
 
 			if (settings.roistat) {
